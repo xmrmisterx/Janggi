@@ -2,24 +2,802 @@
 # Date: 2/26/21
 # Description: Janggi game halfway progress report
 
-class Board:
+# class Board:
+#
+#     """
+#     Class that represents the Janggi board. The Board class will be responsible for creating the board, creating the
+#     pieces on the board, placing the pieces on the board, and converting the letter number coordinates into the
+#     coordinates of the data structure of the board. The board will communicate with the Player class (when the player
+#     decides where to place their piece, the board takes those coordinates), the JanggiGame class (which looks at the
+#     game board to determine if there is a winner yet), and all the derivatives of the Piece class (to place those pieces
+#     on the board).
+#     """
+#
+#     def __init__(self):
+#
+#         """
+#         Creates the board and places all the game pieces.
+#         """
+#
+#         # create coordinate conversion dictionary
+#
+#         # self._coordinate_conversion_dict = {
+#         #     "a1": [0, 0],
+#         #     "b1": [0, 1],
+#         #     "c1": [0, 2],
+#         #     "d1": [0, 3],
+#         #     "e1": [0, 4],
+#         #     "f1": [0, 5],
+#         #     "g1": [0, 6],
+#         #     "h1": [0, 7],
+#         #     "i1": [0, 8],
+#         #     "a2": [1, 0],
+#         #     "b2": [1, 1],
+#         #     "c2": [1, 2],
+#         #     "d2": [1, 3],
+#         #     "e2": [1, 4],
+#         #     "f2": [1, 5],
+#         #     "g2": [1, 6],
+#         #     "h2": [1, 7],
+#         #     "i2": [1, 8],
+#         #     "a3": [2, 0],
+#         #     "b3": [2, 1],
+#         #     "c3": [2, 2],
+#         #     "d3": [2, 3],
+#         #     "e3": [2, 4],
+#         #     "f3": [2, 5],
+#         #     "g3": [2, 6],
+#         #     "h3": [2, 7],
+#         #     "i3": [2, 8],
+#         #     "a4": [3, 0],
+#         #     "b4": [3, 1],
+#         #     "c4": [3, 2],
+#         #     "d4": [3, 3],
+#         #     "e4": [3, 4],
+#         #     "f4": [3, 5],
+#         #     "g4": [3, 6],
+#         #     "h4": [3, 7],
+#         #     "i4": [3, 8],
+#         #     "a5": [4, 0],
+#         #     "b5": [4, 1],
+#         #     "c5": [4, 2],
+#         #     "d5": [4, 3],
+#         #     "e5": [4, 4],
+#         #     "f5": [4, 5],
+#         #     "g5": [4, 6],
+#         #     "h5": [4, 7],
+#         #     "i5": [4, 8],
+#         #     "a6": [5, 0],
+#         #     "b6": [5, 1],
+#         #     "c6": [5, 2],
+#         #     "d6": [5, 3],
+#         #     "e6": [5, 4],
+#         #     "f6": [5, 5],
+#         #     "g6": [5, 6],
+#         #     "h6": [5, 7],
+#         #     "i6": [5, 8],
+#         #     "a7": [6, 0],
+#         #     "b7": [6, 1],
+#         #     "c7": [6, 2],
+#         #     "d7": [6, 3],
+#         #     "e7": [6, 4],
+#         #     "f7": [6, 5],
+#         #     "g7": [6, 6],
+#         #     "h7": [6, 7],
+#         #     "i7": [6, 8],
+#         #     "a8": [7, 0],
+#         #     "b8": [7, 1],
+#         #     "c8": [7, 2],
+#         #     "d8": [7, 3],
+#         #     "e8": [7, 4],
+#         #     "f8": [7, 5],
+#         #     "g8": [7, 6],
+#         #     "h8": [7, 7],
+#         #     "i8": [7, 8],
+#         #     "a9": [8, 0],
+#         #     "b9": [8, 1],
+#         #     "c9": [8, 2],
+#         #     "d9": [8, 3],
+#         #     "e9": [8, 4],
+#         #     "f9": [8, 5],
+#         #     "g9": [8, 6],
+#         #     "h9": [8, 7],
+#         #     "i9": [8, 8],
+#         #     "a10": [9, 0],
+#         #     "b10": [9, 1],
+#         #     "c10": [9, 2],
+#         #     "d10": [9, 3],
+#         #     "e10": [9, 4],
+#         #     "f10": [9, 5],
+#         #     "g10": [9, 6],
+#         #     "h10": [9, 7],
+#         #     "i10": [9, 8],
+#         #
+#         # }
+#
+#         # create board
+#
+#         # self._board = [["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+#         #               ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+#         #               ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+#         #               ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+#         #               ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+#         #               ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+#         #               ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+#         #               ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+#         #               ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+#         #               ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"]]
+#
+#         # blue_general = BlueGeneral(1, "e9")
+#         # self.place_piece(blue_general, "e9")
+#         #
+#         # red_general = RedGeneral(1, "e2")
+#         # self.place_piece(red_general, "e2")
+#         #
+#         # blue_guard1 = BlueGuard(1, "d10")
+#         # self.place_piece(blue_guard1, "d10")
+#         #
+#         # blue_guard2 = BlueGuard(2, "f10")
+#         # self.place_piece(blue_guard2, "f10")
+#         #
+#         # red_guard1 = RedGuard(1, "d1")
+#         # self.place_piece(red_guard1, "d1")
+#         # red_guard2 = RedGuard(2, "f1")
+#         # self.place_piece(red_guard2, "f1")
+#         #
+#         # blue_soldier1 = BlueSoldier(1, "a7")
+#         # self.place_piece(blue_soldier1, "a7")
+#         # blue_soldier2 = BlueSoldier(2, "c7")
+#         # self.place_piece(blue_soldier2, "c7")
+#         # blue_soldier3 = BlueSoldier(3, "e7")
+#         # self.place_piece(blue_soldier3, "e7")
+#         # blue_soldier4 = BlueSoldier(4, "g7")
+#         # self.place_piece(blue_soldier4, "g7")
+#         # blue_soldier5 = BlueSoldier(5, "i7")
+#         # self.place_piece(blue_soldier5, "i7")
+#         #
+#         # red_soldier1 = RedSoldier(1, "a4")
+#         # self.place_piece(red_soldier1, "a4")
+#         # red_soldier2 = RedSoldier(2, "c4")
+#         # self.place_piece(red_soldier2, "c4")
+#         # red_soldier3 = RedSoldier(3, "e4")
+#         # self.place_piece(red_soldier3, "e4")
+#         # red_soldier4 = RedSoldier(4, "g4")
+#         # self.place_piece(red_soldier4, "g4")
+#         # red_soldier5 = RedSoldier(5, "i4")
+#         # self.place_piece(red_soldier5, "i4")
+#         #
+#         # blue_horse1 = BlueHorse(1, "c10")
+#         # self.place_piece(blue_horse1, "c10")
+#         # blue_horse2 = BlueHorse(2, "h10")
+#         # self.place_piece(blue_horse2, "h10")
+#         # red_horse1 = RedHorse(1, "c1")
+#         # self.place_piece(red_horse1, "c1")
+#         # red_horse2 = RedHorse(2, "h1")
+#         # self.place_piece(red_horse2, "h1")
+#         #
+#         # blue_elephant1 = BlueElephant(1, "b10")
+#         # self. place_piece(blue_elephant1, "b10")
+#         # blue_elephant2 = BlueElephant(2, "g10")
+#         # self. place_piece(blue_elephant2, "g10")
+#         # red_elephant1 = RedElephant(1, "b1")
+#         # self. place_piece(red_elephant1, "b1")
+#         # red_elephant2 = RedElephant(2, "g1")
+#         # self. place_piece(red_elephant2, "g1")
+#         #
+#         # blue_chariot1 = BlueChariot(1, "a10")
+#         # self.place_piece(blue_chariot1, "a10")
+#         # blue_chariot2 = BlueChariot(2, "i10")
+#         # self.place_piece(blue_chariot2, "i10")
+#         # red_chariot1 = RedChariot(1, "a1")
+#         # self.place_piece(red_chariot1, "a1")
+#         # red_chariot2 = RedChariot(2, "i1")
+#         # self.place_piece(red_chariot2, "i1")
+#         #
+#         # blue_cannon1 = BlueCannon(1, "b8")
+#         # self.place_piece(blue_cannon1, "b8")
+#         # blue_cannon2 = BlueCannon(2, "h8")
+#         # self.place_piece(blue_cannon2, "h8")
+#         # red_cannon1 = RedCannon(1, "b3")
+#         # self.place_piece(red_cannon1, "b3")
+#         # red_cannon2 = RedCannon(2, "h3")
+#         # self.place_piece(red_cannon2, "h3")
+#
+#     # def get_coordinate_conversion_dict(self):
+#     #
+#     #     """
+#     #     Returns the coordinate conversion dictionary.
+#     #     """
+#     #
+#     #     return self._coordinate_conversion_dict
+#
+#     def display_board(self):
+#
+#         """
+#         Displays the board.
+#         """
+#
+#         for column in self._board:
+#             for row in column:
+#
+#                 print(row, end=" ")
+#                 # 'end=""' changes the new line of print to an empty space
+#
+#             print()
+#             # 'print()' creates a new line after each row
+#
+#     def convert_coordinates(self, coordinates):
+#
+#         """
+#         Converts the game board coordinates to the actual coordinates on the board and returns the actual coordinates.
+#         """
+#
+#         for key in self._coordinate_conversion_dict:
+#             if key == coordinates:
+#                 return self._coordinate_conversion_dict[key]
+#
+#     def place_piece(self, piece, target_coordinate):
+#
+#         """
+#         Places the game piece in the parameter at the target coordinate in the parameter.
+#         """
+#
+#         # convert target coordinate into actual coordinates
+#
+#         actual_target_coordinate = self.convert_coordinates(target_coordinate)
+#
+#         # place piece on board
+#
+#         self._board[actual_target_coordinate[0]][actual_target_coordinate[1]] = piece
+
+
+class Piece:
+    """
+    Represents all the game pieces on the board. Every game piece has private properties for color, type, number, name,
+    and coordinates. Has getter functions to access all of these private properties as well. Communicates with the Board
+    class (to place the pieces) and the JanggiGame class (game class determines whether a move is legal, and if the
+    pieces result in a winning game state).
+    """
+
+    def __init__(self, color, type, number, coordinates=None):
+
+        """
+        Every piece starts off with private properties for the color, type, number, name and coordinates, which are
+        equal to their parameter counterparts.
+        """
+
+        self._color = color
+        self._type = type
+        self._number = number
+        self._name = list(color)[0] + list(color)[1] + list(color)[2] + list(type)[0] + list(type)[1] + list(type)[2] \
+            + str(number)
+        self._coordinates = coordinates
+
+    def __repr__(self):
+
+        """
+        Overrides object's print method to print out its name to better visualize the board.
+        """
+
+        return self._name
+
+    def get_color(self):
+
+        """
+        Returns the piece's color.
+        """
+
+        return self._color
+
+    def get_name(self):
+
+        """
+        Returns the piece's name.
+        """
+
+        return self._name
+
+    def get_number(self):
+
+        """
+        Returns the piece's number.
+        """
+
+        return self._number
+
+    def get_type(self):
+
+        """
+        Returns the piece's type.
+        """
+
+        return self._type
+
+    def get_coordinates(self):
+
+        """
+        Returns the piece's coordinates.
+        """
+
+        return self._coordinates
+
+    def set_coordinates(self, target_coordinate):
+
+        """
+        Changes the piece's current coordinates to the target coordinate.
+        """
+
+        self._coordinates = target_coordinate
+
+class BlueGeneral(Piece):
 
     """
-    Class that represents the Janggi board. The Board class will be responsible for creating the board, creating the
-    pieces on the board, placing the pieces on the board, and converting the letter number coordinates into the
-    coordinates of the data structure of the board. The board will communicate with the Player class (when the player
-    decides where to place their piece, the board takes those coordinates), the JanggiGame class (which looks at the
-    game board to determine if there is a winner yet), and all the derivatives of the Piece class (to place those pieces
-    on the board).
+    Represents a blue general piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+
+        """
+        Initializes the general piece with private attributes for a blue color, general type, number and coordinates.
+        """
+
+        super().__init__("blue", "General", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class RedGeneral(Piece):
+
+    """
+    Represents a red general piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+
+        """
+        Initializes the general piece with private attributes for a red color, general type, number and coordinates.
+        """
+
+        super().__init__("red", "General", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class BlueGuard(Piece):
+
+    """
+    Represents a blue guard. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+
+        """
+        Initializes a guard piece with a blue color, guard type, number and coordinates.
+        """
+
+        super().__init__("blue", "Guard", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class RedGuard(Piece):
+
+    """
+    Represents a red guard. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+
+        """
+        Initializes a guard piece with a red color, guard type, number and coordinates.
+        """
+
+        super().__init__("red", "Guard", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class BlueSoldier(Piece):
+    """
+    Represents a blue soldier piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes a soldier piece with a blue color, soldier type, number and coordinates.
+        """
+
+        super().__init__("blue", "Soldier", number, coordinates)
+
+    def get_possible_moves(self):
+
+        """
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
+        """
+
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # we create an empty valid coordinates list to hold the valid coordinates
+
+        possible_moves_list = []
+
+        # add current coordinate to possible moves as staying at the same spot is a legal move
+
+        possible_moves_list.append(current_coordinate)
+
+        # move up coordinates (subtract y value by 1)
+
+        x = list(current_coordinate)[0]
+        print("x:", x)
+        y = int(list(current_coordinate)[1]) - 1
+        print("y:", y)
+        up_coordinate = x + str(y)
+        print("up_coordinate:", up_coordinate)
+
+        # move left coordinates (subtract 1 letter from x value)
+
+        y = list(current_coordinate)[1]
+        print("y:", y)
+        x = chr(ord(list(current_coordinate)[0])-1)
+        print("x:", x)
+        left_coordinate = x + y
+        print("left_coordinate:", left_coordinate)
+
+        # move right coordinates (increment letter in x value by 1)
+
+        y = list(current_coordinate)[1]
+        print("y:", y)
+        x = chr(ord(list(current_coordinate)[0]) + 1)
+        print("x:", x)
+        right_coordinate = x + y
+        print("right_coordinate:", right_coordinate)
+
+        # add moves to the possible moves list
+
+        possible_moves_list.append(up_coordinate)
+        possible_moves_list.append(left_coordinate)
+        possible_moves_list.append(right_coordinate)
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
+
+
+class RedSoldier(Piece):
+    """
+    Represents a red soldier piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes a soldier piece with a red color, soldier type, number and coordinates.
+        """
+
+        super().__init__("red", "Soldier", number, coordinates)
+
+    def get_possible_moves(self):
+        """
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
+        """
+
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # we create an empty valid coordinates list to hold the valid coordinates
+
+        possible_moves_list = []
+
+        # add current coordinate to possible moves as staying at the same spot is a legal move
+
+        possible_moves_list.append(current_coordinate)
+
+        # move down coordinates (add 1 to y value)
+
+        x = list(current_coordinate)[0]
+        print("x:", x)
+        y = int(list(current_coordinate)[1]) + 1
+        print("y:", y)
+        down_coordinate = x + str(y)
+        print("down_coordinate:", down_coordinate)
+
+        # move left coordinates (subtract 1 letter from x value)
+
+        y = list(current_coordinate)[1]
+        print("y:", y)
+        x = chr(ord(list(current_coordinate)[0]) - 1)
+        print("x:", x)
+        left_coordinate = x + y
+        print("left_coordinate:", left_coordinate)
+
+        # move right coordinates (increment letter in x value by 1)
+
+        y = list(current_coordinate)[1]
+        print("y:", y)
+        x = chr(ord(list(current_coordinate)[0]) + 1)
+        print("x:", x)
+        right_coordinate = x + y
+        print("right_coordinate:", right_coordinate)
+
+        # add moves to the possible moves list
+
+        possible_moves_list.append(down_coordinate)
+        possible_moves_list.append(left_coordinate)
+        possible_moves_list.append(right_coordinate)
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
+
+
+class BlueHorse(Piece):
+
+    """
+    Represents a blue horse piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes a horse piece with a blue color, horse type, number and coordinates.
+        """
+
+        super().__init__("blue", "Horse", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class RedHorse(Piece):
+
+    """
+    Represents a red horse piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes a horse piece with a red color, horse type, number and coordinates.
+        """
+
+        super().__init__("red", "Horse", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class BlueElephant(Piece):
+
+    """
+    Represents a blue elephant piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes an elephant piece with a blue color, elephant type, number and coordinates.
+        """
+
+        super().__init__("blue", "Elephant", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class RedElephant(Piece):
+
+    """
+    Represents a red elephant piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes an elephant piece with a red color, elephant type, number and coordinates.
+        """
+
+        super().__init__("red", "Elephant", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class BlueChariot(Piece):
+
+    """
+    Represents a blue chariot piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes a chariot piece with a blue color, chariot type, number and coordinates.
+        """
+
+        super().__init__("blue", "Chariot", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class RedChariot(Piece):
+
+    """
+    Represents a red chariot piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes a chariot piece with a red color, chariot type, number and coordinates.
+        """
+
+        super().__init__("red", "Chariot", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class BlueCannon(Piece):
+
+    """
+    Represents a blue cannon piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes a cannon piece with a blue color, cannon type, number and coordinates.
+        """
+
+        super().__init__("blue", "Cannon", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class RedCannon(Piece):
+
+    """
+    Represents a red cannon piece. Responsibilities and communications are exactly like that of the Piece superclass.
+    """
+
+    def __init__(self, number, coordinates):
+        """
+        Initializes a cannon piece with a red color, cannon type, number and coordinates.
+        """
+
+        super().__init__("red", "Cannon", number, coordinates)
+
+    def check_move(self, current_coordinate, target_coordinate):
+        """
+        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
+        legal move.
+        """
+
+        pass
+
+
+class Player:
+
+    """
+    Represents a player in the game. Player class responsibilities include naming each player and keeping track of the
+    current player. Has getters for the player name and is_current_player boolean. Communicates with the Board class to
+    place the pieces at the desired coordinates, and with the JanggiGame class to determine who the current player is
+    and alternate turns.
+    """
+
+    def __init__(self, name):
+    # def __init__(self, name, is_current_player=None):
+
+        """
+        Players have private properties for their name and is_current_player boolean.
+        """
+
+        self._name = name
+        # self._is_current_player = is_current_player
+
+    def get_name(self):
+
+        """
+        Returns the player's name.
+        """
+
+        return self._name
+
+    # def get_is_current_player(self):
+    #
+    #     """
+    #     Returns True if the player is the current player, and False if the player is not the current player.
+    #     """
+    #
+    #     return self._is_current_player
+
+
+class JanggiGame:
+
+    """
+    Represents the Janggi game. Janggi game class responsibilities include creating the board and players, alternating
+    turns between the players, validating and processing moves, managing the game state and looking for a winning board
+    position, and managing "in check" status of the players. The Janggi class communicates with the Board class to
+    change the board positions and look for winning board states, the Player class to manage turns and "in check" status
+    , and the derived Piece classes to determine if a move is legal or not.
+
     """
 
     def __init__(self):
 
         """
-        Creates the board and places all the game pieces.
+        Initializes the game with an unfinished game state, creates the board and creates the two players.
         """
 
-        # create coordinate conversion dictionary
+        self._game_state = "UNFINISHED"
+
+        self._board = [["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
+                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"]]
 
         self._coordinate_conversion_dict = {
             "a1": [0, 0],
@@ -115,93 +893,142 @@ class Board:
 
         }
 
-        # create board
+        # create an alive pieces list
 
-        self._board = [["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"]]
+        self._alive_pieces_list = []
+        # self._removed_pieces_list = []
 
-        # blue_general = BlueGeneral(1, "e9")
-        # self.place_piece(blue_general, "e9")
-        #
-        # red_general = RedGeneral(1, "e2")
-        # self.place_piece(red_general, "e2")
-        #
-        # blue_guard1 = BlueGuard(1, "d10")
-        # self.place_piece(blue_guard1, "d10")
-        #
-        # blue_guard2 = BlueGuard(2, "f10")
-        # self.place_piece(blue_guard2, "f10")
-        #
-        # red_guard1 = RedGuard(1, "d1")
-        # self.place_piece(red_guard1, "d1")
-        # red_guard2 = RedGuard(2, "f1")
-        # self.place_piece(red_guard2, "f1")
-        #
-        # blue_soldier1 = BlueSoldier(1, "a7")
-        # self.place_piece(blue_soldier1, "a7")
-        # blue_soldier2 = BlueSoldier(2, "c7")
-        # self.place_piece(blue_soldier2, "c7")
-        # blue_soldier3 = BlueSoldier(3, "e7")
-        # self.place_piece(blue_soldier3, "e7")
-        # blue_soldier4 = BlueSoldier(4, "g7")
-        # self.place_piece(blue_soldier4, "g7")
-        # blue_soldier5 = BlueSoldier(5, "i7")
-        # self.place_piece(blue_soldier5, "i7")
-        #
-        # red_soldier1 = RedSoldier(1, "a4")
-        # self.place_piece(red_soldier1, "a4")
-        # red_soldier2 = RedSoldier(2, "c4")
-        # self.place_piece(red_soldier2, "c4")
-        # red_soldier3 = RedSoldier(3, "e4")
-        # self.place_piece(red_soldier3, "e4")
-        # red_soldier4 = RedSoldier(4, "g4")
-        # self.place_piece(red_soldier4, "g4")
-        # red_soldier5 = RedSoldier(5, "i4")
-        # self.place_piece(red_soldier5, "i4")
-        #
-        # blue_horse1 = BlueHorse(1, "c10")
-        # self.place_piece(blue_horse1, "c10")
-        # blue_horse2 = BlueHorse(2, "h10")
-        # self.place_piece(blue_horse2, "h10")
-        # red_horse1 = RedHorse(1, "c1")
-        # self.place_piece(red_horse1, "c1")
-        # red_horse2 = RedHorse(2, "h1")
-        # self.place_piece(red_horse2, "h1")
-        #
-        # blue_elephant1 = BlueElephant(1, "b10")
-        # self. place_piece(blue_elephant1, "b10")
-        # blue_elephant2 = BlueElephant(2, "g10")
-        # self. place_piece(blue_elephant2, "g10")
-        # red_elephant1 = RedElephant(1, "b1")
-        # self. place_piece(red_elephant1, "b1")
-        # red_elephant2 = RedElephant(2, "g1")
-        # self. place_piece(red_elephant2, "g1")
-        #
-        # blue_chariot1 = BlueChariot(1, "a10")
-        # self.place_piece(blue_chariot1, "a10")
-        # blue_chariot2 = BlueChariot(2, "i10")
-        # self.place_piece(blue_chariot2, "i10")
-        # red_chariot1 = RedChariot(1, "a1")
-        # self.place_piece(red_chariot1, "a1")
-        # red_chariot2 = RedChariot(2, "i1")
-        # self.place_piece(red_chariot2, "i1")
-        #
-        # blue_cannon1 = BlueCannon(1, "b8")
-        # self.place_piece(blue_cannon1, "b8")
-        # blue_cannon2 = BlueCannon(2, "h8")
-        # self.place_piece(blue_cannon2, "h8")
-        # red_cannon1 = RedCannon(1, "b3")
-        # self.place_piece(red_cannon1, "b3")
-        # red_cannon2 = RedCannon(2, "h3")
-        # self.place_piece(red_cannon2, "h3")
+        # create and place game pieces, then add to alive pieces list
+
+        self._blue_general = BlueGeneral(1, "e9")
+        self.place_piece(self._blue_general, "e9")
+        self._alive_pieces_list.append(self._blue_general)
+
+        self._red_general = RedGeneral(1, "e2")
+        self.place_piece(self._red_general, "e2")
+        self._alive_pieces_list.append(self._red_general)
+
+        self._blue_guard1 = BlueGuard(1, "d10")
+        self.place_piece(self._blue_guard1, "d10")
+        self._alive_pieces_list.append(self._blue_guard1)
+
+        self._blue_guard2 = BlueGuard(2, "f10")
+        self.place_piece(self._blue_guard2, "f10")
+        self._alive_pieces_list.append(self._blue_guard2)
+
+        self._red_guard1 = RedGuard(1, "d1")
+        self.place_piece(self._red_guard1, "d1")
+        self._alive_pieces_list.append(self._red_guard1)
+        self._red_guard2 = RedGuard(2, "f1")
+        self.place_piece(self._red_guard2, "f1")
+        self._alive_pieces_list.append(self._red_guard2)
+
+        self._blue_soldier1 = BlueSoldier(1, "a7")
+        self.place_piece(self._blue_soldier1, "a7")
+        self._alive_pieces_list.append(self._blue_soldier1)
+        self._blue_soldier2 = BlueSoldier(2, "c7")
+        self.place_piece(self._blue_soldier2, "c7")
+        self._alive_pieces_list.append(self._blue_soldier2)
+        self._blue_soldier3 = BlueSoldier(3, "e7")
+        self.place_piece(self._blue_soldier3, "e7")
+        self._alive_pieces_list.append(self._blue_soldier3)
+        self._blue_soldier4 = BlueSoldier(4, "g7")
+        self.place_piece(self._blue_soldier4, "g7")
+        self._alive_pieces_list.append(self._blue_soldier4)
+        self._blue_soldier5 = BlueSoldier(5, "i7")
+        self.place_piece(self._blue_soldier5, "i7")
+        self._alive_pieces_list.append(self._blue_soldier5)
+
+        self._red_soldier1 = RedSoldier(1, "a4")
+        self.place_piece(self._red_soldier1, "a4")
+        self._alive_pieces_list.append(self._red_soldier1)
+        self._red_soldier2 = RedSoldier(2, "c4")
+        self.place_piece(self._red_soldier2, "c4")
+        self._alive_pieces_list.append(self._red_soldier2)
+        self._red_soldier3 = RedSoldier(3, "e4")
+        self.place_piece(self._red_soldier3, "e4")
+        self._alive_pieces_list.append(self._red_soldier3)
+        self._red_soldier4 = RedSoldier(4, "g4")
+        self.place_piece(self._red_soldier4, "g4")
+        self._alive_pieces_list.append(self._red_soldier4)
+        self._red_soldier5 = RedSoldier(5, "i4")
+        self.place_piece(self._red_soldier5, "i4")
+        self._alive_pieces_list.append(self._red_soldier5)
+
+        self._blue_horse1 = BlueHorse(1, "c10")
+        self.place_piece(self._blue_horse1, "c10")
+        self._alive_pieces_list.append(self._blue_horse1)
+        self._blue_horse2 = BlueHorse(2, "h10")
+        self.place_piece(self._blue_horse2, "h10")
+        self._alive_pieces_list.append(self._blue_horse2)
+        self._red_horse1 = RedHorse(1, "c1")
+        self.place_piece(self._red_horse1, "c1")
+        self._alive_pieces_list.append(self._red_horse1)
+        self._red_horse2 = RedHorse(2, "h1")
+        self.place_piece(self._red_horse2, "h1")
+        self._alive_pieces_list.append(self._red_horse2)
+
+        self._blue_elephant1 = BlueElephant(1, "b10")
+        self.place_piece(self._blue_elephant1, "b10")
+        self._alive_pieces_list.append(self._blue_elephant1)
+        self._blue_elephant2 = BlueElephant(2, "g10")
+        self.place_piece(self._blue_elephant2, "g10")
+        self._alive_pieces_list.append(self._blue_elephant2)
+        self._red_elephant1 = RedElephant(1, "b1")
+        self.place_piece(self._red_elephant1, "b1")
+        self._alive_pieces_list.append(self._red_elephant1)
+        self._red_elephant2 = RedElephant(2, "g1")
+        self.place_piece(self._red_elephant2, "g1")
+        self._alive_pieces_list.append(self._red_elephant2)
+
+        self._blue_chariot1 = BlueChariot(1, "a10")
+        self.place_piece(self._blue_chariot1, "a10")
+        self._alive_pieces_list.append(self._blue_chariot1)
+        self._blue_chariot2 = BlueChariot(2, "i10")
+        self.place_piece(self._blue_chariot2, "i10")
+        self._alive_pieces_list.append(self._blue_chariot2)
+        self._red_chariot1 = RedChariot(1, "a1")
+        self.place_piece(self._red_chariot1, "a1")
+        self._alive_pieces_list.append(self._red_chariot1)
+        self._red_chariot2 = RedChariot(2, "i1")
+        self.place_piece(self._red_chariot2, "i1")
+        self._alive_pieces_list.append(self._red_chariot2)
+
+        self._blue_cannon1 = BlueCannon(1, "b8")
+        self.place_piece(self._blue_cannon1, "b8")
+        self._alive_pieces_list.append(self._blue_cannon1)
+        self._blue_cannon2 = BlueCannon(2, "h8")
+        self.place_piece(self._blue_cannon2, "h8")
+        self._alive_pieces_list.append(self._blue_cannon2)
+        self._red_cannon1 = RedCannon(1, "b3")
+        self.place_piece(self._red_cannon1, "b3")
+        self._alive_pieces_list.append(self._red_cannon1)
+        self._red_cannon2 = RedCannon(2, "h3")
+        self.place_piece(self._red_cannon2, "h3")
+        self._alive_pieces_list.append(self._red_cannon2)
+
+        self.display_board()
+
+        self._player1 = Player("blue")
+        self._player2 = Player("red")
+        self._current_player = "blue"
+
+
+        self.make_move("a7", "a6")
+        self.make_move("a4", "a5")
+        self.make_move("a6", "a5")
+
+        # self.make_move("a7", "b6")
+        # self.make_move("a7", "a8")
+        # self.make_move("a7", "b7")
+
+    def get_game_state(self):
+
+        """
+        Returns the current game state.
+        """
+
+        return self._game_state
 
     def display_board(self):
 
@@ -228,620 +1055,142 @@ class Board:
             if key == coordinates:
                 return self._coordinate_conversion_dict[key]
 
+    def capture_piece(self, piece_coordinates):
+
+        """
+        Removes the piece at the piece coordinates in the parameter
+        """
+
+        # get piece
+
+        piece = self.get_piece_from_coordinate(piece_coordinates)
+
+        # remove piece from alive pieces list
+
+        self._alive_pieces_list.remove(piece)
+        print("piece:", piece, "removed from alive pieces list, which is now:", self._alive_pieces_list)
+
+        # get the piece's current coordinates
+
+        current_coordinate = piece.get_coordinates()
+
+        # convert current coordinate into actual coordinates
+
+        actual_current_coordinate = self.convert_coordinates(current_coordinate)
+
+        # remove piece from board
+
+        self._board[actual_current_coordinate[0]][actual_current_coordinate[1]] = "_______"
+        self.display_board()
+
+
     def place_piece(self, piece, target_coordinate):
 
         """
         Places the game piece in the parameter at the target coordinate in the parameter.
         """
 
+        # get the piece's current coordinates
+
+        current_coordinate = piece.get_coordinates()
+
+        # convert current coordinate into actual coordinates
+
+        actual_current_coordinate = self.convert_coordinates(current_coordinate)
+
         # convert target coordinate into actual coordinates
 
         actual_target_coordinate = self.convert_coordinates(target_coordinate)
 
-        # place piece on board
+        # remove piece from current coordinate
+
+        self._board[actual_current_coordinate[0]][actual_current_coordinate[1]] = "_______"
+
+        # place piece at target coordinate
 
         self._board[actual_target_coordinate[0]][actual_target_coordinate[1]] = piece
 
+        # update piece's coordinates
 
-class Piece:
-    """
-    Represents all the game pieces on the board. Every game piece has private properties for color, type, number, name,
-    and coordinates. Has getter functions to access all of these private properties as well. Communicates with the Board
-    class (to place the pieces) and the JanggiGame class (game class determines whether a move is legal, and if the
-    pieces result in a winning game state).
-    """
-
-    def __init__(self, color, type, number, coordinates=None):
-
-        """
-        Every piece starts off with private properties for the color, type, number, name and coordinates, which are
-        equal to their parameter counterparts.
-        """
-
-        self._color = color
-        self._type = type
-        self._number = number
-        self._name = list(color)[0] + list(color)[1] + list(color)[2] + list(type)[0] + list(type)[1] + list(type)[2] \
-            + str(number)
-        self._coordinates = coordinates
-
-    def __repr__(self):
-
-        """
-        Overrides object's print method to print out its name to better visualize the board.
-        """
-
-        return self._name
-
-    def get_color(self):
-
-        """
-        Returns the piece's color.
-        """
-
-        return self._color
-
-    def get_name(self):
-
-        """
-        Returns the piece's name.
-        """
-
-        return self._name
-
-    def get_number(self):
-
-        """
-        Returns the piece's number.
-        """
-
-        return self._number
-
-    def get_type(self):
-
-        """
-        Returns the piece's type.
-        """
-
-        return self._type
-
-    def get_coordinates(self):
-
-        """
-        Returns the piece's coordinates.
-        """
-
-        return self._coordinates
+        piece.set_coordinates(target_coordinate)
 
     def is_coordinate_in_range(self, coordinate):
-
         """
         Returns True that the coordinate in the parameter is in range, if the letter in its x-value is from "a" to "i"
         and the number in its y-value is from 1 to 10, otherwise returns False.
         """
 
-        # we explicitly state the alphabet range
-        alphabet_range = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
-
-
-        # if the x value of the coordinate is in the alphabet range, and the int cast form of the y value of the
-        # coordinate is from 1 to 10, then return True
-        if list(coordinate)[0] in alphabet_range:
-            if int(list(coordinate)[1]) in range(1, 11):
+        for key in self._coordinate_conversion_dict:
+            if key == coordinate:
                 return True
 
-        # Otherwise return False
         return False
 
+        # # we explicitly state the alphabet range
+        # alphabet_range = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+        #
+        #
+        # # if the x value of the coordinate is in the alphabet range, and the int cast form of the y value of the
+        # # coordinate is from 1 to 10, then return True
+        # if list(coordinate)[0] in alphabet_range:
+        #     if int(list(coordinate)[1]) in range(1, 11):
+        #         return True
+        #
+        # # Otherwise return False
+        # return False
 
-class BlueGeneral(Piece):
+    def get_piece_from_coordinate(self, current_coordinate):
 
-    """
-    Represents a blue general piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-
-        """
-        Initializes the general piece with private attributes for a blue color, general type, number and coordinates.
-        """
-
-        super().__init__("Blue", "General", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class RedGeneral(Piece):
-
-    """
-    Represents a red general piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-
-        """
-        Initializes the general piece with private attributes for a red color, general type, number and coordinates.
-        """
-
-        super().__init__("Red", "General", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class BlueGuard(Piece):
-
-    """
-    Represents a blue guard. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-
-        """
-        Initializes a guard piece with a blue color, guard type, number and coordinates.
-        """
-
-        super().__init__("Blue", "Guard", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class RedGuard(Piece):
-
-    """
-    Represents a red guard. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-
-        """
-        Initializes a guard piece with a red color, guard type, number and coordinates.
-        """
-
-        super().__init__("Red", "Guard", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class BlueSoldier(Piece):
-    """
-    Represents a blue soldier piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes a soldier piece with a blue color, soldier type, number and coordinates.
-        """
-
-        super().__init__("Blue", "Soldier", number, coordinates)
-
-    def is_move_valid(self, current_coordinate):
-    # def move_valid(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move. Returns true if the move is valid, or false otherwise.
-        """
-
-        # we create an empty valid coordinates list to hold the valid coordinates
-        valid_coordinates_list = []
-
-        # move up coordinates (subtract y value by 1)
-
-        x = list(current_coordinate)[0]
-        print("x:", x)
-        y = int(list(current_coordinate)[1]) - 1
-        print("y:", y)
-        up_coordinate = x + str(y)
-        print("up_coordinate:", up_coordinate)
-
-        # move left coordinates (subtract 1 letter from x value)
-
-        y = list(current_coordinate)[1]
-        print("y:", y)
-        x = chr(ord(list(current_coordinate)[0])-1)
-        print("x:", x)
-        left_coordinate = x + y
-        print("left_coordinate:", left_coordinate)
-
-        # move right coordinates (increment letter in x value by 1)
-
-        y = list(current_coordinate)[1]
-        print("y:", y)
-        x = chr(ord(list(current_coordinate)[0]) + 1)
-        print("x:", x)
-        right_coordinate = x + y
-        print("right_coordinate:", right_coordinate)
-
-        # we want to check if these possible coordinates are inside the board range and if they are, add them to a valid
-        # coordinates list
-
-        if self.is_coordinate_in_range(up_coordinate):
-            valid_coordinates_list.append(up_coordinate)
-            # print("up_coordinate:", up_coordinate, "is a valid coordinate and added to valid coordinates list:",
-            #       valid_coordinates_list)
-        if self.is_coordinate_in_range(left_coordinate):
-            valid_coordinates_list.append(left_coordinate)
-            # print("left_coordinate:", left_coordinate, "is a valid coordinate and added to valid coordinates list:",
-            #       valid_coordinates_list)
-        if self.is_coordinate_in_range(right_coordinate):
-            valid_coordinates_list.append(right_coordinate)
-            # print("right_coordinate:", right_coordinate, "is a valid coordinate and added to valid coordinates list:",
-            #       valid_coordinates_list)
-
-
-class RedSoldier(Piece):
-    """
-    Represents a red soldier piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes a soldier piece with a red color, soldier type, number and coordinates.
-        """
-
-        super().__init__("Red", "Soldier", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class BlueHorse(Piece):
-
-    """
-    Represents a blue horse piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes a horse piece with a blue color, horse type, number and coordinates.
-        """
-
-        super().__init__("Blue", "Horse", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class RedHorse(Piece):
-
-    """
-    Represents a red horse piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes a horse piece with a red color, horse type, number and coordinates.
-        """
-
-        super().__init__("Red", "Horse", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class BlueElephant(Piece):
-
-    """
-    Represents a blue elephant piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes an elephant piece with a blue color, elephant type, number and coordinates.
-        """
-
-        super().__init__("Blue", "Elephant", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class RedElephant(Piece):
-
-    """
-    Represents a red elephant piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes an elephant piece with a red color, elephant type, number and coordinates.
-        """
-
-        super().__init__("Red", "Elephant", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class BlueChariot(Piece):
-
-    """
-    Represents a blue chariot piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes a chariot piece with a blue color, chariot type, number and coordinates.
-        """
-
-        super().__init__("Blue", "Chariot", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class RedChariot(Piece):
-
-    """
-    Represents a red chariot piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes a chariot piece with a red color, chariot type, number and coordinates.
-        """
-
-        super().__init__("Red", "Chariot", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class BlueCannon(Piece):
-
-    """
-    Represents a blue cannon piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes a cannon piece with a blue color, cannon type, number and coordinates.
-        """
-
-        super().__init__("Blue", "Cannon", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
-        """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
-
-class RedCannon(Piece):
-
-    """
-    Represents a red cannon piece. Responsibilities and communications are exactly like that of the Piece superclass.
-    """
-
-    def __init__(self, number, coordinates):
-        """
-        Initializes a cannon piece with a red color, cannon type, number and coordinates.
         """
-
-        super().__init__("Red", "Cannon", number, coordinates)
-
-    def check_move(self, current_coordinate, target_coordinate):
+        Returns the board piece at the current coordinate.
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
-        """
-
-        pass
-
 
-class Player:
+        for piece in self._alive_pieces_list:
+            if piece.get_coordinates() == current_coordinate:
+                return piece
 
-    """
-    Represents a player in the game. Player class responsibilities include naming each player and keeping track of the
-    current player. Has getters for the player name and is_current_player boolean. Communicates with the Board class to
-    place the pieces at the desired coordinates, and with the JanggiGame class to determine who the current player is
-    and alternate turns.
-    """
+    def get_valid_moves(self, possible_moves_list):
 
-    def __init__(self, name, is_current_player=None):
-
         """
-        Players have private properties for their name and is_current_player boolean.
+        Returns a list of valid moves, or moves that are inside the board, from the possible moves list in the
+        parameter.
         """
-
-        self._name = name
-        self._is_current_player = is_current_player
 
-    def get_name(self):
+        valid_moves_list = []
 
-        """
-        Returns the player's name.
-        """
+        for coordinate in possible_moves_list:
+            if self.is_coordinate_in_range(coordinate):
+                valid_moves_list.append(coordinate)
 
-        return self._name
+        print("valid moves list:", valid_moves_list)
+        return valid_moves_list
 
-    def get_is_current_player(self):
+    def is_target_move_valid(self, valid_moves_list, target_coordinate):
 
         """
-        Returns True if the player is the current player, and False if the player is not the current player.
+        Returns True if the target coordinate in the parameter is inside the valid moves list in the parameter,
+        otherwise returns False.
         """
-
-        return self._is_current_player
 
+        for valid_move in valid_moves_list:
+            if valid_move == target_coordinate:
+                return True
 
-class JanggiGame:
+        return False
 
-    """
-    Represents the Janggi game. Janggi game class responsibilities include creating the board and players, alternating
-    turns between the players, validating and processing moves, managing the game state and looking for a winning board
-    position, and managing "in check" status of the players. The Janggi class communicates with the Board class to
-    change the board positions and look for winning board states, the Player class to manage turns and "in check" status
-    , and the derived Piece classes to determine if a move is legal or not.
+    def switch_players(self):
 
-    """
-
-    def __init__(self):
-
         """
-        Initializes the game with an unfinished game state, creates the board and creates the two players.
+        Switch the current player for the other player.
         """
 
-        self._game_state = "UNFINISHED"
-
-        board = Board()
-
-        # create and place game pieces
-
-        blue_general = BlueGeneral(1, "e9")
-        board.place_piece(blue_general, "e9")
-
-        red_general = RedGeneral(1, "e2")
-        board.place_piece(red_general, "e2")
-
-        blue_guard1 = BlueGuard(1, "d10")
-        board.place_piece(blue_guard1, "d10")
-
-        blue_guard2 = BlueGuard(2, "f10")
-        board.place_piece(blue_guard2, "f10")
-
-        red_guard1 = RedGuard(1, "d1")
-        board.place_piece(red_guard1, "d1")
-        red_guard2 = RedGuard(2, "f1")
-        board.place_piece(red_guard2, "f1")
-
-        blue_soldier1 = BlueSoldier(1, "a7")
-        board.place_piece(blue_soldier1, "a7")
-        blue_soldier2 = BlueSoldier(2, "c7")
-        board.place_piece(blue_soldier2, "c7")
-        blue_soldier3 = BlueSoldier(3, "e7")
-        board.place_piece(blue_soldier3, "e7")
-        blue_soldier4 = BlueSoldier(4, "g7")
-        board.place_piece(blue_soldier4, "g7")
-        blue_soldier5 = BlueSoldier(5, "i7")
-        board.place_piece(blue_soldier5, "i7")
-
-        red_soldier1 = RedSoldier(1, "a4")
-        board.place_piece(red_soldier1, "a4")
-        red_soldier2 = RedSoldier(2, "c4")
-        board.place_piece(red_soldier2, "c4")
-        red_soldier3 = RedSoldier(3, "e4")
-        board.place_piece(red_soldier3, "e4")
-        red_soldier4 = RedSoldier(4, "g4")
-        board.place_piece(red_soldier4, "g4")
-        red_soldier5 = RedSoldier(5, "i4")
-        board.place_piece(red_soldier5, "i4")
-
-        blue_horse1 = BlueHorse(1, "c10")
-        board.place_piece(blue_horse1, "c10")
-        blue_horse2 = BlueHorse(2, "h10")
-        board.place_piece(blue_horse2, "h10")
-        red_horse1 = RedHorse(1, "c1")
-        board.place_piece(red_horse1, "c1")
-        red_horse2 = RedHorse(2, "h1")
-        board.place_piece(red_horse2, "h1")
-
-        blue_elephant1 = BlueElephant(1, "b10")
-        board. place_piece(blue_elephant1, "b10")
-        blue_elephant2 = BlueElephant(2, "g10")
-        board. place_piece(blue_elephant2, "g10")
-        red_elephant1 = RedElephant(1, "b1")
-        board. place_piece(red_elephant1, "b1")
-        red_elephant2 = RedElephant(2, "g1")
-        board. place_piece(red_elephant2, "g1")
-
-        blue_chariot1 = BlueChariot(1, "a10")
-        board.place_piece(blue_chariot1, "a10")
-        blue_chariot2 = BlueChariot(2, "i10")
-        board.place_piece(blue_chariot2, "i10")
-        red_chariot1 = RedChariot(1, "a1")
-        board.place_piece(red_chariot1, "a1")
-        red_chariot2 = RedChariot(2, "i1")
-        board.place_piece(red_chariot2, "i1")
-
-        blue_cannon1 = BlueCannon(1, "b8")
-        board.place_piece(blue_cannon1, "b8")
-        blue_cannon2 = BlueCannon(2, "h8")
-        board.place_piece(blue_cannon2, "h8")
-        red_cannon1 = RedCannon(1, "b3")
-        board.place_piece(red_cannon1, "b3")
-        red_cannon2 = RedCannon(2, "h3")
-        board.place_piece(red_cannon2, "h3")
-
-        # board.display_board()
-
-        player1 = Player("blue", True)
-        player2 = Player("red", False)
-        # print(player1.get_name())
-        # print(player1.get_is_current_player())
-        # print(player2.get_name())
-        # print(player2.get_is_current_player())
-
-        blue_soldier1.is_move_valid("e7")
-        # blue_soldier1.is_coordinate_in_range("e7")
-
-    def get_game_state(self):
-
-        """
-        Returns the current game state.
-        """
+        print("current player's color:", self._current_player)
+        if self._current_player == "blue":
+            self._current_player = "red"
+        elif self._current_player == "red":
+            self._current_player = "blue"
+        print("after switch, current player's color:", self._current_player)
 
-        return self._game_state
 
     def is_in_check(self, player_name):
 
@@ -861,7 +1210,66 @@ class JanggiGame:
         If the move is invalid, returns False.
         """
 
-        pass
+        # get from_piece from the from coordinate and to_piece from the to_coordinate
+
+        from_piece = self.get_piece_from_coordinate(from_coordinate)
+        to_piece = self.get_piece_from_coordinate(to_coordinate)
+        print("from piece:", from_piece, "and to piece:", to_piece)
+
+        # check to see if piece is owned by current player
+
+        if from_piece.get_color() == self._current_player:
+            print("piece's color:", from_piece.get_color(), "matches the current player's name:", self._current_player)
+
+            possible_moves = from_piece.get_possible_moves()
+            valid_moves = self.get_valid_moves(possible_moves)
+
+            # check if move is a valid coordinate
+
+            if self.is_target_move_valid(valid_moves, to_coordinate):
+                print("to coordinate:", to_coordinate, "is a coordinate inside the valid moves list:", valid_moves)
+
+                # check if to_coordinate isn't occupied, or if it is occupied it's not by an ally piece
+
+                if to_piece is None or (to_piece is not None and to_piece.get_color() != self._current_player):
+                    print("to_piece:", to_piece, "is None or is not None and its color [we can't get color of possible "
+                          "None type] is not equal to current player's color:", self._current_player)
+
+                    # check if game is over
+
+                    if self.get_game_state() == "UNFINISHED":
+                        print("game not over yet, game state:", self.get_game_state())
+
+                        # check if there is an opponent's piece at the to_coordinate
+
+                        if to_piece is not None:
+                            print("to_piece:", to_piece, "is not None")
+
+                            if to_piece.get_color() != self._current_player:
+                                print("to_piece's color:", to_piece.get_color(), " is not equal to the current player's"
+                                      " color:", self._current_player)
+
+                                # capture opponent's piece
+
+                                self.capture_piece(to_coordinate)
+
+                        # move piece
+
+                        self.place_piece(from_piece, to_coordinate)
+                        print("piece:", from_piece, "placed at new coordinate:", from_piece.get_coordinates())
+                        self.display_board()
+
+                        # update game status code (check for checkmate code here)
+
+                        # switch current player
+
+                        self.switch_players()
+
+                        print("move successful and returning True")
+                        return True
+
+        print("move failed and returning False")
+        return False
 
 
 game = JanggiGame()
@@ -1122,4 +1530,93 @@ game = JanggiGame()
 # coordinates list and see if the target coordinate is in it, and if so, return that the move is valid, otherwise return
 # that it isn't valid. Actually, as we shut it Python off for the day, we realized that all the possible coordinates are
 # actually already in the coordinate_conversion_dict, so we just need to make sure the possible matches one of the keys
-# in the dictionary to see if the coordinate is inside range.
+# in the dictionary to see if the coordinate is inside range. Hmm... we're having issues accessing the coordinate
+# conversion dict in the Board class, even after a getter function. Now that we think about it, putting this check
+# the Piece class doesn't make that much sense. Should we move it to the game class where we should have access to the
+# dictionary (shouldn't the game class have access to everything?)?
+
+# Looking over things, I think there should actually be a big revamp. The convert coordinates and the place piece
+# functions, since we want to move the converted coordiantes dicitonary, should follow this dictionary, so they should
+# all be inside the game class, so this board class is actually pretty bare if we change it, which I guess isn't a big
+# deal? Going even deeper, we realized that we can't access the board outside of the game's init function, where it's
+# defined. It actually doesn't make sense to create, and the players as well, inside their own classes. The private
+# objects should all be created inside the game class, so that we can access them, otherwise we can't access their
+# properties and call their functions. Alright, so let's revamp it like this now. If we remove all these things from
+# the board class, do we even need the board class? As it is right now, we don't. If we remove the Board class creating
+# its own board, which now that we think about it, is a bad idea since we can't access that object. Yeah, I think for
+# now, we will scrap the board class and just create the board inside the game class.
+
+# There is one issue we're seeing with moving everything to the game class, and that is the derived Piece classes can't
+# access the is coordinate in range method, so we really want to access that method outside of the object, which makes
+# more intuitive sense. Objects shouldn't check themselves whether a move is valid, that seems like something the game
+# logic should be doing so... why don't each piece class calculate its possible moves, then give that as a parameter
+# to the game class to validate whether the moves are in range, then determine if a target coordinate is part of a moves
+# valid moves. More specifically, when the player wants to move a piece from its current coordinate to the target
+# coordinate, we call that pieces "get_possible_moves" function, which will return a list of all its possible moves. We
+# take that list as a parameter and filter the list with a "get_valid_moves" function, which will refine the list into
+# coordinates that are within range of the board and return a list of valid moves, then we can compare the list of valid
+# coordinates to the target list, and if the target coordinate is in the valid moves list, then the move is executed. OK
+# so how does this relate to the make move function that we need to implement? So, the make move function has parameters
+# for the current coordinate and the target coordinate (no piece parameter). How do we combine all these functions to
+# incorporate the make move function. The first thing we need to do is find the piece on the current coordinates. How
+# do we do that? One way is to have a list of the current alive pieces, then we can iterate thought that list, and for
+# each piece, get its current coordinates and see if one matches the current coordinate of the make move function. We
+# can return this object so that it can be moved by the place piece function. Alright, so let's code that now.
+
+# Alright, so we were able to code that pretty quickly. Now what. We have the returned piece from the current coordinate
+# of the make move function, now we need to determine the possible moves of that piece. Ok, our get possible moves from
+# the game piece is working and returning the possible moves list. Now what. We need to get a list of valid moves, so
+# let's create that function which takes in the possible moves list as a parameter. Ok, we have the valid moves list now
+# so we need to determine if the target coordinate is in the valid moves list. As we were testing the new "is target
+# move valid" function, we realized that if they move to the same spot as they are currently on, that is still a valid
+# move because you can just pass the turn, so we need to make sure, that the current coordinate is always a valid move.
+
+# Ok, I think we've implemented all the necessary checking moves logic. Now let's write it into the make move function
+# and try to move a piece and see what happens. Lol, we need to see if the piece is owned by the current player, but
+# I don't like the way our current player is set up, as a property of the players. Let's change it to a private property
+# of the game. Alright, we're able to place the piece from the make move function. There are a lot of situations to test
+# here, so we need to do that later, but for now, we've noticed that piece that we moved is both in the current spot
+# and the new spot. Are we moving pieces wrong? Maybe instead of moving the piece, we change its current coordinates?
+# Lol, changing the pieces current coordinates, while we do think it is necessary, just updates it coordinates property
+# but the piece is still there. How do we remove the old piece? I mean, we can put it somewhere else, like in a removed
+# pieces list, but that seems pretty bad? It's still technically exists. Well, we goggled it and couldn't find anything,
+# so I guess we'll just implement a removed pieces list. Lol, that didn't work. Actually, I think we can remove a piece
+# just by replacing that coordiante with the original thing, which was a string of 7 underscores. Ok, good, that worked.
+
+# One thing of note that we were thinking about yesterday. Currently the place piece function just places the piece, but
+# it does not update the pieces coordinates, so make sure we write another function to update the pieces coordiantes, or
+# update it inside of place piece itself. Yeah, we fixed it by adding a set coordinates to the Piece superclass,and just
+# setting the coordinate to the target coordinate after placing the piece.
+
+# We still need to finish all aspects of the make move function (returning of True or False, updating the game status
+# and player turns after a successful move), then we need to test each if statement to make sure they are working
+# properly. Do we want to update our midway progress report? We've made quite a few significant changes. Maybe by the
+# end of the day?
+
+# So, we need to check if there's an opponent's piece on the board that we want to capture. What happens if we call our
+# get piece from coordinate and there is no piece, does it give us an error, or return None? Ok, good, when there is no
+# piece, it returns None instead of giving an exception error, so we can work with that. We tried the game out and we
+# can't capture our own units, so if our unit is in the spot we want to move to, we can't make that move. This needs
+# to be in the make move function. Ugh, we are calling get color for the None type and getting an attribute error, we
+# need to separate the code for the there being nothing on the to coordinate from the code where there is. Let's go
+# through this logic again. If there is no piece on the board, we don't have to check the color and we don't have to
+# capture any piece. If there is a piece on the board, we have to check and see if it's an ally or opponent. If it's an
+# ally, the move is not valid, if it's an opponent and everything else is ok, then before the move gets executed we have
+# to capture the opponent's piece. So when exactly do we need to check if there is a piece on the to_coordinate? Before
+# the move can be validated, we need to know if there is an ally on the to_coordinate. Wow, apparently we coded it
+# correctly, but the issue was the print statement trying to call the color of the None type causing a attribute error.
+# We need to read the errors more carefully. It was weird because the rest of the code kept running, I guess because
+# Python knows it was just an insignificant print error?
+
+# Alright, I think we finally implemented the check to see if an ally in on the to coordinate. Now, we're still not done
+# with the make move function. We still need to update the game state, update current player, and return True, else
+# return False. Ok, so we're testing the make move function and we pasted the moves of the blue soldiers into the red
+# soldier, but we soon found out, they don't move the same way. The blue soldier can up, relative to the board, but the
+# red soldier, actually moves down, relative to the board, so we have to modify the red soldier's movement slightly. OK
+# so we were able to move the blue and red soldiers into each other, and capture the red soldier, while alternating
+# turns.
+
+# So currently we only have one requirement from the assignment we haven't done, and that's the "is_in_check" function,
+# which we want to save for later until the end where we do the checkmate function as well. For now, I think we want to
+# implement and test each piece type's movements at a time, then do the is in check function, then code the check for
+# checkmate at the end of each turn.
