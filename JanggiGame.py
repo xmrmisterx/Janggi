@@ -329,6 +329,237 @@ class Piece:
 
         self._coordinates = target_coordinate
 
+    def move_up_coordinates(self, up_amount):
+
+        """
+        Returns the resultant coordinate after moving up an up_amount number of spaces from the parameter.
+        """
+
+        # to move up, we need to subtract one from y-coordinates value
+
+        # get current coordinate
+
+        current_coordinate = self.get_coordinates()
+
+        # get new x coordinate
+
+        x = list(current_coordinate)[0]
+        # print("x:", x)
+
+        # get new y coordinate
+
+        y = int(list(current_coordinate)[1]) - up_amount
+        # print("y:", y)
+
+        # get up_coordinate
+
+        up_coordinate = x + str(y)
+        # print("up_coordinate:", up_coordinate)
+        return up_coordinate
+
+    def move_down_coordinates(self, down_amount):
+
+        """
+        Returns the coordinates after the piece moves from its current coordinate down a down_amount of spaces in
+        the parameter.
+        """
+
+        # x stays the same, add down_amount to y value
+
+        # get current coordinate
+
+        current_coordinate = self.get_coordinates()
+
+        # get new x coordinate
+
+        x = list(current_coordinate)[0]
+        # print("x:", x)
+
+        # get new y coordinate
+
+        y = int(list(current_coordinate)[1]) + down_amount
+        # print("y:", y)
+
+        # get down_coordinate
+
+        down_coordinate = x + str(y)
+        # print("down_coordinate:", down_coordinate)
+        return down_coordinate
+
+    def move_left_coordinates(self, left_amount):
+
+        """
+        Returns the coordinates after the piece moves from its current coordinate left a left_amount of spaces in
+        the parameter.
+        """
+
+        # x decrements by a left_amount of letters, y stays the same
+
+        # get current coordinate
+
+        current_coordinate = self.get_coordinates()
+
+        # get y coordinate
+
+        y = list(current_coordinate)[1]
+        # print("y:", y)
+
+        # get x coordinate
+
+        x = chr(ord(list(current_coordinate)[0])-left_amount)
+        # print("x:", x)
+
+        # get left coordinate
+
+        left_coordinate = x + y
+        # print("left_coordinate:", left_coordinate)
+        return left_coordinate
+
+    def move_right_coordinates(self, right_amount):
+
+        """
+        Returns the coordinates after the piece moves from its current coordinate right a right_amount of spaces in
+        the parameter.
+        """
+
+        # x increments by a right_amount of letters, y stays the same
+
+        # get current coordinate
+
+        current_coordinate = self.get_coordinates()
+
+        # get y coordinate
+
+        y = list(current_coordinate)[1]
+        # print("y:", y)
+
+        # get x coordinate
+
+        x = chr(ord(list(current_coordinate)[0])+right_amount)
+        # print("x:", x)
+
+        # get left coordinate
+
+        right_coordinate = x + y
+        # print("right_coordinate:", right_coordinate)
+        return right_coordinate
+
+    def move_north_east_coordinates(self, north_east_amount):
+
+        """
+        Returns the coordinates after the piece moves from its current coordinate northeast a north_east_amount of
+        spaces in the parameter.
+        """
+
+        # x increments by a north_east_amount of letters, y decrements by a north_east_amount
+
+        # get current coordinate
+
+        current_coordinate = self.get_coordinates()
+
+        # get y coordinate
+
+        y = str(int(list(current_coordinate)[1])-north_east_amount)
+        # print("y:", y)
+
+        # get x coordinate
+
+        x = chr(ord(list(current_coordinate)[0])+north_east_amount)
+        # print("x:", x)
+
+        # get northeast coordinate
+
+        north_east_coordinate = x + y
+        print("north_east_coordinate:", north_east_coordinate)
+        return north_east_coordinate
+
+    def move_north_west_coordinates(self, north_west_amount):
+
+        """
+        Returns the coordinates after the piece moves from its current coordinate northwest a north_west_amount of
+        spaces in the parameter.
+        """
+
+        # x decrements by a north_west_amount of letters, y decrements by a north_west_amount
+
+        # get current coordinate
+
+        current_coordinate = self.get_coordinates()
+
+        # get y coordinate
+
+        y = str(int(list(current_coordinate)[1])-north_west_amount)
+        # print("y:", y)
+
+        # get x coordinate
+
+        x = chr(ord(list(current_coordinate)[0])-north_west_amount)
+        # print("x:", x)
+
+        # get northwest coordinate
+
+        north_west_coordinate = x + y
+        print("north_west_coordinate:", north_west_coordinate)
+        return north_west_coordinate
+
+    def move_south_west_coordinates(self, south_west_amount):
+
+        """
+        Returns the coordinates after the piece moves from its current coordinate southwest a south_west_amount of
+        spaces in the parameter.
+        """
+
+        # x decrements by a south_west_amount of letters, y increments by a south_west_amount
+
+        # get current coordinate
+
+        current_coordinate = self.get_coordinates()
+
+        # get y coordinate
+
+        y = str(int(list(current_coordinate)[1])+south_west_amount)
+        # print("y:", y)
+
+        # get x coordinate
+
+        x = chr(ord(list(current_coordinate)[0])-south_west_amount)
+        # print("x:", x)
+
+        # get southwest coordinate
+
+        south_west_coordinate = x + y
+        print("south_west_coordinate:", south_west_coordinate)
+        return south_west_coordinate
+
+    def move_south_east_coordinates(self, south_east_amount):
+
+        """
+        Returns the coordinates after the piece moves from its current coordinate southeast a south_east_amount of
+        spaces in the parameter.
+        """
+
+        # x increments by a south_east_amount of letters, y increments by a south_east_amount
+
+        # get current coordinate
+
+        current_coordinate = self.get_coordinates()
+
+        # get y coordinate
+
+        y = str(int(list(current_coordinate)[1])+south_east_amount)
+        # print("y:", y)
+
+        # get x coordinate
+
+        x = chr(ord(list(current_coordinate)[0])+south_east_amount)
+        # print("x:", x)
+
+        # get southeast coordinate
+
+        south_east_coordinate = x + y
+        print("south_east_coordinate:", south_east_coordinate)
+        return south_east_coordinate
+
 class BlueGeneral(Piece):
 
     """
@@ -343,14 +574,73 @@ class BlueGeneral(Piece):
 
         super().__init__("blue", "General", number, coordinates)
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_possible_moves(self):
 
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
         """
 
-        pass
+        # create possible moves list and palace coordinates list
+
+        possible_moves_list = []
+        palace_coordinates_list = ["d8", "d9", "d10", "e8", "e9", "e10", "f8", "f9", "f10"]
+
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # get move up coordinates
+
+        up_coordinates = self.move_up_coordinates(1)
+        print("up_coordinates:", up_coordinates)
+
+        # get move left coordinates
+
+        left_coordinates = self.move_left_coordinates(1)
+        print("left_coordinates:", left_coordinates)
+
+        # get move right coordinates
+
+        right_coordinates = self.move_right_coordinates(1)
+        print("right_coordinates:", right_coordinates)
+
+        # get move down coordinates
+
+        down_coordinates = self.move_down_coordinates(1)
+        print("down_coordinates:", down_coordinates)
+
+        # get northeast coordinates
+
+        northeast_coordinates = self.move_north_east_coordinates(1)
+
+        # get northwest coordinates
+
+        northwest_coordinates = self.move_north_west_coordinates(1)
+
+        # get southeast coordinates
+
+        southeast_coordinates = self.move_south_east_coordinates(1)
+
+        # get southwest coordinates to possible moves list
+
+        southwest_coordinates = self.move_south_west_coordinates(1)
+
+        # add moves to "all moves list"
+
+        all_moves_list = [northwest_coordinates, up_coordinates, northeast_coordinates, left_coordinates,
+                          current_coordinate, right_coordinates, southwest_coordinates, down_coordinates,
+                          southeast_coordinates]
+        print("all moves list:", all_moves_list)
+
+        # filter all moves list to possible moves list if coordinate is inside palace
+
+        for coordinate in all_moves_list:
+            if coordinate in palace_coordinates_list:
+                possible_moves_list.append(coordinate)
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
 
 
 class RedGeneral(Piece):
@@ -367,13 +657,73 @@ class RedGeneral(Piece):
 
         super().__init__("red", "General", number, coordinates)
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_possible_moves(self):
+
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
         """
 
-        pass
+        # create possible moves list and palace coordinates list
+
+        possible_moves_list = []
+        palace_coordinates_list = ["d1", "d2", "d3", "e1", "e2", "e3", "f1", "f2", "f3"]
+
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # get move up coordinates
+
+        up_coordinates = self.move_up_coordinates(1)
+        print("up_coordinates:", up_coordinates)
+
+        # get move left coordinates
+
+        left_coordinates = self.move_left_coordinates(1)
+        print("left_coordinates:", left_coordinates)
+
+        # get move right coordinates
+
+        right_coordinates = self.move_right_coordinates(1)
+        print("right_coordinates:", right_coordinates)
+
+        # get move down coordinates
+
+        down_coordinates = self.move_down_coordinates(1)
+        print("down_coordinates:", down_coordinates)
+
+        # get northeast coordinates
+
+        northeast_coordinates = self.move_north_east_coordinates(1)
+
+        # get northwest coordinates
+
+        northwest_coordinates = self.move_north_west_coordinates(1)
+
+        # get southeast coordinates
+
+        southeast_coordinates = self.move_south_east_coordinates(1)
+
+        # get southwest coordinates to possible moves list
+
+        southwest_coordinates = self.move_south_west_coordinates(1)
+
+        # add moves to "all moves list"
+
+        all_moves_list = [northwest_coordinates, up_coordinates, northeast_coordinates, left_coordinates,
+                          current_coordinate, right_coordinates, southwest_coordinates, down_coordinates,
+                          southeast_coordinates]
+        print("all moves list:", all_moves_list)
+
+        # filter all moves list to possible moves list if coordinate is inside palace
+
+        for coordinate in all_moves_list:
+            if coordinate in palace_coordinates_list:
+                possible_moves_list.append(coordinate)
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
 
 
 class BlueGuard(Piece):
@@ -445,46 +795,54 @@ class BlueSoldier(Piece):
         current_coordinate = self.get_coordinates()
         print("current coordinate:", current_coordinate)
 
-        # we create an empty valid coordinates list to hold the valid coordinates
+        # get move up coordinates
 
-        possible_moves_list = []
+        up_coordinates = self.move_up_coordinates(1)
+        print("up_coordinates:", up_coordinates)
 
-        # add current coordinate to possible moves as staying at the same spot is a legal move
+        # get move left coordinates
 
-        possible_moves_list.append(current_coordinate)
+        left_coordinates = self.move_left_coordinates(1)
+        print("left_coordinates:", left_coordinates)
 
-        # move up coordinates (subtract y value by 1)
+        # get move right coordinates
 
-        x = list(current_coordinate)[0]
-        print("x:", x)
-        y = int(list(current_coordinate)[1]) - 1
-        print("y:", y)
-        up_coordinate = x + str(y)
-        print("up_coordinate:", up_coordinate)
+        right_coordinates = self.move_right_coordinates(1)
+        print("right_coordinates:", right_coordinates)
 
-        # move left coordinates (subtract 1 letter from x value)
+        # add moves to possible moves list
 
-        y = list(current_coordinate)[1]
-        print("y:", y)
-        x = chr(ord(list(current_coordinate)[0])-1)
-        print("x:", x)
-        left_coordinate = x + y
-        print("left_coordinate:", left_coordinate)
+        possible_moves_list = [current_coordinate, up_coordinates, left_coordinates, right_coordinates]
 
-        # move right coordinates (increment letter in x value by 1)
+        # add more moves to possible moves list if soldier is inside the palace
 
-        y = list(current_coordinate)[1]
-        print("y:", y)
-        x = chr(ord(list(current_coordinate)[0]) + 1)
-        print("x:", x)
-        right_coordinate = x + y
-        print("right_coordinate:", right_coordinate)
+        # if at d3, can move northeast
 
-        # add moves to the possible moves list
+        if current_coordinate == "d3":
 
-        possible_moves_list.append(up_coordinate)
-        possible_moves_list.append(left_coordinate)
-        possible_moves_list.append(right_coordinate)
+            northeast_coordinates = self.move_north_east_coordinates(1)
+            possible_moves_list.append(northeast_coordinates)
+
+        # if at f3, can move northwest
+
+        if current_coordinate == "f3":
+
+            northwest_coordinates = self.move_north_west_coordinates(1)
+            possible_moves_list.append(northwest_coordinates)
+
+        # if at e2, can move northeast and northwest
+
+        if current_coordinate == "e2":
+
+            # add northeast coordinates to possible moves list
+
+            northeast_coordinates = self.move_north_east_coordinates(1)
+            possible_moves_list.append(northeast_coordinates)
+
+            # add northwest coordinates to possible moves list
+
+            northwest_coordinates = self.move_north_west_coordinates(1)
+            possible_moves_list.append(northwest_coordinates)
 
         print("possible moves list:", possible_moves_list)
         return possible_moves_list
@@ -512,46 +870,52 @@ class RedSoldier(Piece):
         current_coordinate = self.get_coordinates()
         print("current coordinate:", current_coordinate)
 
-        # we create an empty valid coordinates list to hold the valid coordinates
+        # get move down coordinates
 
-        possible_moves_list = []
+        down_coordinates = self.move_down_coordinates(1)
+        print("down_coordinates:", down_coordinates)
 
-        # add current coordinate to possible moves as staying at the same spot is a legal move
+        # get move left coordinates
 
-        possible_moves_list.append(current_coordinate)
+        left_coordinates = self.move_left_coordinates(1)
+        print("left_coordinates:", left_coordinates)
 
-        # move down coordinates (add 1 to y value)
+        # get move right coordinates
 
-        x = list(current_coordinate)[0]
-        print("x:", x)
-        y = int(list(current_coordinate)[1]) + 1
-        print("y:", y)
-        down_coordinate = x + str(y)
-        print("down_coordinate:", down_coordinate)
+        right_coordinates = self.move_right_coordinates(1)
+        print("right_coordinates:", right_coordinates)
 
-        # move left coordinates (subtract 1 letter from x value)
+        # add moves to a possible moves list
 
-        y = list(current_coordinate)[1]
-        print("y:", y)
-        x = chr(ord(list(current_coordinate)[0]) - 1)
-        print("x:", x)
-        left_coordinate = x + y
-        print("left_coordinate:", left_coordinate)
+        possible_moves_list = [current_coordinate, down_coordinates, left_coordinates, right_coordinates]
 
-        # move right coordinates (increment letter in x value by 1)
+        # add more moves to the possible moves list if soldier is inside the palace
 
-        y = list(current_coordinate)[1]
-        print("y:", y)
-        x = chr(ord(list(current_coordinate)[0]) + 1)
-        print("x:", x)
-        right_coordinate = x + y
-        print("right_coordinate:", right_coordinate)
+        # if at d8, can move southeast
 
-        # add moves to the possible moves list
+        if current_coordinate == "d8":
+            southeast_coordinates = self.move_south_east_coordinates(1)
+            possible_moves_list.append(southeast_coordinates)
 
-        possible_moves_list.append(down_coordinate)
-        possible_moves_list.append(left_coordinate)
-        possible_moves_list.append(right_coordinate)
+        # if at f8, can move southwest
+
+        if current_coordinate == "f8":
+            southwest_coordinates = self.move_south_west_coordinates(1)
+            possible_moves_list.append(southwest_coordinates)
+
+        # if at e9, can move southeast and southwest
+
+        if current_coordinate == "e9":
+
+            # add southeast coordinates to possible moves list
+
+            southeast_coordinates = self.move_south_east_coordinates(1)
+            possible_moves_list.append(southeast_coordinates)
+
+            # add southwest coordinates to possible moves list
+
+            southwest_coordinates = self.move_south_west_coordinates(1)
+            possible_moves_list.append(southwest_coordinates)
 
         print("possible moves list:", possible_moves_list)
         return possible_moves_list
@@ -1014,13 +1378,30 @@ class JanggiGame:
         self._current_player = "blue"
 
 
-        self.make_move("a7", "a6")
-        self.make_move("a4", "a5")
-        self.make_move("a6", "a5")
+        # self.make_move("a7", "a6")
+        # self.make_move("a4", "a5")
+        # self.make_move("a6", "a5")
 
-        # self.make_move("a7", "b6")
-        # self.make_move("a7", "a8")
-        # self.make_move("a7", "b7")
+        # print(self._red_general.get_coordinates())
+        # self._red_general.get_possible_moves()
+        # self._red_general.set_coordinates("f3")
+        # self._red_general.get_possible_moves()
+
+        # print(self._blue_general.get_coordinates())
+        # self._blue_general.get_possible_moves()
+        # self._blue_general.set_coordinates("d8")
+        # self._blue_general.get_possible_moves()
+
+        # self._red_soldier3.set_coordinates("e9")
+        # self._red_soldier3.get_possible_moves()
+
+        # self._blue_soldier3.set_coordinates("f3")
+        # self._blue_soldier3.get_possible_moves()
+
+        # possible_moves = self._red_soldier3.get_possible_moves()
+        # self.get_valid_moves(possible_moves)
+        # possible_moves = self._blue_soldier5.get_possible_moves()
+        # self.get_valid_moves(possible_moves)
 
     def get_game_state(self):
 
@@ -1620,3 +2001,55 @@ game = JanggiGame()
 # which we want to save for later until the end where we do the checkmate function as well. For now, I think we want to
 # implement and test each piece type's movements at a time, then do the is in check function, then code the check for
 # checkmate at the end of each turn.
+
+# Now that we've looked back at soldier movement, we realized we aren't completely done. We still have to code the
+# soldier movement inside the palace. Alright, so inside the palace they can move diagonally forward (still can't go
+# backwards). Let's add an if statement after all the current movement, for the special palace movement, and add those
+# coordinates, if the soldier current coordinates are inside the palace, which for the blue soldier, is d1-d3, e1-e3,
+# and f1-f3, and for the red soldier, it's d8-d10, e8-e10, and f8-f10. Alright, I think this shouldn't be too bad. Let's
+# code it. Now that we're doing this, it's kinda annoying. Moving up is always the same, moving to the right is always
+# the same, moving to the left is always the same, can we create a function to use that we don't have to keep retyping
+# the movement code everytime. Not only is it a headache to think about, we seen that we've already done it before, so
+# it just seems super unnecessary. Let's try to write a move up function in the Piece superclass.
+
+# I think that worked really well. We have a parameter for the "up_amount", and this is calculated the same for all up
+# movements, so it's gonna be a very useful function. Let's write the left, right, and down functions in the Piece class
+# then update the current soldier code to incorporate the new functions, and finally use the new functions to create
+# movement for the soldier's in palace movements.
+
+# Alright, we've coded the 4 orthogonal directions, now we need to implement them in the current class. Ok, so we got
+# them incorporated into the blue soldier class, oh, we need to do the red soldier class too. Ok, we just copy pasted
+# the blue soldier code and switched out the up coordinate for down coordinates, so much easier when its modular. OK,
+# now we need to code the blue soldiers in palace movements. Actually, let's code the diagonal movements, from the top
+# of our head, we can think of 3 types of pieces that use this singular diagonal movement. Ok, so we were able to add
+# all the diagonal movements, with a parameter for multiple diagonal moves. Now, let's add the movement for the blue,
+# then red soldier, in the palace, and test the diagonal moves for valid moves and the other function after that. Dammit
+# this soldier movement within the palace is confusing, but after looking at a couple different diagrams, I think we
+# understand now. There are only 4 coordinates where the soldier can move diagonally, even though there are 9
+# coordinates inside the palace, those 4 coordinates being... Actually, we double checked, and there are only 3 spots
+# where they can move diagonally, those being d3, f3, and e2.
+
+# Alright, so let's test this out. We're gonna need to change the current coordinates of a piece first, then we can run
+# the tests. Let's use our bluesoldier3 here and check it. Alright, all the blue soldier tests are good. Now let's add
+# the redsoldier palace code, and run the tests. RedSoldier palace coordinates are d8, f8, or e9. Alright, we've added
+# the palace movements for both the red and blue soldiers, not bad.
+
+# Let's go ahead and code the general and the guard movements, because they are very similar, and use our Piece class
+# movements already. Alright, so the general can move up, down, left, right, and diagonally, but the target coordinate
+# needs to be inside the palace. Hmmm... so how do we code the palace restriction? Ok, so we're thinking more about the
+# movement restrictions. Currently we have a function to check if the movements are inside the board, which is in the
+# game class. But we're thinking, we can just keep it in the piece class, since each piece knows there movements? Like
+# for the general movements, it has to be inside the palace, but our game code for the is valid move function just
+# checks if the coordinates are inside the board, which for the general, he can't move outside the palace, so this check
+# is not required here. Basically, we should be having the pieces calculate all their movement logic, is what it is.
+# Alright, so for the blue general, we put his move restriction inside the get possible moves function, without a
+# secondary function to check if the moves are on the board, because he can't go off the board... wait a min, he can go
+# off the board lol. Yeah, he can go off the board, if he moves to the bottom, he can, so we still need to check if it's
+# inside the board, but we already checked that, because we checked if his move is inside the palace, which is inside
+# the board. Let's test the general code for 2 border spots to make sure it's working, then recode our blue and red
+# soldiers to check if their coordinates are inside the board inside their possible moves function. Alright, the code
+# seems to be working for the blue general. Let's copy the code into the red general before we fix the soldier code.
+# Alright, red general looks fine, let's recode the blue and red soldier. Dammit, we can't do this. We just realized, we
+# can't access the converted coordinates dict because it is a private data in the game class.
+
+# we need to code the guard movements, which are exactly like the general's movements.
