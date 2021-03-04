@@ -329,6 +329,58 @@ class Piece:
 
         self._coordinates = target_coordinate
 
+    # def coordinate_is_inside_board(self, coordinate):
+    #     """
+    #     Returns True that the coordinate in the parameter is in range, if the letter in its x-value is from "a" to "i"
+    #     and the number in its y-value is from 1 to 10, otherwise returns False.
+    #     """
+    #
+    #     # for key in self._coordinate_conversion_dict:
+    #     #     if key == coordinate:
+    #     #         return True
+    #     #
+    #     # return False
+    #
+    #     # we explicitly state the alphabet range
+    #     alphabet_range = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+    #
+    #
+    #     # if the x value of the coordinate is in the alphabet range, and the int cast form of the y value of the
+    #     # coordinate is from 1 to 10, then return True
+    #     if list(coordinate)[0] in alphabet_range:
+    #         if int(list(coordinate)[1]) in range(1, 11):
+    #             return True
+    #
+    #     # Otherwise return False
+    #     return False
+
+    # def coordinate_not_blocked_by_ally(self, coordinate):
+    #
+    #     """
+    #     If the coordinate in the parameter is not blocked by an ally, return True, or return False if the coordinate is
+    #     blocked by an ally.
+    #     """
+    #
+    #     # get color
+    #
+    #     color = self.get_color()
+
+    # def get_valid_moves(self, possible_moves_list):
+    #
+    #     """
+    #     Returns a list of valid moves, or moves that are inside the board, from the possible moves list in the
+    #     parameter.
+    #     """
+    #
+    #     valid_moves_list = []
+    #
+    #     for coordinate in possible_moves_list:
+    #         if self.coordinate_is_in_range(coordinate):
+    #             valid_moves_list.append(coordinate)
+    #
+    #     print("valid moves list:", valid_moves_list)
+    #     return valid_moves_list
+
     def move_up_coordinates(self, up_amount):
 
         """
@@ -340,22 +392,32 @@ class Piece:
         # get current coordinate
 
         current_coordinate = self.get_coordinates()
+        # print("current coordinate:", current_coordinate)
 
         # get new x coordinate
 
-        x = list(current_coordinate)[0]
+        x = current_coordinate[0]
         # print("x:", x)
 
         # get new y coordinate
 
-        y = int(list(current_coordinate)[1]) - up_amount
+        y = int(current_coordinate[1:]) - up_amount
         # print("y:", y)
+
+        # if len(list(current_coordinate)) == 2:
+        #     y = int(list(current_coordinate)[1]) - up_amount
+        #     print("y:", y)
+        # elif len(list(current_coordinate)) == 3:
+        #     y = int(list(current_coordinate)[1]+list(current_coordinate)[2]) - up_amount
+        #     print("y:", y)
 
         # get up_coordinate
 
         up_coordinate = x + str(y)
         # print("up_coordinate:", up_coordinate)
         return up_coordinate
+
+
 
     def move_down_coordinates(self, down_amount):
 
@@ -372,12 +434,14 @@ class Piece:
 
         # get new x coordinate
 
-        x = list(current_coordinate)[0]
+        x = current_coordinate[0]
+        # x = list(current_coordinate)[0]
         # print("x:", x)
 
         # get new y coordinate
 
-        y = int(list(current_coordinate)[1]) + down_amount
+        y = int(current_coordinate[1:]) + down_amount
+        # y = int(list(current_coordinate)[1]) + down_amount
         # print("y:", y)
 
         # get down_coordinate
@@ -401,12 +465,14 @@ class Piece:
 
         # get y coordinate
 
-        y = list(current_coordinate)[1]
+        y = current_coordinate[1:]
+        # y = list(current_coordinate)[1]
         # print("y:", y)
 
         # get x coordinate
 
-        x = chr(ord(list(current_coordinate)[0])-left_amount)
+        x = chr(ord(current_coordinate[0]) - left_amount)
+        # x = chr(ord(list(current_coordinate)[0])-left_amount)
         # print("x:", x)
 
         # get left coordinate
@@ -430,12 +496,14 @@ class Piece:
 
         # get y coordinate
 
-        y = list(current_coordinate)[1]
+        y = current_coordinate[1:]
+        # y = list(current_coordinate)[1]
         # print("y:", y)
 
         # get x coordinate
 
-        x = chr(ord(list(current_coordinate)[0])+right_amount)
+        x = chr(ord(current_coordinate[0]) + right_amount)
+        # x = chr(ord(list(current_coordinate)[0])+right_amount)
         # print("x:", x)
 
         # get left coordinate
@@ -459,12 +527,14 @@ class Piece:
 
         # get y coordinate
 
-        y = str(int(list(current_coordinate)[1])-north_east_amount)
+        y = str(int(current_coordinate[1:]) - north_east_amount)
+        # y = str(int(list(current_coordinate)[1])-north_east_amount)
         # print("y:", y)
 
         # get x coordinate
 
-        x = chr(ord(list(current_coordinate)[0])+north_east_amount)
+        x = chr(ord(current_coordinate[0]) + north_east_amount)
+        # x = chr(ord(list(current_coordinate)[0])+north_east_amount)
         # print("x:", x)
 
         # get northeast coordinate
@@ -488,12 +558,14 @@ class Piece:
 
         # get y coordinate
 
-        y = str(int(list(current_coordinate)[1])-north_west_amount)
+        y = str(int(current_coordinate[1:]) - north_west_amount)
+        # y = str(int(list(current_coordinate)[1])-north_west_amount)
         # print("y:", y)
 
         # get x coordinate
 
-        x = chr(ord(list(current_coordinate)[0])-north_west_amount)
+        x = chr(ord(current_coordinate[0]) - north_west_amount)
+        # x = chr(ord(list(current_coordinate)[0])-north_west_amount)
         # print("x:", x)
 
         # get northwest coordinate
@@ -517,12 +589,14 @@ class Piece:
 
         # get y coordinate
 
-        y = str(int(list(current_coordinate)[1])+south_west_amount)
+        y = str(int(current_coordinate[1:]) + south_west_amount)
+        # y = str(int(list(current_coordinate)[1])+south_west_amount)
         # print("y:", y)
 
         # get x coordinate
 
-        x = chr(ord(list(current_coordinate)[0])-south_west_amount)
+        x = chr(ord(current_coordinate[0]) - south_west_amount)
+        # x = chr(ord(list(current_coordinate)[0])-south_west_amount)
         # print("x:", x)
 
         # get southwest coordinate
@@ -546,12 +620,14 @@ class Piece:
 
         # get y coordinate
 
-        y = str(int(list(current_coordinate)[1])+south_east_amount)
+        y = str(int(current_coordinate[1:]) + south_east_amount)
+        # y = str(int(list(current_coordinate)[1])+south_east_amount)
         # print("y:", y)
 
         # get x coordinate
 
-        x = chr(ord(list(current_coordinate)[0])+south_east_amount)
+        x = chr(ord(current_coordinate[0]) + south_east_amount)
+        # x = chr(ord(list(current_coordinate)[0])+south_east_amount)
         # print("x:", x)
 
         # get southeast coordinate
@@ -740,13 +816,73 @@ class BlueGuard(Piece):
 
         super().__init__("blue", "Guard", number, coordinates)
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_possible_moves(self):
+
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
         """
 
-        pass
+        # create possible moves list and palace coordinates list
+
+        possible_moves_list = []
+        palace_coordinates_list = ["d8", "d9", "d10", "e8", "e9", "e10", "f8", "f9", "f10"]
+
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # get move up coordinates
+
+        up_coordinates = self.move_up_coordinates(1)
+        print("up_coordinates:", up_coordinates)
+
+        # get move left coordinates
+
+        left_coordinates = self.move_left_coordinates(1)
+        print("left_coordinates:", left_coordinates)
+
+        # get move right coordinates
+
+        right_coordinates = self.move_right_coordinates(1)
+        print("right_coordinates:", right_coordinates)
+
+        # get move down coordinates
+
+        down_coordinates = self.move_down_coordinates(1)
+        print("down_coordinates:", down_coordinates)
+
+        # get northeast coordinates
+
+        northeast_coordinates = self.move_north_east_coordinates(1)
+
+        # get northwest coordinates
+
+        northwest_coordinates = self.move_north_west_coordinates(1)
+
+        # get southeast coordinates
+
+        southeast_coordinates = self.move_south_east_coordinates(1)
+
+        # get southwest coordinates to possible moves list
+
+        southwest_coordinates = self.move_south_west_coordinates(1)
+
+        # add moves to "all moves list"
+
+        all_moves_list = [northwest_coordinates, up_coordinates, northeast_coordinates, left_coordinates,
+                          current_coordinate, right_coordinates, southwest_coordinates, down_coordinates,
+                          southeast_coordinates]
+        print("all moves list:", all_moves_list)
+
+        # filter all moves list to possible moves list if coordinate is inside palace
+
+        for coordinate in all_moves_list:
+            if coordinate in palace_coordinates_list:
+                possible_moves_list.append(coordinate)
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
 
 
 class RedGuard(Piece):
@@ -763,13 +899,73 @@ class RedGuard(Piece):
 
         super().__init__("red", "Guard", number, coordinates)
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_possible_moves(self):
+
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
         """
 
-        pass
+        # create possible moves list and palace coordinates list
+
+        possible_moves_list = []
+        palace_coordinates_list = ["d1", "d2", "d3", "e1", "e2", "e3", "f1", "f2", "f3"]
+
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # get move up coordinates
+
+        up_coordinates = self.move_up_coordinates(1)
+        print("up_coordinates:", up_coordinates)
+
+        # get move left coordinates
+
+        left_coordinates = self.move_left_coordinates(1)
+        print("left_coordinates:", left_coordinates)
+
+        # get move right coordinates
+
+        right_coordinates = self.move_right_coordinates(1)
+        print("right_coordinates:", right_coordinates)
+
+        # get move down coordinates
+
+        down_coordinates = self.move_down_coordinates(1)
+        print("down_coordinates:", down_coordinates)
+
+        # get northeast coordinates
+
+        northeast_coordinates = self.move_north_east_coordinates(1)
+
+        # get northwest coordinates
+
+        northwest_coordinates = self.move_north_west_coordinates(1)
+
+        # get southeast coordinates
+
+        southeast_coordinates = self.move_south_east_coordinates(1)
+
+        # get southwest coordinates to possible moves list
+
+        southwest_coordinates = self.move_south_west_coordinates(1)
+
+        # add moves to "all moves list"
+
+        all_moves_list = [northwest_coordinates, up_coordinates, northeast_coordinates, left_coordinates,
+                          current_coordinate, right_coordinates, southwest_coordinates, down_coordinates,
+                          southeast_coordinates]
+        print("all moves list:", all_moves_list)
+
+        # filter all moves list to possible moves list if coordinate is inside palace
+
+        for coordinate in all_moves_list:
+            if coordinate in palace_coordinates_list:
+                possible_moves_list.append(coordinate)
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
 
 
 class BlueSoldier(Piece):
@@ -1132,6 +1328,19 @@ class Player:
     #
     #     return self._is_current_player
 
+    # def switch_players(self):
+    #
+    #     """
+    #     Switch the current player for the other player.
+    #     """
+    #
+    #     print("current player's color:", self._current_player)
+    #     if self._current_player == "blue":
+    #         self._current_player = "red"
+    #     elif self._current_player == "red":
+    #         self._current_player = "blue"
+    #     print("after switch, current player's color:", self._current_player)
+
 
 class JanggiGame:
 
@@ -1377,6 +1586,38 @@ class JanggiGame:
         self._player2 = Player("red")
         self._current_player = "blue"
 
+        # self.make_move("f10", "f9")
+        # self.make_move("f10", "e9")
+        # self.make_move("f10", "g10")
+        # self._current_player = "red"
+        # self.make_move("d1", "c1")
+        # self.make_move("d1", "d2")
+        # self.make_move("d1", "e2")
+
+        # print(self._blue_soldier1.get_coordinates())
+        # possible_moves = self._blue_soldier1.get_possible_moves()
+        # self.get_valid_moves(self._blue_soldier1, possible_moves)
+        #
+        # self._blue_soldier2.set_coordinates("b7")
+        # possible_moves = self._blue_soldier1.get_possible_moves()
+        # self.get_valid_moves(self._blue_soldier1, possible_moves)
+
+        # print(self.coordinate_not_blocked_by_ally(self._blue_cannon1, "a7"))
+        # print(self.coordinate_not_blocked_by_ally(self._blue_cannon1, "b7"))
+        # print(self.coordinate_not_blocked_by_ally(self._blue_cannon1, "c7"))
+        # print(self.coordinate_not_blocked_by_ally(self._blue_cannon1, "e7"))
+        # print(self.coordinate_not_blocked_by_ally(self._blue_cannon1, "i10"))
+        # print(self.coordinate_not_blocked_by_ally(self._blue_cannon1, "e3"))
+
+        # print(self.coordinate_is_on_board("a1"))
+        # print(self.coordinate_is_on_board("d5"))
+        # print(self.coordinate_is_on_board("i10"))
+        # print(self.coordinate_is_on_board("i11"))
+        # print(self.coordinate_is_on_board("a0"))
+        # print(self.coordinate_is_on_board("g25"))
+
+        # self.make_move("b7", "f6")
+        # self.make_move("e7", "f6")
 
         # self.make_move("a7", "a6")
         # self.make_move("a4", "a5")
@@ -1495,10 +1736,9 @@ class JanggiGame:
 
         piece.set_coordinates(target_coordinate)
 
-    def is_coordinate_in_range(self, coordinate):
+    def coordinate_is_on_board(self, coordinate):
         """
-        Returns True that the coordinate in the parameter is in range, if the letter in its x-value is from "a" to "i"
-        and the number in its y-value is from 1 to 10, otherwise returns False.
+        Returns True if the coordinate in the parameter is on the board, otherwise returns False.
         """
 
         for key in self._coordinate_conversion_dict:
@@ -1507,46 +1747,69 @@ class JanggiGame:
 
         return False
 
-        # # we explicitly state the alphabet range
-        # alphabet_range = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
-        #
-        #
-        # # if the x value of the coordinate is in the alphabet range, and the int cast form of the y value of the
-        # # coordinate is from 1 to 10, then return True
-        # if list(coordinate)[0] in alphabet_range:
-        #     if int(list(coordinate)[1]) in range(1, 11):
-        #         return True
-        #
-        # # Otherwise return False
-        # return False
-
-    def get_piece_from_coordinate(self, current_coordinate):
+    def get_piece_from_coordinate(self, coordinate):
 
         """
-        Returns the board piece at the current coordinate.
+        Returns the board piece at the coordinate in the parameter.
         """
 
         for piece in self._alive_pieces_list:
-            if piece.get_coordinates() == current_coordinate:
+            if piece.get_coordinates() == coordinate:
+            # if piece.get_coordinates() == current_coordinate:
                 return piece
 
-    def get_valid_moves(self, possible_moves_list):
+        # return "piece not found"
+
+    def coordinate_not_blocked_by_ally(self, piece, target_coordinate):
 
         """
-        Returns a list of valid moves, or moves that are inside the board, from the possible moves list in the
-        parameter.
+        If the target coordinate in the parameter is not blocked by an ally of the piece in the parameter, then return
+        True, otherwise return False.
         """
 
-        valid_moves_list = []
+        # get piece's color
+
+        color = piece.get_color()
+        # print("color:", color, "piece:", piece)
+
+        # get piece at target coordinate
+
+        piece_at_target = self.get_piece_from_coordinate(target_coordinate)
+        # print("piece at target:", piece_at_target)
+
+        # if there is a piece at the target coordinate
+
+        if piece_at_target is not None:
+
+            # if the piece at the target coordinate's color equals the current pieces color
+            if piece_at_target.get_color() == color:
+
+                # return False that the target coordinate not blocked by an ally
+                return False
+
+        # If there is no piece at the target coordinate, or if the piece is an enemy piece, then return True
+        return True
+
+    def get_valid_moves(self, piece, possible_moves_list):
+
+        """
+        Returns a list of valid moves from the possible moves list in the parameter. Checks first to see if the
+        coordinate inside the possibles moves list are on the board, then checks whether there is an ally at the
+        coordinate.
+        """
+
+        # valid move list always starts with the current coordinate
+        valid_moves_list = [piece.get_coordinates()]
 
         for coordinate in possible_moves_list:
-            if self.is_coordinate_in_range(coordinate):
-                valid_moves_list.append(coordinate)
+            if self.coordinate_is_on_board(coordinate):
+                if self.coordinate_not_blocked_by_ally(piece, coordinate):
+                    valid_moves_list.append(coordinate)
 
         print("valid moves list:", valid_moves_list)
         return valid_moves_list
 
-    def is_target_move_valid(self, valid_moves_list, target_coordinate):
+    def target_coordinate_in_valid_moves_list(self, valid_moves_list, target_coordinate):
 
         """
         Returns True if the target coordinate in the parameter is inside the valid moves list in the parameter,
@@ -1597,24 +1860,34 @@ class JanggiGame:
         to_piece = self.get_piece_from_coordinate(to_coordinate)
         print("from piece:", from_piece, "and to piece:", to_piece)
 
-        # check to see if piece is owned by current player
+        # check if a piece at from coordinate
 
-        if from_piece.get_color() == self._current_player:
-            print("piece's color:", from_piece.get_color(), "matches the current player's name:", self._current_player)
+        if from_piece is not None:
 
-            possible_moves = from_piece.get_possible_moves()
-            valid_moves = self.get_valid_moves(possible_moves)
+            # check to see if piece is owned by current player
 
-            # check if move is a valid coordinate
+            if from_piece.get_color() == self._current_player:
+                print("piece's color:", from_piece.get_color(), "matches the current player's name:", self._current_player)
 
-            if self.is_target_move_valid(valid_moves, to_coordinate):
-                print("to coordinate:", to_coordinate, "is a coordinate inside the valid moves list:", valid_moves)
+                possible_moves = from_piece.get_possible_moves()
+                valid_moves = self.get_valid_moves(from_piece, possible_moves)
 
-                # check if to_coordinate isn't occupied, or if it is occupied it's not by an ally piece
+                # # check if move is a valid coordinate
+                #
+                # if self.target_coordinate_in_valid_moves_list(valid_moves, to_coordinate):
+                # # if self.is_target_move_valid(valid_moves, to_coordinate):
+                #     print("to coordinate:", to_coordinate, "is a coordinate inside the valid moves list:", valid_moves)
+                #
+                #     # check if to_coordinate isn't occupied, or if it is occupied it's not by an ally piece
+                #
+                #     if to_piece is None or (to_piece is not None and to_piece.get_color() != self._current_player):
+                #         print("to_piece:", to_piece, "is None or is not None and its color [we can't get color of possible "
+                #               "None type] is not equal to current player's color:", self._current_player)
 
-                if to_piece is None or (to_piece is not None and to_piece.get_color() != self._current_player):
-                    print("to_piece:", to_piece, "is None or is not None and its color [we can't get color of possible "
-                          "None type] is not equal to current player's color:", self._current_player)
+                # check if move is valid
+
+                if self.target_coordinate_in_valid_moves_list(valid_moves, to_coordinate):
+                    print("to coordinate:", to_coordinate, "is a coordinate inside the valid moves list:", valid_moves)
 
                     # check if game is over
 
@@ -1625,14 +1898,14 @@ class JanggiGame:
 
                         if to_piece is not None:
                             print("to_piece:", to_piece, "is not None")
-
-                            if to_piece.get_color() != self._current_player:
-                                print("to_piece's color:", to_piece.get_color(), " is not equal to the current player's"
-                                      " color:", self._current_player)
+                            #
+                            #     if to_piece.get_color() != self._current_player:
+                            #         print("to_piece's color:", to_piece.get_color(), " is not equal to the current player's"
+                            #               " color:", self._current_player)
 
                                 # capture opponent's piece
 
-                                self.capture_piece(to_coordinate)
+                            self.capture_piece(to_coordinate)
 
                         # move piece
 
@@ -2052,4 +2325,53 @@ game = JanggiGame()
 # Alright, red general looks fine, let's recode the blue and red soldier. Dammit, we can't do this. We just realized, we
 # can't access the converted coordinates dict because it is a private data in the game class.
 
-# we need to code the guard movements, which are exactly like the general's movements.
+# we need to code the guard movements, which are exactly like the general's movements. As we were sleeping last night,
+# we went back and forth between how to code the piece's movement. Currently we have the game class check to see if the
+# possible moves are inside the board, but once again, why can't the piece do this, since it is already checking its
+# possible moves on the board. We can add code in the Piece superclass to check if the coordinates are inside the board
+# then and if there is a friendly piece blocking our target, since both of these lead to invalid moves. So, maybe the
+# piece can initially calculate the "all moves list," which is all the moves possible by their movement, then it can
+# calculate the "possible moves list", which weeds out the coordinates outside the board and ones in which the target
+# coordinate is blocked by an ally piece. These sub functions can fall under a bigger "get_valid_moves" function, which
+# is also inside the Piece superclass. Then, when we call "make move" we just have to "get the valid moves" and make
+# sure the target coordinate is inside the "valid moves list". Alright, so we can put the converted coordinates dict
+# inside the Piece class, or we can pass it as a parameter from the game class. Let's just write out a simple code for
+# detecting if inside range, which we've already done.
+
+# Alright, so we restructured the code a bit. Only the possible moves are in the pieces class, and the rest of the code
+# is in the game logic, because we need access to all the game logic methods, and we don't have those in the derived
+# piece classes. Let's test the coordinate is on board, coordinate not blocked by ally, and get valid moves functions
+# that we modified to make sure they work. Then we want to change the switch player method to be from the player class,
+# bc we do have access to the player objects to call the Player class functions. Wow, our coordinate not blocked by ally
+# function was giving an error, and after debugging with print statements, we realized that we had added a return
+# statement to the "get piece from coordinate" function, which now returned "piece not found". Before, when we left it
+# blank, it returned None, so when our statements was checking if the piece was None, it was no longer None, so it went
+# to the next if statement and called get.color on no object. Yikes, that was a weird error. Alright, so we go to test
+# the get valid moves function, and it seemed to work. There was an issue of the current coordinate not showing up in
+# the valid moves, so now we start all the valid move lists inside the function with the piece's current coordinates.
+
+# Alright, now let's change the switch player function to be in the player class. Lol, trying to do it the other way, in
+# the player class, just doesn't make sense. It made sense last night when we were brainstorming things, but now was we
+# are doing it, this current way is the best way we can think of yet. Alright, now let's make sure our make move
+# function works / if it needs to be updated after our new functions. Ok, I think we've made it work. While testing
+# the make move function, we stumbled on the issue of the from coordinate not having a piece, which we did not account
+# for. We got the very familiar attribute Error saying that we couldn't call the get color method from the None object,
+# which we fixed by first checking if there is a from piece. We definitely want to do more thorough testing of the make
+# move function after we're done.
+
+# Ok, back to what we were trying to do before we had to change our code. Let's code the guard movements now. Alright,
+# so what can a guard do? Well, apparently guards can go wherever the general goes, so I think we pretty much copy paste
+# the code right? Let's check our Piece superclass and general code to make sure nothing needs to be changed from our
+# changes. Lol, that was a lot easier than we thought, we just pasted the blue general and red general codes into the
+# blue and red guard. Now, how do we want to test this? I think we can test the guards to move up to a blank space,
+# diagonally into a general, and sideways into a bluehorse. Ok, we noticed very quickly that our coordinates were off,
+# and didnt understand why f10 was being converted into f0 after the y should've been just 1 value less, and we went
+# into our code and saw that we were just extracting the 2nd string of the coordinate, but we want the third coordinate
+# as well, so why not use [1:] for a slice of the second to the end? Yes, we can use a slice, but we have to slice
+# strings, so it's actually good just to use a slice of "current coordinate" (we don't have to call list on it to create
+# a list first, actually we don't have to call list before either, we can just call a string at 0 to get the first value
+# lol. Let's change that. Alright, we went and changed all our movements to be slices of strings, we forgot we don't
+# have to call list on strings because strings can already be accessed as a list lol. Alright, so it looks like the
+# guard movements are updated, let's go back and make sure our soldier moves are correct though after the changes.
+
+# Ok, let's code horse and elephants, then chariots and cannons.
