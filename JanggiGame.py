@@ -2,6 +2,8 @@
 # Date: 2/26/21
 # Description: Janggi game halfway progress report
 
+import math
+
 # class Board:
 #
 #     """
@@ -329,58 +331,6 @@ class Piece:
 
         self._coordinates = target_coordinate
 
-    # def coordinate_is_inside_board(self, coordinate):
-    #     """
-    #     Returns True that the coordinate in the parameter is in range, if the letter in its x-value is from "a" to "i"
-    #     and the number in its y-value is from 1 to 10, otherwise returns False.
-    #     """
-    #
-    #     # for key in self._coordinate_conversion_dict:
-    #     #     if key == coordinate:
-    #     #         return True
-    #     #
-    #     # return False
-    #
-    #     # we explicitly state the alphabet range
-    #     alphabet_range = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
-    #
-    #
-    #     # if the x value of the coordinate is in the alphabet range, and the int cast form of the y value of the
-    #     # coordinate is from 1 to 10, then return True
-    #     if list(coordinate)[0] in alphabet_range:
-    #         if int(list(coordinate)[1]) in range(1, 11):
-    #             return True
-    #
-    #     # Otherwise return False
-    #     return False
-
-    # def coordinate_not_blocked_by_ally(self, coordinate):
-    #
-    #     """
-    #     If the coordinate in the parameter is not blocked by an ally, return True, or return False if the coordinate is
-    #     blocked by an ally.
-    #     """
-    #
-    #     # get color
-    #
-    #     color = self.get_color()
-
-    # def get_valid_moves(self, possible_moves_list):
-    #
-    #     """
-    #     Returns a list of valid moves, or moves that are inside the board, from the possible moves list in the
-    #     parameter.
-    #     """
-    #
-    #     valid_moves_list = []
-    #
-    #     for coordinate in possible_moves_list:
-    #         if self.coordinate_is_in_range(coordinate):
-    #             valid_moves_list.append(coordinate)
-    #
-    #     print("valid moves list:", valid_moves_list)
-    #     return valid_moves_list
-
     def move_up_coordinates(self, up_amount):
 
         """
@@ -512,7 +462,8 @@ class Piece:
         # print("right_coordinate:", right_coordinate)
         return right_coordinate
 
-    def move_north_east_coordinates(self, north_east_amount):
+    def move_north_east_coordinates(self, north_east_amount, current_coordinate=None):
+    # def move_north_east_coordinates(self, north_east_amount):
 
         """
         Returns the coordinates after the piece moves from its current coordinate northeast a north_east_amount of
@@ -523,7 +474,8 @@ class Piece:
 
         # get current coordinate
 
-        current_coordinate = self.get_coordinates()
+        if current_coordinate is None:
+            current_coordinate = self.get_coordinates()
 
         # get y coordinate
 
@@ -543,7 +495,8 @@ class Piece:
         print("north_east_coordinate:", north_east_coordinate)
         return north_east_coordinate
 
-    def move_north_west_coordinates(self, north_west_amount):
+    def move_north_west_coordinates(self, north_west_amount, current_coordinate=None):
+    # def move_north_west_coordinates(self, north_west_amount):
 
         """
         Returns the coordinates after the piece moves from its current coordinate northwest a north_west_amount of
@@ -554,7 +507,8 @@ class Piece:
 
         # get current coordinate
 
-        current_coordinate = self.get_coordinates()
+        if current_coordinate is None:
+            current_coordinate = self.get_coordinates()
 
         # get y coordinate
 
@@ -574,7 +528,8 @@ class Piece:
         print("north_west_coordinate:", north_west_coordinate)
         return north_west_coordinate
 
-    def move_south_west_coordinates(self, south_west_amount):
+    def move_south_west_coordinates(self, south_west_amount, current_coordinate=None):
+    # def move_south_west_coordinates(self, south_west_amount):
 
         """
         Returns the coordinates after the piece moves from its current coordinate southwest a south_west_amount of
@@ -585,7 +540,8 @@ class Piece:
 
         # get current coordinate
 
-        current_coordinate = self.get_coordinates()
+        if current_coordinate is None:
+            current_coordinate = self.get_coordinates()
 
         # get y coordinate
 
@@ -605,7 +561,8 @@ class Piece:
         print("south_west_coordinate:", south_west_coordinate)
         return south_west_coordinate
 
-    def move_south_east_coordinates(self, south_east_amount):
+    def move_south_east_coordinates(self, south_east_amount, current_coordinate=None):
+    # def move_south_east_coordinates(self, south_east_amount):
 
         """
         Returns the coordinates after the piece moves from its current coordinate southeast a south_east_amount of
@@ -616,7 +573,8 @@ class Piece:
 
         # get current coordinate
 
-        current_coordinate = self.get_coordinates()
+        if current_coordinate is None:
+            current_coordinate = self.get_coordinates()
 
         # get y coordinate
 
@@ -1130,13 +1088,70 @@ class BlueHorse(Piece):
 
         super().__init__("blue", "Horse", number, coordinates)
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_possible_moves(self):
+
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
         """
 
-        pass
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # get move up and northwest coordinates
+
+        up_coordinates = self.move_up_coordinates(1)
+        up_and_northwest_coordinates = self.move_north_west_coordinates(1, up_coordinates)
+        print("up_and_northwest_coordinates:", up_and_northwest_coordinates)
+
+        # get move up and northeast coordinates
+
+        up_and_northeast_coordinates = self.move_north_east_coordinates(1, up_coordinates)
+        print("up_and_northeast_coordinates:", up_and_northeast_coordinates)
+
+        # get move down and southwest coordinates
+
+        down_coordinates = self.move_down_coordinates(1)
+        down_and_southwest_coordinates = self.move_south_west_coordinates(1, down_coordinates)
+        print("down_and_southwest_coordinates:", down_and_southwest_coordinates)
+
+        # get move down and southeast coordinates
+
+        down_and_southeast_coordinates = self.move_south_east_coordinates(1, down_coordinates)
+        print("down_and_southeast_coordinates:", down_and_southeast_coordinates)
+
+        # get move left and southwest coordinates
+
+        left_coordinates = self.move_left_coordinates(1)
+        left_and_southwest_coordinates = self.move_south_west_coordinates(1, left_coordinates)
+        print("left_and_southwest_coordinates:", left_and_southwest_coordinates)
+
+        # get move left and northwest coordinates
+
+        left_and_northwest_coordinates = self.move_north_west_coordinates(1, left_coordinates)
+        print("left_and_northwest_coordinates:", left_and_northwest_coordinates)
+
+        # get move right and southeast coordinates
+
+        right_coordinates = self.move_right_coordinates(1)
+        right_and_southeast_coordinates = self.move_south_east_coordinates(1, right_coordinates)
+        print("right_and_southeast_coordinates:", right_and_southeast_coordinates)
+
+        # get move right and northeast coordinates
+
+        right_and_northeast_coordinates = self.move_north_east_coordinates(1, right_coordinates)
+        print("right_and_northeast_coordinates:", right_and_northeast_coordinates)
+
+        # add moves to possible moves list
+
+        possible_moves_list = [up_and_northwest_coordinates, up_and_northeast_coordinates,
+                               down_and_southwest_coordinates, down_and_southeast_coordinates,
+                               left_and_southwest_coordinates, left_and_northwest_coordinates,
+                               right_and_southeast_coordinates, right_and_northeast_coordinates]
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
 
 
 class RedHorse(Piece):
@@ -1152,13 +1167,70 @@ class RedHorse(Piece):
 
         super().__init__("red", "Horse", number, coordinates)
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_possible_moves(self):
+
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
         """
 
-        pass
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # get move up and northwest coordinates
+
+        up_coordinates = self.move_up_coordinates(1)
+        up_and_northwest_coordinates = self.move_north_west_coordinates(1, up_coordinates)
+        print("up_and_northwest_coordinates:", up_and_northwest_coordinates)
+
+        # get move up and northeast coordinates
+
+        up_and_northeast_coordinates = self.move_north_east_coordinates(1, up_coordinates)
+        print("up_and_northeast_coordinates:", up_and_northeast_coordinates)
+
+        # get move down and southwest coordinates
+
+        down_coordinates = self.move_down_coordinates(1)
+        down_and_southwest_coordinates = self.move_south_west_coordinates(1, down_coordinates)
+        print("down_and_southwest_coordinates:", down_and_southwest_coordinates)
+
+        # get move down and southeast coordinates
+
+        down_and_southeast_coordinates = self.move_south_east_coordinates(1, down_coordinates)
+        print("down_and_southeast_coordinates:", down_and_southeast_coordinates)
+
+        # get move left and southwest coordinates
+
+        left_coordinates = self.move_left_coordinates(1)
+        left_and_southwest_coordinates = self.move_south_west_coordinates(1, left_coordinates)
+        print("left_and_southwest_coordinates:", left_and_southwest_coordinates)
+
+        # get move left and northwest coordinates
+
+        left_and_northwest_coordinates = self.move_north_west_coordinates(1, left_coordinates)
+        print("left_and_northwest_coordinates:", left_and_northwest_coordinates)
+
+        # get move right and southeast coordinates
+
+        right_coordinates = self.move_right_coordinates(1)
+        right_and_southeast_coordinates = self.move_south_east_coordinates(1, right_coordinates)
+        print("right_and_southeast_coordinates:", right_and_southeast_coordinates)
+
+        # get move right and northeast coordinates
+
+        right_and_northeast_coordinates = self.move_north_east_coordinates(1, right_coordinates)
+        print("right_and_northeast_coordinates:", right_and_northeast_coordinates)
+
+        # add moves to possible moves list
+
+        possible_moves_list = [up_and_northwest_coordinates, up_and_northeast_coordinates,
+                               down_and_southwest_coordinates, down_and_southeast_coordinates,
+                               left_and_southwest_coordinates, left_and_northwest_coordinates,
+                               right_and_southeast_coordinates, right_and_northeast_coordinates]
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
 
 
 class BlueElephant(Piece):
@@ -1174,13 +1246,70 @@ class BlueElephant(Piece):
 
         super().__init__("blue", "Elephant", number, coordinates)
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_possible_moves(self):
+
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
         """
 
-        pass
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # get move up and northwest twice coordinates
+
+        up_coordinates = self.move_up_coordinates(1)
+        up_and_northwest_twice_coordinates = self.move_north_west_coordinates(2, up_coordinates)
+        print("up_and_northwest_twice_coordinates:", up_and_northwest_twice_coordinates)
+
+        # get move up and northeast twice coordinates
+
+        up_and_northeast_twice_coordinates = self.move_north_east_coordinates(2, up_coordinates)
+        print("up_and_northeast_twice_coordinates:", up_and_northeast_twice_coordinates)
+
+        # get move down and southwest twice coordinates
+
+        down_coordinates = self.move_down_coordinates(1)
+        down_and_southwest_twice_coordinates = self.move_south_west_coordinates(2, down_coordinates)
+        print("down_and_southwest_twice_coordinates:", down_and_southwest_twice_coordinates)
+
+        # get move down and southeast twice coordinates
+
+        down_and_southeast_twice_coordinates = self.move_south_east_coordinates(2, down_coordinates)
+        print("down_and_southeast_twice_coordinates:", down_and_southeast_twice_coordinates)
+
+        # get move left and southwest twice coordinates
+
+        left_coordinates = self.move_left_coordinates(1)
+        left_and_southwest_twice_coordinates = self.move_south_west_coordinates(2, left_coordinates)
+        print("left_and_southwest_twice_coordinates:", left_and_southwest_twice_coordinates)
+
+        # get move left and northwest twice coordinates
+
+        left_and_northwest_twice_coordinates = self.move_north_west_coordinates(2, left_coordinates)
+        print("left_and_northwest_twice_coordinates:", left_and_northwest_twice_coordinates)
+
+        # get move right and southeast twice coordinates
+
+        right_coordinates = self.move_right_coordinates(1)
+        right_and_southeast_twice_coordinates = self.move_south_east_coordinates(2, right_coordinates)
+        print("right_and_southeast_twice_coordinates:", right_and_southeast_twice_coordinates)
+
+        # get move right and northeast twice coordinates
+
+        right_and_northeast_twice_coordinates = self.move_north_east_coordinates(2, right_coordinates)
+        print("right_and_northeast_twice_coordinates:", right_and_northeast_twice_coordinates)
+
+        # add moves to possible moves list
+
+        possible_moves_list = [up_and_northwest_twice_coordinates, up_and_northeast_twice_coordinates,
+                               down_and_southwest_twice_coordinates, down_and_southeast_twice_coordinates,
+                               left_and_southwest_twice_coordinates, left_and_northwest_twice_coordinates,
+                               right_and_southeast_twice_coordinates, right_and_northeast_twice_coordinates]
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
 
 
 class RedElephant(Piece):
@@ -1196,13 +1325,70 @@ class RedElephant(Piece):
 
         super().__init__("red", "Elephant", number, coordinates)
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_possible_moves(self):
+
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
         """
 
-        pass
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # get move up and northwest twice coordinates
+
+        up_coordinates = self.move_up_coordinates(1)
+        up_and_northwest_twice_coordinates = self.move_north_west_coordinates(2, up_coordinates)
+        print("up_and_northwest_twice_coordinates:", up_and_northwest_twice_coordinates)
+
+        # get move up and northeast twice coordinates
+
+        up_and_northeast_twice_coordinates = self.move_north_east_coordinates(2, up_coordinates)
+        print("up_and_northeast_twice_coordinates:", up_and_northeast_twice_coordinates)
+
+        # get move down and southwest twice coordinates
+
+        down_coordinates = self.move_down_coordinates(1)
+        down_and_southwest_twice_coordinates = self.move_south_west_coordinates(2, down_coordinates)
+        print("down_and_southwest_twice_coordinates:", down_and_southwest_twice_coordinates)
+
+        # get move down and southeast twice coordinates
+
+        down_and_southeast_twice_coordinates = self.move_south_east_coordinates(2, down_coordinates)
+        print("down_and_southeast_twice_coordinates:", down_and_southeast_twice_coordinates)
+
+        # get move left and southwest twice coordinates
+
+        left_coordinates = self.move_left_coordinates(1)
+        left_and_southwest_twice_coordinates = self.move_south_west_coordinates(2, left_coordinates)
+        print("left_and_southwest_twice_coordinates:", left_and_southwest_twice_coordinates)
+
+        # get move left and northwest twice coordinates
+
+        left_and_northwest_twice_coordinates = self.move_north_west_coordinates(2, left_coordinates)
+        print("left_and_northwest_twice_coordinates:", left_and_northwest_twice_coordinates)
+
+        # get move right and southeast twice coordinates
+
+        right_coordinates = self.move_right_coordinates(1)
+        right_and_southeast_twice_coordinates = self.move_south_east_coordinates(2, right_coordinates)
+        print("right_and_southeast_twice_coordinates:", right_and_southeast_twice_coordinates)
+
+        # get move right and northeast twice coordinates
+
+        right_and_northeast_twice_coordinates = self.move_north_east_coordinates(2, right_coordinates)
+        print("right_and_northeast_twice_coordinates:", right_and_northeast_twice_coordinates)
+
+        # add moves to possible moves list
+
+        possible_moves_list = [up_and_northwest_twice_coordinates, up_and_northeast_twice_coordinates,
+                               down_and_southwest_twice_coordinates, down_and_southeast_twice_coordinates,
+                               left_and_southwest_twice_coordinates, left_and_northwest_twice_coordinates,
+                               right_and_southeast_twice_coordinates, right_and_northeast_twice_coordinates]
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
 
 
 class BlueChariot(Piece):
@@ -1586,6 +1772,33 @@ class JanggiGame:
         self._player2 = Player("red")
         self._current_player = "blue"
 
+        self._red_elephant1.set_coordinates("c2")
+        possible_moves = self._red_elephant1.get_possible_moves()
+        self.get_valid_moves(self._red_elephant1, possible_moves)
+
+        # self._blue_elephant1.set_coordinates("b9")
+        # possible_moves = self._blue_elephant1.get_possible_moves()
+        # self.get_valid_moves(self._blue_elephant1, possible_moves)
+
+        # self._blue_elephant2.set_coordinates("g9")
+        # possible_moves = self._blue_elephant2.get_possible_moves()
+        # self.get_valid_moves(self._blue_elephant2, possible_moves)
+
+        # self._red_guard2.set_coordinates("f2")
+        # possible_moves = self._red_elephant2.get_possible_moves()
+        # self.get_valid_moves(self._red_elephant2, possible_moves)
+
+        # possible_moves = self._red_elephant2.get_possible_moves()
+        # self._blue_soldier5.set_coordinates("f8")
+        # self._blue_cannon2.set_coordinates("h7")
+        # possible_moves = self._blue_elephant2.get_possible_moves()
+        # self.get_valid_moves(self._blue_elephant2, possible_moves)
+
+        # self._red_soldier2.set_coordinates("c2")
+        # possible_moves = self._red_horse1.get_possible_moves()
+        # self.get_valid_moves(self._red_horse1, possible_moves)
+        # self._blue_horse1.get_possible_moves()
+
         # self.make_move("f10", "f9")
         # self.make_move("f10", "e9")
         # self.make_move("f10", "g10")
@@ -1747,12 +1960,15 @@ class JanggiGame:
 
         return False
 
+    # @staticmethod
+    # def get_piece_from_coordinate(coordinate):
     def get_piece_from_coordinate(self, coordinate):
 
         """
         Returns the board piece at the coordinate in the parameter.
         """
 
+    # for piece in JanggiGame.self_alive_pieces_list:
         for piece in self._alive_pieces_list:
             if piece.get_coordinates() == coordinate:
             # if piece.get_coordinates() == current_coordinate:
@@ -1760,7 +1976,307 @@ class JanggiGame:
 
         # return "piece not found"
 
-    def coordinate_not_blocked_by_ally(self, piece, target_coordinate):
+    def horse_is_blocked(self, piece, target_coordinate):
+
+        """
+        Returns true if the horse's orthogonal movement is blocked, and False otherwise.
+        """
+
+        # get current coordinates
+
+        current_coordinates = piece.get_coordinates()
+
+        # if moving up
+
+        if int(current_coordinates[1:]) - int(target_coordinate[1:]) == 2:
+            print("current y:", current_coordinates[1:], "minus target y:", target_coordinate[1:], "= 2")
+
+            up_coordinate = piece.move_up_coordinates(1)
+            print("up_coordinate:", up_coordinate)
+
+            # if there's a piece at the up coordinate, then the move is blocked and return False
+
+            if self.get_piece_from_coordinate(up_coordinate) is not None:
+                print("There is a piece blocking", piece.get_name(), "initial move up coordinate:", up_coordinate)
+                return True
+
+        # if moving down
+
+        elif int(current_coordinates[1:]) - int(target_coordinate[1:]) == -2:
+            print("current y:", current_coordinates[1:], "minus than target y:", target_coordinate[1:], "= -2")
+
+            down_coordinate = piece.move_down_coordinates(1)
+            print("down_coordinate:", down_coordinate)
+
+            # if there's a piece at the down coordinate, then the move is blocked and return False
+
+            if self.get_piece_from_coordinate(down_coordinate) is not None:
+                print("There is a piece blocking", piece.get_name(), "initial move down coordinate:",
+                      down_coordinate)
+                return True
+
+        # if moving left
+
+        if ord(current_coordinates[0]) - ord(target_coordinate[0]) == 2:
+            print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                  ord(target_coordinate[0]), "= 2")
+
+            left_coordinate = piece.move_left_coordinates(1)
+            print("left_coordinate:", left_coordinate)
+
+            # if there's a piece at the left coordinate, then the move is blocked and return False
+
+            if self.get_piece_from_coordinate(left_coordinate) is not None:
+                print("There is a piece blocking", piece.get_name(), "initial move left coordinate:",
+                      left_coordinate)
+                return True
+
+        # if moving right
+
+        if ord(current_coordinates[0]) - ord(target_coordinate[0]) == -2:
+
+            print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+
+                  ord(target_coordinate[0]), "= -2")
+
+            right_coordinate = piece.move_right_coordinates(1)
+
+            print("right_coordinate:", right_coordinate)
+
+            # if there's a piece at the right coordinate, then the move is blocked and return False
+
+            if self.get_piece_from_coordinate(right_coordinate) is not None:
+                print("There is a piece blocking", piece.get_name(), "initial move right coordinate:",
+                      right_coordinate)
+                return True
+
+        # none of the horse's orthogonal movement is blocked, so return False
+
+        return False
+
+    def elephant_is_blocked(self, piece, target_coordinate):
+
+        """
+        Returns true if the elephant's orthogonal movement is blocked, and False otherwise.
+        """
+
+        # get current coordinates
+
+        current_coordinates = piece.get_coordinates()
+
+        # if moving up
+
+        if int(current_coordinates[1:]) - int(target_coordinate[1:]) == 3:
+            print("current y:", current_coordinates[1:], "minus target y:", target_coordinate[1:], "= 3")
+
+            up_coordinate = piece.move_up_coordinates(1)
+            print("up_coordinate:", up_coordinate)
+
+            # if there's a piece at the up coordinate, then the move is blocked and return True
+
+            if self.get_piece_from_coordinate(up_coordinate) is not None:
+                print("There is a piece blocking", piece.get_name(), "initial move up coordinate:", up_coordinate)
+                return True
+
+            # if there isn't a piece at the up coordinate
+
+            elif self.get_piece_from_coordinate(up_coordinate) is None:
+                print("There is no blocking piece at the initial up coordinate:", up_coordinate, "now checking first "
+                                                                                                "diagonal")
+
+                # check up and northwest coordinate
+
+                if ord(current_coordinates[0]) - ord(target_coordinate[0]) == 2:
+                    print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                          ord(target_coordinate[0]), "= 2")
+
+                    up_and_northwest_coordinate = piece.move_north_west_coordinates(1, up_coordinate)
+
+                    # if there's a piece at the up and northwest coordinate, then the move is blocked and return True
+
+                    if self.get_piece_from_coordinate(up_and_northwest_coordinate) is not None:
+                        print("There is a piece blocking", piece.get_name(), "secondary up and northwest coordinate:",
+                              up_and_northwest_coordinate)
+                        return True
+
+                # check up and northeast coordinate
+
+                if ord(current_coordinates[0]) - ord(target_coordinate[0]) == -2:
+                    print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                          ord(target_coordinate[0]), "= -2")
+
+                    up_and_northeast_coordinate = piece.move_north_east_coordinates(1, up_coordinate)
+
+                    # if there's a piece at the up and northeast coordinate, then the move is blocked and return True
+
+                    if self.get_piece_from_coordinate(up_and_northeast_coordinate) is not None:
+                        print("There is a piece blocking", piece.get_name(), "secondary up and northeast coordinate:",
+                              up_and_northeast_coordinate)
+                        return True
+
+        # if moving down
+
+        elif int(current_coordinates[1:]) - int(target_coordinate[1:]) == -3:
+            print("current y:", current_coordinates[1:], "minus than target y:", target_coordinate[1:], "= -3")
+
+            down_coordinate = piece.move_down_coordinates(1)
+            print("down_coordinate:", down_coordinate)
+
+            # if there's a piece at the down coordinate, then the move is blocked and return False
+
+            if self.get_piece_from_coordinate(down_coordinate) is not None:
+                print("There is a piece blocking", piece.get_name(), "initial move down coordinate:",
+                      down_coordinate)
+                return True
+
+            # if there isn't a piece at the down coordinate
+
+            elif self.get_piece_from_coordinate(down_coordinate) is None:
+                print("There is no blocking piece at the initial down coordinate:", down_coordinate, "now checking first"
+                                                                                                     "diagonal")
+
+                # check down and southwest coordinate
+
+                if ord(current_coordinates[0]) - ord(target_coordinate[0]) == 2:
+                    print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                          ord(target_coordinate[0]), "= 2")
+
+                    down_and_southwest_coordinate = piece.move_south_west_coordinates(1, down_coordinate)
+
+                    # if there's a piece at the down and southwest coordinate, then the move is blocked and return True
+
+                    if self.get_piece_from_coordinate(down_and_southwest_coordinate) is not None:
+                        print("There is a piece blocking", piece.get_name(), "secondary down and southwest coordinate:",
+                              down_and_southwest_coordinate)
+                        return True
+
+                # check down and southeast coordinate
+
+                if ord(current_coordinates[0]) - ord(target_coordinate[0]) == -2:
+                    print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                          ord(target_coordinate[0]), "= -2")
+
+                    down_and_southeast_coordinate = piece.move_south_east_coordinates(1, down_coordinate)
+
+                    # if there's a piece at the down and southeast coordinate, then the move is blocked and return True
+
+                    if self.get_piece_from_coordinate(down_and_southeast_coordinate) is not None:
+                        print("There is a piece blocking", piece.get_name(), "secondary down and southeast coordinate:",
+                              down_and_southeast_coordinate)
+                        return True
+
+        # if moving left
+
+        if ord(current_coordinates[0]) - ord(target_coordinate[0]) == 3:
+            print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                  ord(target_coordinate[0]), "= 3")
+
+            left_coordinate = piece.move_left_coordinates(1)
+            print("left_coordinate:", left_coordinate)
+
+            # if there's a piece at the left coordinate, then the move is blocked and return False
+
+            if self.get_piece_from_coordinate(left_coordinate) is not None:
+                print("There is a piece blocking", piece.get_name(), "initial move left coordinate:",
+                      left_coordinate)
+                return True
+
+            # if there isn't a piece at the left coordinate
+
+            elif self.get_piece_from_coordinate(left_coordinate) is None:
+                print("There is no blocking piece at the initial left coordinate:", left_coordinate, "now checking first"
+                                                                                                     " diagonal")
+
+                # check left and southwest coordinate
+
+                if int(current_coordinates[1:]) - int(target_coordinate[1:]) == -2:
+                    print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                          ord(target_coordinate[0]), "= -2")
+
+                    left_and_southwest_coordinate = piece.move_south_west_coordinates(1, left_coordinate)
+
+                    # if there's a piece at the left and southwest coordinate, then the move is blocked and return True
+
+                    if self.get_piece_from_coordinate(left_and_southwest_coordinate) is not None:
+                        print("There is a piece blocking", piece.get_name(), "secondary left and southwest coordinate:",
+                              left_and_southwest_coordinate)
+                        return True
+
+                # check left and northwest coordinate
+
+                if int(current_coordinates[1:]) - int(target_coordinate[1:]) == 2:
+                    print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                          ord(target_coordinate[0]), "= 2")
+
+                    left_and_northwest_coordinate = piece.move_north_west_coordinates(1, left_coordinate)
+
+                    # if there's a piece at the left and northwest coordinate, then the move is blocked and return True
+
+                    if self.get_piece_from_coordinate(left_and_northwest_coordinate) is not None:
+                        print("There is a piece blocking", piece.get_name(), "secondary left and northwest coordinate:",
+                              left_and_northwest_coordinate)
+                        return True
+
+        # if moving right
+
+        if ord(current_coordinates[0]) - ord(target_coordinate[0]) == -3:
+
+            print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+
+                  ord(target_coordinate[0]), "= -3")
+
+            right_coordinate = piece.move_right_coordinates(1)
+
+            print("right_coordinate:", right_coordinate)
+
+            # if there's a piece at the right coordinate, then the move is blocked and return False
+
+            if self.get_piece_from_coordinate(right_coordinate) is not None:
+                print("There is a piece blocking", piece.get_name(), "initial move right coordinate:",
+                      right_coordinate)
+                return True
+
+            # if there isn't a piece at the right coordinate
+
+            elif self.get_piece_from_coordinate(right_coordinate) is None:
+                print("There is no blocking piece at the initial right coordinate:", right_coordinate, "now checking "
+                                                                                                       "first diagonal")
+
+                # check right and southeast coordinate
+
+                if int(current_coordinates[1:]) - int(target_coordinate[1:]) == -2:
+                    print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                          ord(target_coordinate[0]), "= -2")
+
+                    right_and_southeast_coordinate = piece.move_south_east_coordinates(1, right_coordinate)
+
+                    # if there's a piece at the right and southeast coordinate, then the move is blocked and return True
+
+                    if self.get_piece_from_coordinate(right_and_southeast_coordinate) is not None:
+                        print("There is a piece blocking", piece.get_name(), "secondary right and southeast coordinate:"
+                              , right_and_southeast_coordinate)
+                        return True
+
+                # check right and northeast coordinate
+
+                if int(current_coordinates[1:]) - int(target_coordinate[1:]) == 2:
+                    print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+                          ord(target_coordinate[0]), "= 2")
+
+                    right_and_northeast_coordinate = piece.move_north_east_coordinates(1, right_coordinate)
+
+                    # if there's a piece at the right and northeast coordinate, then the move is blocked and return True
+
+                    if self.get_piece_from_coordinate(right_and_northeast_coordinate) is not None:
+                        print("There is a piece blocking", piece.get_name(), "secondary right and northeast coordinate:"
+                              , right_and_northeast_coordinate)
+                        return True
+
+        # none of the horse's orthogonal movement is blocked, so return False
+
+        return False
+
+    def coordinate_not_blocked(self, piece, target_coordinate):
 
         """
         If the target coordinate in the parameter is not blocked by an ally of the piece in the parameter, then return
@@ -1777,17 +2293,101 @@ class JanggiGame:
         piece_at_target = self.get_piece_from_coordinate(target_coordinate)
         # print("piece at target:", piece_at_target)
 
+        # if piece is a horse
+
+        if piece.get_type() == "Horse":
+            print("piece type is:", piece.get_type())
+
+            if self.horse_is_blocked(piece, target_coordinate):
+                return False
+
+        if piece.get_type() == "Elephant":
+            print("piece type is:", piece.get_type())
+
+            if self.elephant_is_blocked(piece, target_coordinate):
+                return False
+
+            # # get current coordinates
+            #
+            # current_coordinates = piece.get_coordinates()
+            #
+            # # if moving up
+            #
+            # if int(current_coordinates[1:]) - int(target_coordinate[1:]) == 2:
+            #     print("current y:", current_coordinates[1:], "minus target y:", target_coordinate[1:], "= 2")
+            #
+            #     up_coordinate = piece.move_up_coordinates(1)
+            #     print("up_coordinate:", up_coordinate)
+            #
+            #     # if there's a piece at the up coordinate, then the move is blocked and return False
+            #
+            #     if self.get_piece_from_coordinate(up_coordinate) is not None:
+            #         print("There is a piece blocking the initial move up coordinate:", up_coordinate)
+            #         return False
+            #
+            # # if moving down
+            #
+            # elif int(current_coordinates[1:]) - int(target_coordinate[1:]) == -2:
+            #     print("current y:", current_coordinates[1:], "minus than target y:", target_coordinate[1:], "= -2")
+            #
+            #     down_coordinate = piece.move_down_coordinates(1)
+            #     print("down_coordinate:", down_coordinate)
+            #
+            #     # if there's a piece at the down coordinate, then the move is blocked and return False
+            #
+            #     if self.get_piece_from_coordinate(down_coordinate) is not None:
+            #         print("There is a piece blocking the initial move down coordinate:", down_coordinate)
+            #         return False
+            #
+            # # if moving left
+            #
+            # if ord(current_coordinates[0]) - ord(target_coordinate[0]) == 2:
+            #     print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+            #           ord(target_coordinate[0]), "= 2")
+            #
+            #     left_coordinate = piece.move_left_coordinates(1)
+            #     print("left_coordinate:", left_coordinate)
+            #
+            #     # if there's a piece at the left coordinate, then the move is blocked and return False
+            #
+            #     if self.get_piece_from_coordinate(left_coordinate) is not None:
+            #         print("There is a piece blocking the initial move left coordinate:", left_coordinate)
+            #         return False
+            #
+            # # if moving right
+            #
+            # if ord(current_coordinates[0]) - ord(target_coordinate[0]) == -2:
+            #
+            #     print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+            #
+            #           ord(target_coordinate[0]), "= -2")
+            #
+            #     right_coordinate = piece.move_right_coordinates(1)
+            #
+            #     print("right_coordinate:", right_coordinate)
+            #
+            #     # if there's a piece at the right coordinate, then the move is blocked and return False
+            #
+            #     if self.get_piece_from_coordinate(right_coordinate) is not None:
+            #         print("There is a piece blocking the initial move right coordinate:", right_coordinate)
+            #
+            #         return False
+
         # if there is a piece at the target coordinate
 
         if piece_at_target is not None:
+            print("there is a piece:", piece_at_target, "at target coordinate")
 
             # if the piece at the target coordinate's color equals the current pieces color
             if piece_at_target.get_color() == color:
+                print("the piece at the target coordinate has the same color as the current piece, move blocked by "
+                      "ally")
 
                 # return False that the target coordinate not blocked by an ally
                 return False
 
         # If there is no piece at the target coordinate, or if the piece is an enemy piece, then return True
+        print("There is no piece at the target coordinate, or the piece belongs to the enemy")
         return True
 
     def get_valid_moves(self, piece, possible_moves_list):
@@ -1803,7 +2403,7 @@ class JanggiGame:
 
         for coordinate in possible_moves_list:
             if self.coordinate_is_on_board(coordinate):
-                if self.coordinate_not_blocked_by_ally(piece, coordinate):
+                if self.coordinate_not_blocked(piece, coordinate):
                     valid_moves_list.append(coordinate)
 
         print("valid moves list:", valid_moves_list)
@@ -2374,4 +2974,109 @@ game = JanggiGame()
 # have to call list on strings because strings can already be accessed as a list lol. Alright, so it looks like the
 # guard movements are updated, let's go back and make sure our soldier moves are correct though after the changes.
 
-# Ok, let's code horse and elephants, then chariots and cannons.
+# Ok, let's code horse and elephants, then chariots and cannons. Alright, what is the movement of the horse? Horses move
+# one spot othogonally and 1 diagonally, but if the orthogonal move is blocked the whole move is blocked. Blocked by
+# allies and opponents or just opponents? From some of the diagrams online, it seems like both the ally pieces and the
+# enemy pieces can blocked your movement, which should be pretty easy to code? So... the movement looks like this... in
+# an up move, we can move one spot up (but make sure that spot isn't occupied, or it's blocked), then if it's not
+# blocked, we can move it in 2 diagonal directions, northeast and northwest if moving up. Alright, so we want to do the
+# up and northwest move, but how do we check if the spot is occupied? The retrieval of the piece on the board is from
+# the game class, so how would we check if the target coordinate has a piece? Currently we check with the "get piece
+# from coordinate" function, which is in the game class. Why don't we check after the fact? Can we do that? Can we pass
+# the possible moves into a function that can check for these blocks? Hmmm our current "coordiante not blocked by ally"
+# function only checks if there is an ally there. I mean we can write another function, but then we'd have to use
+# different checks depending on if we're checking if the move is blocked by an ally or any piece. Ideally we want to get
+# the possible moves from the piece class itself. Wow, our brain is not really functioning right now, not good. We're
+# gonna have to slog through this.
+
+# Let's take a look at the horse in the gameboard and maybe see if we can't come up with anything. Ideally we want to
+# weed out the blocked moves before possible moves, but how do we check the board without access to the game class? It
+# says its prefereable to use a module, or we can make it a static method with "@staticmethod", so I guess we'll do that
+# even though it isn't preferred. Lol, we can't access self._active_pieces_list with the static method. I think we're
+# gonnna have to rewrite our target coordinate is blocked function to account for multiple blocks. Before we do this, we
+# need to see what the other moves do to consider how we want to set the parameters; how many blocks are possible.
+# Alright, so horse and elephants have the same blocking restriction, at the initial orthogonal move. Chariots can move
+# as many places horizontally or vertically as they want (also diagonally inside palace), but they can't jump over a
+# piece, so.. they are blocked by allies, but not by the enemy. If the enemy is on that block, they can take the enemy.
+# If the enemy is blocking the target coordinate, then the enemy blocks that move. Cannons move like chariots, but they
+# need to jump a piece to move.
+
+# Alright, back to horses. So, since the blocking is handled in the game class method, we won't be dealing with it right
+# now, but we do need to determine all the possible moves the horse can make. Right now, our move up coordinate function
+# returns a coordiante, then our move diagonal function returns a coordinate, and both don't take parameters, which is
+# not good for coding the horse's movement. What we want is to get the move up coordinate, then use that coordinate as
+# a parameter in the move diagonal coordinate function, so we have a final horse coordinate that is one orthogonal and
+# one diagonal movement from its current coordinate. I think in order to do this, we need to have the move coordinates
+# optionally take a parameter, at least the diagonal movements need an optional parameter. We can do something like
+# setting a current coordinate to None, and then putting in if statement that if the current coordinate is None, then
+# the current coordinate is piece.get_current_coordinate(), so that we can set the current coordinate equal to the move
+# up coordinate. After we get the horse coordinates like this, we'll have to put extra parameters and if statements in
+# the "coordinate is blocked" function to check for the 2 points where the horse can be blocked (at the orthogonal move
+# and at its final spot) and to put in if statements to check what piece we are dealing with, and to hardcode the blocks
+# for the piece, those pieces being horse, elephant, chariot, and cannons.
+
+# Alright, let's first update the up and diagonal movements in the piece super class. Alright, now let's try to get the
+# blue horse's "up_and_northwest coordinate". Ok, so the blue horse possible moves list looks fine, then we updated the
+# red and see that it's possible mvoes include b-1, which is "b" "negative" "1", which is actually correct accoring to
+# our movements. This isn't necessarily a problem, as this is not a valid coordinate and should be weeded out when we
+# run get valid moves. Now let's update the coordinate is blocked function to account for the 2 spots where the horse
+# can be blocked. How do we determine the secondary coordinate, considering there are 4 possible secondary coordinates
+# that the horse can be blocked at? Well, in pseudocode, we want to check if the horse is moving up, and if so, then
+# check the up coordinate, if down, down coordinate, etc. and set this coordinate as the secondary coordiante to check
+# for blocks. Can we subtract the target coordinate from the current coordinate to determine which way the movement is?
+# For example, if the horse tries to move up, then the y coordinate of the current coordinate is greater than the y
+# coordinate of the target coordinate, if moving down, then the y coordinate of the current coordinate is less than the
+# y coordinate of the target coordinate. Let's code these for now. Alright, now let's test these before we move on to
+# the right and left coordinates. Ok, if we're testing the current red and blue horse up and down movements, there will
+# be no blocking of the up and down movements, bc neither have their up or down movement blocked. We test this later by
+# moving a unit into a up or down spot, or for now, make sure the valid moves are correct. Lol, we see that a2 is not
+# a valid coordinate, so we're trying to figure it out, but... we haven't coded the left and right checks yet, which is
+# where a2 is from, THAT'S why it's showing up lol. Alright, let's move something below the red horse so we can block it
+# and actually test the code. Yeah, ok, this code IS working. Actually, the valid moves list is missing "a2" now, which
+# is weird, why is that? We just blocked the down coordinate... oh.. it thinks a2 is a down movement, since the current
+# coordinate is less than the target coordinate... We have to be even more specific. Alright, let's note all the
+# differences. Actually, it's not greater than or less than, it's if the difference is 2... that's a move up or move
+# down. Ok, so what about left and right movements? The x coordinate increases by 2 letters on a right movement, and
+# decrease by 2 letters on a left movement, but I'm not sure we can do this with letters; it was a lot to add and
+# subtract numbers. Actually, we can compare letters with the "chr" function, which seems to give the letter in its
+# ASCII numerical form. Actually, that's "ord". "Chr" gives us the letter form.
+
+# Alright, I think we've managed to code the blue and red horse movements, and update the coordinate is blocked function
+# to check for blocks on the horses, now we need to do the elephants, chariots, and cannons. I think the elephant is
+# almost exactly like the horse, but just 1 more diagonal movement. Consider changing the horse checks (and the further
+# piece checks) into their functions and we can just call boolean functions on them, such as a "horse not blocked"
+# function. Ok, I think we converted the horse not blocked function successfully, let's test a couple of things before
+# moving on. I think that is good. We just copy pasted the code and changed around some True False values to match the
+# boolean values. Let's do the elephant code now, using the horse code as a template. Ok, before we do the elephant is
+# blocked function, we need to code the elephant's movement first.
+
+# Let's code the elephant's movement, which is very similar to the horse, then update the elephant is blocked function.
+# Alright, so the elepahnt moves one spot orthogonally and 2 spots diagonally, so it actually has an additional spot
+# to check for blockage, during the first diagonal movement. Let's copy in our horse code and go from there. Alright, I
+# think we got the elephant movement in there, but this is gonna be tricky, the elephant is blocked function. Because we
+# have to deduce a move before the target coordinate to check for blockage, since elephants have 3 spots for blocking.
+# Actually, we have about half of the elephant is blocked code done, because the orthogonal movement is the same as the
+# horses. However, we need to branch out from the horse and get the orthogonal movement as well. Do we check every
+# diagonal to see if there is a blockage. No, we have to determine which way the elephant is going. So, we've split it
+# into up, down, left, and right, but within the up movement, we need to figure out if its going northeast or northwest,
+# because we don't want to check a diagonal spot where the elephant isn't moving to, that would give us the wrong
+# results. Wait a minute, how we do know that the elephant is even moving up? For the horse, it was a difference of 2
+# y values, but for the elephant, don't we need to change that value to 3? Yes, first we need to change all the values
+# to 3 instead of 2. Alright, that was an easy change because our code is modular. Now, how do we know if it's going
+# northwest or northwest when going up, from the current coordinates and target coordinates? Well, we have to check
+# the x coordinate of the current and target coordinates. Moving northwest means that the target coordinate's x value
+# is 2 less than the current coordinate, so if we subtract the target coordinate from the current coordinate, that's a
+# value of positive 2. Similarly, if we are going northeast, then the target coordinate's x value is 2 more than the
+# current coordinate, so if we subtract the target coordinate from the current coordinate, we'd get a negative 2. So,
+# let's put that into code.
+
+# Alright, so we've code a check for the up movements and the up and northwest and up and northeast movements, now let's
+# test this. How do want to do that? Lol, we haven't put the elephant is blocked code into the coordinate is blocked
+# code function... lol. The tests for up were pretty complicated, but I think everything worked. Let's translate it to
+# down, then do left and right. Alright, so down works, now we need to do left and right. We should save these for
+# tomorrow I think, or try to do them now? I really hate stopping halfway, let's see if we can do this. Alright, the
+# left looks right, now let's copy it and do the right one. Alright, that looks good, I think everything tested fine
+# and it didn't take that long to add the left and right movements since they a lot of similar elements to the up and
+# down movements.
+
+# We need to code the chariot and cannon movements, then is in check function and the checkmate function.
