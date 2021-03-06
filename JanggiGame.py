@@ -1397,21 +1397,231 @@ class BlueChariot(Piece):
     Represents a blue chariot piece. Responsibilities and communications are exactly like that of the Piece superclass.
     """
 
+    # def __init__(self, number, coordinates, move_up_list=None, move_down_list=None, move_right_list=None,
+    #              move_left_list=None):
     def __init__(self, number, coordinates):
         """
         Initializes a chariot piece with a blue color, chariot type, number and coordinates.
         """
 
         super().__init__("blue", "Chariot", number, coordinates)
+        self._move_up_list = []
+        self._move_down_list = []
+        self._move_right_list = []
+        self._move_left_list = []
+        self._d3_d10_palace_move_list = []
+        self._f3_f10_palace_move_list = []
+        self._e2_e9_palace_move_list = []
+        self._d1_d8_palace_move_list = []
+        self._f1_f8_palace_move_list = []
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_possible_moves(self):
+
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
         """
 
-        pass
+        # get current coordinates
 
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # create possible moves list
+
+        possible_moves_list = [current_coordinate]
+
+        # define boundaries
+
+        top_boundary = 1
+        bottom_boundary = 10
+        left_boundary = ord("a")
+        right_boundary = ord("i")
+
+        # calculate number of spaces from boundaries
+
+        up_spaces = int(current_coordinate[1:])-top_boundary
+        down_spaces = abs(int(current_coordinate[1:])-bottom_boundary)
+        right_spaces = abs(ord(current_coordinate[0])-right_boundary)
+        left_spaces = ord(current_coordinate[0]) - left_boundary
+        print("up_spaces:", up_spaces, "down_spaces:", down_spaces, "right_spaces:", right_spaces, "left_spaces:",
+              left_spaces)
+
+        # get move up coordinates
+
+        for move_value in range(1, up_spaces+1):
+            up_coordinates = self.move_up_coordinates(move_value)
+            print("up_coordinates:", up_coordinates)
+            self._move_up_list.append(up_coordinates)
+            possible_moves_list.append(up_coordinates)
+
+        # get move left coordinates
+
+        for move_value in range(1, left_spaces+1):
+            left_coordinates = self.move_left_coordinates(move_value)
+            print("left_coordinates:", left_coordinates)
+            self._move_left_list.append(left_coordinates)
+            possible_moves_list.append(left_coordinates)
+
+        # get move right coordinates
+
+        for move_value in range(1, right_spaces+1):
+            right_coordinates = self.move_right_coordinates(move_value)
+            print("right_coordinates:", right_coordinates)
+            self._move_right_list.append(right_coordinates)
+            possible_moves_list.append(right_coordinates)
+
+        # get move down coordinates
+
+        for move_value in range(1, down_spaces+1):
+            down_coordinates = self.move_down_coordinates(move_value)
+            print("down_coordinates:", down_coordinates)
+            self._move_down_list.append(down_coordinates)
+            possible_moves_list.append(down_coordinates)
+
+        # add more moves to possible moves list if chariot is inside the palace (at these coordinates: d10, f10, e9, d8,
+        # f8, d3, f3, e2, d1, f1)
+
+        # if at d3, can move northeast one or two spaces
+
+        if current_coordinate == "d3" or current_coordinate == "d10":
+
+            northeast_coordinates1 = self.move_north_east_coordinates(1)
+            possible_moves_list.append(northeast_coordinates1)
+            northeast_coordinates2 = self.move_north_east_coordinates(2)
+            possible_moves_list.append(northeast_coordinates2)
+            self._d3_d10_palace_move_list = [northeast_coordinates1, northeast_coordinates2]
+
+        # if at f3, can move northwest one or two spaces
+
+        if current_coordinate == "f3" or current_coordinate == "f10":
+
+            northwest_coordinates1 = self.move_north_west_coordinates(1)
+            possible_moves_list.append(northwest_coordinates1)
+            northwest_coordinates2 = self.move_north_west_coordinates(2)
+            possible_moves_list.append(northwest_coordinates2)
+            self._f3_f10_palace_move_list = [northwest_coordinates1, northwest_coordinates2]
+
+        # if at e2, can move northeast, northwest, southeast, or southwest
+
+        if current_coordinate == "e2" or current_coordinate == "e9":
+
+            # add northeast coordinates to possible moves list
+
+            northeast_coordinates = self.move_north_east_coordinates(1)
+            possible_moves_list.append(northeast_coordinates)
+
+            # add northwest coordinates to possible moves list
+
+            northwest_coordinates = self.move_north_west_coordinates(1)
+            possible_moves_list.append(northwest_coordinates)
+
+            # add southeast coordinates to possible moves list
+
+            southeast_coordinates = self.move_south_east_coordinates(1)
+            possible_moves_list.append(southeast_coordinates)
+
+            # add southwest coordinates to possible moves list
+
+            southwest_coordinates = self.move_south_west_coordinates(1)
+            possible_moves_list.append(southwest_coordinates)
+
+            self._e2_e9_palace_move_list = [northeast_coordinates, northwest_coordinates, southeast_coordinates,
+                                            southwest_coordinates]
+
+        # if at d1, can move southeast one or two spaces
+
+        if current_coordinate == "d1" or current_coordinate == "d8":
+
+            southeast_coordinates1 = self.move_south_east_coordinates(1)
+            possible_moves_list.append(southeast_coordinates1)
+            southeast_coordinates2 = self.move_south_east_coordinates(2)
+            possible_moves_list.append(southeast_coordinates2)
+            self._d1_d8_palace_move_list = [southeast_coordinates1, southeast_coordinates2]
+
+        # if at f1, can move southwest one or two spaces
+
+        if current_coordinate == "f1" or current_coordinate == "f8":
+
+            southwest_coordinates1 = self.move_south_west_coordinates(1)
+            possible_moves_list.append(southwest_coordinates1)
+            southwest_coordinates2 = self.move_south_west_coordinates(2)
+            possible_moves_list.append(southwest_coordinates2)
+            self._f1_f8_palace_move_list = [southwest_coordinates1, southwest_coordinates2]
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
+
+    def get_move_up_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._move_up_list
+
+    def get_move_down_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._move_down_list
+
+    def get_move_right_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._move_right_list
+
+    def get_move_left_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._move_left_list
+
+    def get_d3_d10_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._d3_d10_palace_move_list
+
+    def get_f3_f10_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._f3_f10_palace_move_list
+
+    def get_e2_e9_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._e2_e9_palace_move_list
+
+    def get_d1_d8_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._d1_d8_palace_move_list
+
+    def get_f1_f8_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._f1_f8_palace_move_list
 
 class RedChariot(Piece):
 
@@ -1425,14 +1635,223 @@ class RedChariot(Piece):
         """
 
         super().__init__("red", "Chariot", number, coordinates)
+        self._move_up_list = []
+        self._move_down_list = []
+        self._move_right_list = []
+        self._move_left_list = []
+        self._d3_d10_palace_move_list = []
+        self._f3_f10_palace_move_list = []
+        self._e2_e9_palace_move_list = []
+        self._d1_d8_palace_move_list = []
+        self._f1_f8_palace_move_list = []
 
-    def check_move(self, current_coordinate, target_coordinate):
+    def get_move_up_list(self):
+
         """
-        Checks the piece's possible moves from the current_coordinate and makes sure that the target_coordinate is a
-        legal move.
+        Returns the move up list.
         """
 
-        pass
+        return self._move_up_list
+
+    def get_move_down_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._move_down_list
+
+    def get_move_right_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._move_right_list
+
+    def get_move_left_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._move_left_list
+
+    def get_d3_d10_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._d3_d10_palace_move_list
+
+    def get_f3_f10_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._f3_f10_palace_move_list
+
+    def get_e2_e9_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._e2_e9_palace_move_list
+
+    def get_d1_d8_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._d1_d8_palace_move_list
+
+    def get_f1_f8_palace_move_list(self):
+
+        """
+        Returns the move up list.
+        """
+
+        return self._f1_f8_palace_move_list
+
+    def get_possible_moves(self):
+
+        """
+        Gets the piece's possible moves from its current_coordinate and returns a list of its possible moves.
+        """
+
+        # get current coordinates
+
+        current_coordinate = self.get_coordinates()
+        print("current coordinate:", current_coordinate)
+
+        # create possible moves list
+
+        possible_moves_list = [current_coordinate]
+
+        # define boundaries
+
+        top_boundary = 1
+        bottom_boundary = 10
+        left_boundary = ord("a")
+        right_boundary = ord("i")
+
+        # calculate number of spaces from boundaries
+
+        up_spaces = int(current_coordinate[1:])-top_boundary
+        down_spaces = abs(int(current_coordinate[1:])-bottom_boundary)
+        right_spaces = abs(ord(current_coordinate[0])-right_boundary)
+        left_spaces = ord(current_coordinate[0]) - left_boundary
+        print("up_spaces:", up_spaces, "down_spaces:", down_spaces, "right_spaces:", right_spaces, "left_spaces:",
+              left_spaces)
+
+        # get move up coordinates
+
+        for move_value in range(1, up_spaces+1):
+            up_coordinates = self.move_up_coordinates(move_value)
+            print("up_coordinates:", up_coordinates)
+            self._move_up_list.append(up_coordinates)
+            possible_moves_list.append(up_coordinates)
+
+        # get move left coordinates
+
+        for move_value in range(1, left_spaces+1):
+            left_coordinates = self.move_left_coordinates(move_value)
+            print("left_coordinates:", left_coordinates)
+            self._move_left_list.append(left_coordinates)
+            possible_moves_list.append(left_coordinates)
+
+        # get move right coordinates
+
+        for move_value in range(1, right_spaces+1):
+            right_coordinates = self.move_right_coordinates(move_value)
+            print("right_coordinates:", right_coordinates)
+            self._move_right_list.append(right_coordinates)
+            possible_moves_list.append(right_coordinates)
+
+        # get move down coordinates
+
+        for move_value in range(1, down_spaces+1):
+            down_coordinates = self.move_down_coordinates(move_value)
+            print("down_coordinates:", down_coordinates)
+            self._move_down_list.append(down_coordinates)
+            possible_moves_list.append(down_coordinates)
+
+        # add more moves to possible moves list if chariot is inside the palace (at these coordinates: d10, f10, e9, d8,
+        # f8, d3, f3, e2, d1, f1)
+
+        # if at d3, can move northeast one or two spaces
+
+        if current_coordinate == "d3" or current_coordinate == "d10":
+
+            northeast_coordinates1 = self.move_north_east_coordinates(1)
+            possible_moves_list.append(northeast_coordinates1)
+            northeast_coordinates2 = self.move_north_east_coordinates(2)
+            possible_moves_list.append(northeast_coordinates2)
+            self._d3_d10_palace_move_list = [northeast_coordinates1, northeast_coordinates2]
+
+        # if at f3, can move northwest one or two spaces
+
+        if current_coordinate == "f3" or current_coordinate == "f10":
+
+            northwest_coordinates1 = self.move_north_west_coordinates(1)
+            possible_moves_list.append(northwest_coordinates1)
+            northwest_coordinates2 = self.move_north_west_coordinates(2)
+            possible_moves_list.append(northwest_coordinates2)
+            self._f3_f10_palace_move_list = [northwest_coordinates1, northwest_coordinates2]
+
+        # if at e2, can move northeast, northwest, southeast, or southwest
+
+        if current_coordinate == "e2" or current_coordinate == "e9":
+
+            # add northeast coordinates to possible moves list
+
+            northeast_coordinates = self.move_north_east_coordinates(1)
+            possible_moves_list.append(northeast_coordinates)
+
+            # add northwest coordinates to possible moves list
+
+            northwest_coordinates = self.move_north_west_coordinates(1)
+            possible_moves_list.append(northwest_coordinates)
+
+            # add southeast coordinates to possible moves list
+
+            southeast_coordinates = self.move_south_east_coordinates(1)
+            possible_moves_list.append(southeast_coordinates)
+
+            # add southwest coordinates to possible moves list
+
+            southwest_coordinates = self.move_south_west_coordinates(1)
+            possible_moves_list.append(southwest_coordinates)
+
+            self._e2_e9_palace_move_list = [northeast_coordinates, northwest_coordinates, southeast_coordinates,
+                                            southwest_coordinates]
+
+        # if at d1, can move southeast one or two spaces
+
+        if current_coordinate == "d1" or current_coordinate == "d8":
+
+            southeast_coordinates1 = self.move_south_east_coordinates(1)
+            possible_moves_list.append(southeast_coordinates1)
+            southeast_coordinates2 = self.move_south_east_coordinates(2)
+            possible_moves_list.append(southeast_coordinates2)
+            self._d1_d8_palace_move_list = [southeast_coordinates1, southeast_coordinates2]
+
+        # if at f1, can move southwest one or two spaces
+
+        if current_coordinate == "f1" or current_coordinate == "f8":
+
+            southwest_coordinates1 = self.move_south_west_coordinates(1)
+            possible_moves_list.append(southwest_coordinates1)
+            southwest_coordinates2 = self.move_south_west_coordinates(2)
+            possible_moves_list.append(southwest_coordinates2)
+            self._f1_f8_palace_move_list = [southwest_coordinates1, southwest_coordinates2]
+
+        print("possible moves list:", possible_moves_list)
+        return possible_moves_list
 
 
 class BlueCannon(Piece):
@@ -1772,9 +2191,92 @@ class JanggiGame:
         self._player2 = Player("red")
         self._current_player = "blue"
 
-        self._red_elephant1.set_coordinates("c2")
-        possible_moves = self._red_elephant1.get_possible_moves()
-        self.get_valid_moves(self._red_elephant1, possible_moves)
+        # self._current_player = "red"
+        # self.make_move("a1", "a2")
+        # self._current_player = "red"
+        # self.make_move("a1", "a3")
+        # self._current_player = "red"
+        # self.make_move("a1", "a4")
+        # self._current_player = "red"
+        # self.make_move("a1", "a5")
+        # self._current_player = "red"
+        # self.make_move("a1", "a7")
+
+        # possible_moves = self._red_chariot2.get_possible_moves()
+        # self.get_valid_moves(self._red_chariot2, possible_moves, "a1")
+        # self.get_valid_moves(self._red_chariot2, possible_moves, "i10")
+        # possible_moves = self._blue_chariot1.get_possible_moves()
+        # self.get_valid_moves(self._blue_chariot1, possible_moves, "c10")
+        # possible_moves = self._blue_chariot1.get_possible_moves()
+        # self.get_valid_moves(self._blue_chariot1, possible_moves, "a1")
+        # print(self._red_chariot1.get_move_up_list())
+        # print(self._red_chariot1.get_move_down_list())
+        # print(self._red_chariot1.get_move_right_list())
+        # print(self._red_chariot1.get_move_left_list())
+
+        # self._blue_chariot1.get_possible_moves()
+        # print(self._blue_chariot1.get_move_up_list())
+        # print(self._blue_chariot1.get_move_down_list())
+        # print(self._blue_chariot1.get_move_right_list())
+        # print(self._blue_chariot1.get_move_left_list())
+
+        self._red_guard1.set_coordinates("c2")
+        self._red_guard2.set_coordinates("g2")
+        self._red_general.set_coordinates("e3")
+        self._blue_guard1.set_coordinates("c9")
+        self._blue_guard2.set_coordinates("g9")
+        self._blue_general.set_coordinates("e8")
+
+        self._current_player = "red"
+        # self._red_chariot1.set_coordinates("f8")
+        # self._red_chariot1.set_coordinates("f1")
+        # self._red_chariot1.set_coordinates("d8")
+        # self._red_chariot1.set_coordinates("d1")
+        # self._red_chariot1.set_coordinates("e9")
+        # self._red_chariot1.set_coordinates("e2")
+        # self._red_chariot1.set_coordinates("f10")
+        # self._red_chariot1.set_coordinates("f3")
+        # self._red_chariot1.set_coordinates("d10")
+        self._red_chariot1.set_coordinates("d3")
+        possible_moves = self._red_chariot1.get_possible_moves()
+        # print(self._red_chariot1.get_d3_d10_palace_move_list())
+        # print(self._red_chariot1.get_f3_f10_palace_move_list())
+        # print(self._red_chariot1.get_e2_e9_palace_move_list())
+        # print(self._red_chariot1.get_d1_d8_palace_move_list())
+        # print(self._red_chariot1.get_f1_f8_palace_move_list())
+        print(self.get_valid_moves(self._red_chariot1, possible_moves, "f1"))
+        # self.make_move("a1", "a4")
+
+        # self._red_chariot1.set_coordinates("d3")
+        # possible_moves = self._red_chariot1.get_possible_moves()
+        # self.get_valid_moves(self._red_chariot1, possible_moves)
+        # self._red_chariot1.set_coordinates("f3")
+        # possible_moves = self._red_chariot1.get_possible_moves()
+        # self._red_chariot1.set_coordinates("e2")
+        # possible_moves = self._red_chariot1.get_possible_moves()
+        # self._red_chariot1.set_coordinates("d1")
+        # possible_moves = self._red_chariot1.get_possible_moves()
+        # self._red_chariot1.set_coordinates("f1")
+        # possible_moves = self._red_chariot1.get_possible_moves()
+
+
+        # self._blue_chariot2.set_coordinates("d10")
+        # possible_moves = self._blue_chariot2.get_possible_moves()
+        # self._blue_chariot2.set_coordinates("f10")
+        # possible_moves = self._blue_chariot2.get_possible_moves()
+        # self._blue_chariot2.set_coordinates("e9")
+        # possible_moves = self._blue_chariot2.get_possible_moves()
+        # self._blue_chariot2.set_coordinates("d8")
+        # possible_moves = self._blue_chariot2.get_possible_moves()
+        # self._blue_chariot2.set_coordinates("f8")
+        # possible_moves = self._blue_chariot2.get_possible_moves()
+
+        # possible_moves = self._red_chariot2.get_possible_moves()
+        # self.get_valid_moves(self._red_elephant1, possible_moves)
+
+        # self._red_elephant1.set_coordinates("c2")
+        # possible_moves = self._red_elephant1.get_possible_moves()
+        # self.get_valid_moves(self._red_elephant1, possible_moves)
 
         # self._blue_elephant1.set_coordinates("b9")
         # possible_moves = self._blue_elephant1.get_possible_moves()
@@ -1960,21 +2462,15 @@ class JanggiGame:
 
         return False
 
-    # @staticmethod
-    # def get_piece_from_coordinate(coordinate):
     def get_piece_from_coordinate(self, coordinate):
 
         """
         Returns the board piece at the coordinate in the parameter.
         """
 
-    # for piece in JanggiGame.self_alive_pieces_list:
         for piece in self._alive_pieces_list:
             if piece.get_coordinates() == coordinate:
-            # if piece.get_coordinates() == current_coordinate:
                 return piece
-
-        # return "piece not found"
 
     def horse_is_blocked(self, piece, target_coordinate):
 
@@ -2276,6 +2772,332 @@ class JanggiGame:
 
         return False
 
+    def get_valid_chariot_moves(self, chariot_piece, to_coordinate):
+
+        """
+        Returns a valid moves list for the chariot_piece in the parameter to the to_coordinate in the parameter.
+        """
+
+        # get current coordinate
+
+        current_coordinate = chariot_piece.get_coordinates()
+
+        # start valid chariot moves list with current coordinate
+
+        valid_chariot_moves_list = [current_coordinate]
+
+        # if both the x and y values are the same, then there is no movement and just return the current valid chariot
+        # moves list
+
+        if (current_coordinate[0] == to_coordinate[0]) and (current_coordinate[1:] == to_coordinate[1:]):
+            print("Both x and y coordinates are the same so there is no movement and returning valid chariots moves"
+                  " list with just the current coordinate")
+            return valid_chariot_moves_list
+
+        # if only the x coordinates are the same, then it's a vertical move
+
+        if current_coordinate[0] == to_coordinate[0]:
+            print("The current x coordinate:", current_coordinate[0], "is equal to the to x coordinate:",
+                  to_coordinate[0])
+
+            # if the y coordinates difference is positive, then it's move up
+
+            if int(current_coordinate[1:]) - int(to_coordinate[1:]) > 0:
+
+                move_list = chariot_piece.get_move_up_list()
+
+            # if the y coordinates difference is negative, then it's a move down
+
+            elif int(current_coordinate[1:]) - int(to_coordinate[1:]) < 0:
+
+                move_list = chariot_piece.get_move_down_list()
+
+        # if only the y coordinates are the same, then it's a horizontal move
+
+        if current_coordinate[1:] == to_coordinate[1:]:
+
+            # if the difference between the x coordinates is positive, then it's a move left
+
+            if ord(current_coordinate[0]) - ord(to_coordinate[0]) > 0:
+                move_list = chariot_piece.get_move_left_list()
+
+            # if the difference between the x coordinates is negative, then it's a move right
+
+            if ord(current_coordinate[0]) - ord(to_coordinate[0]) < 0:
+                move_list = chariot_piece.get_move_right_list()
+
+        # if neither x or y are the same, then it's a diagonal move, and we need to check to see if the unit is
+        # inside the palace, and set move list to the appropriate move list
+
+        else:
+
+            if current_coordinate == "d3" or current_coordinate == "d10":
+                print("current_coordinate:", current_coordinate, "is d3 or d10")
+                move_list = chariot_piece.get_d3_d10_palace_move_list()
+
+            # print("current_coordinate:", current_coordinate, "is not d3 or d10")
+            elif current_coordinate == "f3" or current_coordinate == "f10":
+                print("current_coordinate:", current_coordinate, "is f3 or f10")
+                move_list = chariot_piece.get_f3_f10_palace_move_list()
+
+            # print("current_coordinate:", current_coordinate, "is not f3 or f10")
+            elif current_coordinate == "e2" or current_coordinate == "e9":
+                print("current_coordinate:", current_coordinate, "is e2 or e9")
+                move_list = chariot_piece.get_e2_e9_palace_move_list()
+
+            # print("current_coordinate:", current_coordinate, "is not e2 or e9")
+            elif current_coordinate == "d1" or current_coordinate == "d8":
+                print("current_coordinate:", current_coordinate, "is d1 or d8")
+                move_list = chariot_piece.get_d1_d8_palace_move_list()
+
+            # print("current_coordinate:", current_coordinate, "is not d1 or d8")
+            elif current_coordinate == "f1" or current_coordinate == "f8":
+                print("current_coordinate:", current_coordinate, "is f1 or f8")
+                move_list = chariot_piece.get_f1_f8_palace_move_list()
+
+            # print("current_coordinate:", current_coordinate, "is not f1 or f8")
+
+            else:
+                print("move_list:", move_list)
+                print("Chariot trying to move diagonally but current coordinate not in palace, returning initial valid "
+                      "chariot moves list...")
+                # valid_chariot_moves_list = []
+                return valid_chariot_moves_list
+
+        # check move list coordinates
+
+        print("move list:", move_list)
+        for coordinate in move_list:
+
+            # if there's a piece at the coordinate
+
+            piece_at_coordinate = self.get_piece_from_coordinate(coordinate)
+            if piece_at_coordinate is not None:
+                print("There is a piece:", piece_at_coordinate, "at coordinate:", coordinate)
+
+                # if the piece is an enemy piece, then the current coordinate is valid, but the rest of the
+                # coordinates are not valid, so return the valid chariot moves list
+
+                if piece_at_coordinate.get_color() != chariot_piece.get_color():
+                    valid_chariot_moves_list.append(coordinate)
+                    print("Piece:", piece_at_coordinate, "is an enemy piece so coordinate:", coordinate, "is valid "
+                          "but rest of coordinates invalid")
+
+                # if the piece is an ally piece, then the current coordinate and the rest of the coordinates are not
+                # valid, so return the valid chariot moves list
+
+                print("Piece:", piece_at_coordinate, " is ally piece so coordinate:", coordinate, "and rest of "
+                      "coordinates are not valid so returning valid_moves_list:", valid_chariot_moves_list)
+                return valid_chariot_moves_list
+
+            # if there's no piece at the coordinate, then it is a valid move
+
+            if piece_at_coordinate is None:
+                valid_chariot_moves_list.append(coordinate)
+                print("There is no piece at coordinate:", coordinate, "so added coordinate to valid chariot moves list:"
+                      , valid_chariot_moves_list, "and going to next coordinate")
+
+        return valid_chariot_moves_list
+
+    # def chariot_is_blocked(self, piece, target_coordinate):
+    #
+    #     """
+    #     Returns true if the chariot piece in the parameter has its movement blocked at any point to the target
+    #     coordinate in the parameter, and returns False otherwise.
+    #     """
+    #
+    #     # get current coordinates
+    #
+    #     current_coordinate = piece.get_coordinates()
+    #
+    #     # define boundaries
+    #
+    #     top_boundary = 1
+    #     bottom_boundary = 10
+    #     left_boundary = ord("a")
+    #     right_boundary = ord("i")
+    #
+    #     # calculate number of spaces from boundaries
+    #
+    #     up_spaces = int(current_coordinate[1:])-top_boundary
+    #     down_spaces = abs(int(current_coordinate[1:])-bottom_boundary)
+    #     right_spaces = abs(ord(current_coordinate[0])-right_boundary)
+    #     left_spaces = ord(current_coordinate[0]) - left_boundary
+    #     # print("up_spaces:", up_spaces, "down_spaces:", down_spaces, "right_spaces:", right_spaces, "left_spaces:",
+    #     #       left_spaces)
+    #
+    #     # create move lists
+    #
+    #     move_up_list = []
+    #     move_down_list = []
+    #     move_right_list = []
+    #     move_left_list = []
+    #
+    #     # # get move up coordinates
+    #     #
+    #     # for move_value in range(1, up_spaces+1):
+    #     #     up_coordinates = piece.move_up_coordinates(move_value)
+    #     #     # print("up_coordinates:", up_coordinates)
+    #     #     move_up_list.append(up_coordinates)
+    #     #     print("move_up_list:", move_up_list)
+    #     #
+    #     # # get move left coordinates
+    #     #
+    #     # for move_value in range(1, left_spaces+1):
+    #     #     left_coordinates = piece.move_left_coordinates(move_value)
+    #     #     # print("left_coordinates:", left_coordinates)
+    #     #     move_left_list.append(left_coordinates)
+    #     #     print("move_left_list:", move_left_list)
+    #     #
+    #     # # get move right coordinates
+    #     #
+    #     # for move_value in range(1, right_spaces+1):
+    #     #     right_coordinates = piece.move_right_coordinates(move_value)
+    #     #     # print("right_coordinates:", right_coordinates)
+    #     #     move_right_list.append(right_coordinates)
+    #     #     print("move_right_list:", move_right_list)
+    #     #
+    #     # # get move down coordinates
+    #     #
+    #     # for move_value in range(1, down_spaces+1):
+    #     #     down_coordinates = piece.move_down_coordinates(move_value)
+    #     #     # print("down_coordinates:", down_coordinates)
+    #     #     move_down_list.append(down_coordinates)
+    #     #     print("move_down_list:", move_down_list)
+    #
+    #     # # add more moves to possible moves list if chariot is inside the palace (at these coordinates: d10, f10, e9, d8,
+    #     # # f8, d3, f3, e2, d1, f1)
+    #     #
+    #     # # if at d3, can move northeast one or two spaces
+    #     #
+    #     # if current_coordinate == "d3" or current_coordinate == "d10":
+    #     #
+    #     #     northeast_coordinates1 = self.move_north_east_coordinates(1)
+    #     #     possible_moves_list.append(northeast_coordinates1)
+    #     #     northeast_coordinates2 = self.move_north_east_coordinates(2)
+    #     #     possible_moves_list.append(northeast_coordinates2)
+    #     #
+    #     # # if at f3, can move northwest one or two spaces
+    #     #
+    #     # if current_coordinate == "f3" or current_coordinate == "f10":
+    #     #
+    #     #     northwest_coordinates1 = self.move_north_west_coordinates(1)
+    #     #     possible_moves_list.append(northwest_coordinates1)
+    #     #     northwest_coordinates2 = self.move_north_west_coordinates(2)
+    #     #     possible_moves_list.append(northwest_coordinates2)
+    #     #
+    #     # # if at e2, can move northeast, northwest, southeast, or southwest
+    #     #
+    #     # if current_coordinate == "e2" or current_coordinate == "e9":
+    #     #
+    #     #     # add northeast coordinates to possible moves list
+    #     #
+    #     #     northeast_coordinates = self.move_north_east_coordinates(1)
+    #     #     possible_moves_list.append(northeast_coordinates)
+    #     #
+    #     #     # add northwest coordinates to possible moves list
+    #     #
+    #     #     northwest_coordinates = self.move_north_west_coordinates(1)
+    #     #     possible_moves_list.append(northwest_coordinates)
+    #     #
+    #     #     # add southeast coordinates to possible moves list
+    #     #
+    #     #     southeast_coordinates = self.move_south_east_coordinates(1)
+    #     #     possible_moves_list.append(southeast_coordinates)
+    #     #
+    #     #     # add southwest coordinates to possible moves list
+    #     #
+    #     #     southwest_coordinates = self.move_south_west_coordinates(1)
+    #     #     possible_moves_list.append(southwest_coordinates)
+    #     #
+    #     # # if at d1, can move southeast one or two spaces
+    #     #
+    #     # if current_coordinate == "d1" or current_coordinate == "d8":
+    #     #
+    #     #     southeast_coordinates1 = self.move_south_east_coordinates(1)
+    #     #     possible_moves_list.append(southeast_coordinates1)
+    #     #     southeast_coordinates2 = self.move_south_east_coordinates(2)
+    #     #     possible_moves_list.append(southeast_coordinates2)
+    #     #
+    #     # # if at f1, can move southwest one or two spaces
+    #     #
+    #     # if current_coordinate == "f1" or current_coordinate == "f8":
+    #     #
+    #     #     southwest_coordinates1 = self.move_south_west_coordinates(1)
+    #     #     possible_moves_list.append(southwest_coordinates1)
+    #     #     southwest_coordinates2 = self.move_south_west_coordinates(2)
+    #     #     possible_moves_list.append(southwest_coordinates2)
+    #     #
+    #     # print("possible moves list:", possible_moves_list)
+    #
+    #     # # if moving up
+    #     #
+    #     # if int(current_coordinates[1:]) - int(target_coordinate[1:]) == 2:
+    #     #     print("current y:", current_coordinates[1:], "minus target y:", target_coordinate[1:], "= 2")
+    #     #
+    #     #     up_coordinate = piece.move_up_coordinates(1)
+    #     #     print("up_coordinate:", up_coordinate)
+    #     #
+    #     #     # if there's a piece at the up coordinate, then the move is blocked and return False
+    #     #
+    #     #     if self.get_piece_from_coordinate(up_coordinate) is not None:
+    #     #         print("There is a piece blocking", piece.get_name(), "initial move up coordinate:", up_coordinate)
+    #     #         return True
+    #     #
+    #     # # if moving down
+    #     #
+    #     # elif int(current_coordinates[1:]) - int(target_coordinate[1:]) == -2:
+    #     #     print("current y:", current_coordinates[1:], "minus than target y:", target_coordinate[1:], "= -2")
+    #     #
+    #     #     down_coordinate = piece.move_down_coordinates(1)
+    #     #     print("down_coordinate:", down_coordinate)
+    #     #
+    #     #     # if there's a piece at the down coordinate, then the move is blocked and return False
+    #     #
+    #     #     if self.get_piece_from_coordinate(down_coordinate) is not None:
+    #     #         print("There is a piece blocking", piece.get_name(), "initial move down coordinate:",
+    #     #               down_coordinate)
+    #     #         return True
+    #     #
+    #     # # if moving left
+    #     #
+    #     # if ord(current_coordinates[0]) - ord(target_coordinate[0]) == 2:
+    #     #     print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+    #     #           ord(target_coordinate[0]), "= 2")
+    #     #
+    #     #     left_coordinate = piece.move_left_coordinates(1)
+    #     #     print("left_coordinate:", left_coordinate)
+    #     #
+    #     #     # if there's a piece at the left coordinate, then the move is blocked and return False
+    #     #
+    #     #     if self.get_piece_from_coordinate(left_coordinate) is not None:
+    #     #         print("There is a piece blocking", piece.get_name(), "initial move left coordinate:",
+    #     #               left_coordinate)
+    #     #         return True
+    #     #
+    #     # # if moving right
+    #     #
+    #     # if ord(current_coordinates[0]) - ord(target_coordinate[0]) == -2:
+    #     #
+    #     #     print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
+    #     #
+    #     #           ord(target_coordinate[0]), "= -2")
+    #     #
+    #     #     right_coordinate = piece.move_right_coordinates(1)
+    #     #
+    #     #     print("right_coordinate:", right_coordinate)
+    #     #
+    #     #     # if there's a piece at the right coordinate, then the move is blocked and return False
+    #     #
+    #     #     if self.get_piece_from_coordinate(right_coordinate) is not None:
+    #     #         print("There is a piece blocking", piece.get_name(), "initial move right coordinate:",
+    #     #               right_coordinate)
+    #     #         return True
+    #     #
+    #     # # none of the horse's orthogonal movement is blocked, so return False
+    #
+    #     return False
+
     def coordinate_not_blocked(self, piece, target_coordinate):
 
         """
@@ -2307,73 +3129,11 @@ class JanggiGame:
             if self.elephant_is_blocked(piece, target_coordinate):
                 return False
 
-            # # get current coordinates
-            #
-            # current_coordinates = piece.get_coordinates()
-            #
-            # # if moving up
-            #
-            # if int(current_coordinates[1:]) - int(target_coordinate[1:]) == 2:
-            #     print("current y:", current_coordinates[1:], "minus target y:", target_coordinate[1:], "= 2")
-            #
-            #     up_coordinate = piece.move_up_coordinates(1)
-            #     print("up_coordinate:", up_coordinate)
-            #
-            #     # if there's a piece at the up coordinate, then the move is blocked and return False
-            #
-            #     if self.get_piece_from_coordinate(up_coordinate) is not None:
-            #         print("There is a piece blocking the initial move up coordinate:", up_coordinate)
-            #         return False
-            #
-            # # if moving down
-            #
-            # elif int(current_coordinates[1:]) - int(target_coordinate[1:]) == -2:
-            #     print("current y:", current_coordinates[1:], "minus than target y:", target_coordinate[1:], "= -2")
-            #
-            #     down_coordinate = piece.move_down_coordinates(1)
-            #     print("down_coordinate:", down_coordinate)
-            #
-            #     # if there's a piece at the down coordinate, then the move is blocked and return False
-            #
-            #     if self.get_piece_from_coordinate(down_coordinate) is not None:
-            #         print("There is a piece blocking the initial move down coordinate:", down_coordinate)
-            #         return False
-            #
-            # # if moving left
-            #
-            # if ord(current_coordinates[0]) - ord(target_coordinate[0]) == 2:
-            #     print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
-            #           ord(target_coordinate[0]), "= 2")
-            #
-            #     left_coordinate = piece.move_left_coordinates(1)
-            #     print("left_coordinate:", left_coordinate)
-            #
-            #     # if there's a piece at the left coordinate, then the move is blocked and return False
-            #
-            #     if self.get_piece_from_coordinate(left_coordinate) is not None:
-            #         print("There is a piece blocking the initial move left coordinate:", left_coordinate)
-            #         return False
-            #
-            # # if moving right
-            #
-            # if ord(current_coordinates[0]) - ord(target_coordinate[0]) == -2:
-            #
-            #     print("current x number value:", ord(current_coordinates[0]), "minus target x number value:",
-            #
-            #           ord(target_coordinate[0]), "= -2")
-            #
-            #     right_coordinate = piece.move_right_coordinates(1)
-            #
-            #     print("right_coordinate:", right_coordinate)
-            #
-            #     # if there's a piece at the right coordinate, then the move is blocked and return False
-            #
-            #     if self.get_piece_from_coordinate(right_coordinate) is not None:
-            #         print("There is a piece blocking the initial move right coordinate:", right_coordinate)
-            #
-            #         return False
-
-        # if there is a piece at the target coordinate
+        # if piece.get_type() == "Chariot":
+        #     print("piece type is:", piece.get_type())
+        #
+        #     if self.chariot_is_blocked(piece, target_coordinate):
+        #         return False
 
         if piece_at_target is not None:
             print("there is a piece:", piece_at_target, "at target coordinate")
@@ -2390,7 +3150,7 @@ class JanggiGame:
         print("There is no piece at the target coordinate, or the piece belongs to the enemy")
         return True
 
-    def get_valid_moves(self, piece, possible_moves_list):
+    def get_valid_moves(self, piece, possible_moves_list, to_coordinate=None):
 
         """
         Returns a list of valid moves from the possible moves list in the parameter. Checks first to see if the
@@ -2400,6 +3160,48 @@ class JanggiGame:
 
         # valid move list always starts with the current coordinate
         valid_moves_list = [piece.get_coordinates()]
+
+        # validate moves for chariots differently
+
+        if piece.get_type() == "Chariot":
+
+            return self.get_valid_chariot_moves(piece, to_coordinate)
+            # valid_chariot_moves_list = self.get_valid_chariot_moves(piece, to_coordinate)
+            # print("valid chariot moves list:", valid_chariot_moves_list)
+            # return valid_moves_list
+
+            #
+            # # check move up coordinates
+            #
+            # for coordinate in piece.get_move_up_list():
+            #
+            #     # if there's a piece at the coordinate
+            #
+            #     piece_at_coordinate = self.get_piece_from_coordinate(coordinate)
+            #     if piece_at_coordinate is not None:
+            #         print("There is a piece:", piece_at_coordinate, "at coordinate:", coordinate)
+            #
+            #         # if the piece is an enemy piece, then the current coordinate is valid, but the rest of the
+            #         # coordinates are not valid, so return the valid moves list
+            #
+            #         if piece_at_coordinate.get_color() != piece.get_color():
+            #             valid_moves_list.append(coordinate)
+            #             print("Piece:", piece_at_coordinate, "is an enemy piece so coordinate:", coordinate, "is valid "
+            #                   "but rest of coordinates invalid")
+            #
+            #         # if the piece is an ally piece, then the current coordinate and the rest of the coordinates are not
+            #         # valid, so return the valid moves list
+            #
+            #         print("Piece:", piece_at_coordinate, " is ally piece so coordinate:", coordinate, "and rest of "
+            #               "coordinates are not valid so returning valid_moves_list:", valid_moves_list)
+            #         return valid_moves_list
+            #
+            #     # if there's no piece at the coordinate, then it is a valid move
+            #
+            #     if piece_at_coordinate is None:
+            #         valid_moves_list.append(coordinate)
+            #         print("There is no piece at coordinate:", coordinate, "so added coordinate to valid moves list:",
+            #               valid_moves_list, "and going to next coordinate")
 
         for coordinate in possible_moves_list:
             if self.coordinate_is_on_board(coordinate):
@@ -2416,10 +3218,12 @@ class JanggiGame:
         otherwise returns False.
         """
 
-        for valid_move in valid_moves_list:
-            if valid_move == target_coordinate:
+        for coordinate in valid_moves_list:
+            if coordinate == target_coordinate:
+                # print("valid moves list:", valid_moves_list, "contains target coordinate:", target_coordinate)
                 return True
 
+        print("valid moves list:", valid_moves_list, "doesn't contain target coordinate:", target_coordinate)
         return False
 
     def switch_players(self):
@@ -2470,7 +3274,8 @@ class JanggiGame:
                 print("piece's color:", from_piece.get_color(), "matches the current player's name:", self._current_player)
 
                 possible_moves = from_piece.get_possible_moves()
-                valid_moves = self.get_valid_moves(from_piece, possible_moves)
+                valid_moves = self.get_valid_moves(from_piece, possible_moves, to_coordinate)
+                # valid_moves = self.get_valid_moves(from_piece, possible_moves)
 
                 # # check if move is a valid coordinate
                 #
@@ -3079,4 +3884,168 @@ game = JanggiGame()
 # and it didn't take that long to add the left and right movements since they a lot of similar elements to the up and
 # down movements.
 
-# We need to code the chariot and cannon movements, then is in check function and the checkmate function.
+# We need to code the chariot and cannon movements, then is in check function and the checkmate function. Alright so
+# chariots can move an unlimited number of spaces vertically or horizontally (but we have to limit it to inside the
+# board), but they can't jump pieces, so their limit is where the next piece is. Furthermore, they can move diagonally
+# inside the palace (we will add palace movements after the initial movements). How do we change the soldier code to
+# make the up, down, left, and right coordinates not just one possible coordinate, but many, up to the end of the board
+# preferably. Currently we're adding one up movement, so let's just extend that... Oh, we actually we don't have a move
+# up amount parameter, but we definitely should for the cannons, so let's add that first and adjust our current code to
+# match the change. Oh lol, we already have a up amounts, down amounts, etc. don't even remember when we added that,
+# thought it was only for the diagonal movements, so that's good, we don't have to change that. Now, let' use those and
+# put in a max value for the orthongal movements. Ok, so if we imagine the chariot on the edge of the board, the max
+# movement in one direction is 9 spaces, do we can do 9 spaces for each direction and weed out these possible moves in
+# the get valid moves function, or... we can try to create some function that knows how many spaces the chariot can move
+# in each direction. How would we do that? Let's look at the game board and take a hypothetical scenario. Looking at the
+# board, yeah, I'm seeing the patter. So, from the piece's current coordinates, if we subtract the left boundary x value
+# from the x value of the current coordinate, then we get how many spaces it can move left. For example, for blueCha2
+# the x value is i and the left boundary is a, so the ord value of i - a, what is that? Using the python console, that
+# is an 8, and that is correct, we can move 8 spaces to the left, so the move left amount is from 1 to 8 here. Similarly
+# if we want to do the right movement, than it is current x (i) minus the right boundary x (also i), so that is 0, which
+# is correct, we can't move right anymore from this spot. Alright, let's start coding. Actually, our current format is
+# to start with move up, so let's brainstorm what the code is doing for a move up. So, if we're moving vertically, then
+# we want to subtract the current y from the upper y boundary, so 10-1, which is 9, which is correct, that's how many
+# spaces we can move up. Similarly, if we want move down, take the current i and subtract it from the boundary, so 10 -
+# 10, which is 0. We've noticed a possible issue here. What if we were at i9, so 9-10, which is -1, which means, we have
+# to take the abs value of the subtraction, because we can't go -1 spaces down. Alright, so let's code the up and down
+# coordinates.
+
+# Alright, the orthonal movement looks good. Now, let's code the diagonal movement inside the palace. From the looks of
+# it, they have additional movements at 5 areas within the palaces 9 areas. Alright, so, unlike the current soldier
+# palace code, the chariots can move in either palace, which means they have a total of 10 spots on the board where they
+# gain increased palace movements, those being d10, f10, e9, d8, f8, d3, f3, e2, d1, f1. I think we want to hardcode
+# each of these movements, but first of all, are the diagonal movements unlimited or just 1 space? From one of the move
+# diagrams, it seems they can go two spaces to the outer palace edge if on one edge. Alright, let's update the palace
+# values and hardcode the additional movements. Ok, now we need to test the possible moves inside the palace, so let's
+# move the blue chariot to areas inside the palace and test the possible moves. We've only done the upper palace, but I
+# guess we can test it before adding the lower palace. First off, we need to move the redguards and generals so they
+# don't block our path. Alright, the upper palace code looks correct, now let's add the lower palace movement
+# augmentation. We thought we needed to add a similar section for the blue palace, but since our code is modular, the
+# relative movements are exactly the same, so we just need to add the coordinate to the specific correct diagonal
+# movements. Alright, the code is looking good, now let's move the code to the red chariot.
+
+# Ok, red chariot loosk good. Let's move on to the cannons now. Wait a minute, we haven't gotten the valid moves yet. We
+# need to implement the chariot blocking code and get valid moves, not just the possible moves. Hmm, currently our
+# standard blocking code blocks the move if there is an ally at the target coordinate, but now we need to block all
+# the rest of the moves in that direction after a block where there is any piece there. So the get valid moves function
+# iterates through all the moves in the possible moves list and returns the ones that are firstly, on the board, and
+# secondly, not blocked. So we can go down a direction, but once there is a piece there, we need to cut off the rest
+# of the moves in that direction. How do check which direction we are going? If we're moving up, then the y value of the
+# target coordinate is decreasing, if we're moving down, it's increasing, if we're moving right, the x value is
+# increasing,and if we're moving left, the x value is decreasing. Ok, so let's say we pick a direction, say up, then we
+# check all the up coordinates, which requires the ranges that we calculated in the possible moves, and if there is a
+# piece blocking, then we stop adding the coordinates in that direction. Alright, let's try to code this out for the up
+# direction. Actually, I don't think we have to calculate everything, since we already have the target coordinate we
+# want to reach, we can just calculate it for the direction that it is moving in. Hmm... we're getting a little confused
+# let's run through what our code does again. So, it takes all the possible moves, then it makes sure that the moves are
+# inside the board (we already calculated this part, so all the chariot possible are already inside the board) then it
+# sees if the move to a spot is blocked, and if so, that move is invalid. So, let's take an example. We have teh blucha2
+# at i10, and its possible up moves are from i1 to i9. Now, there are 3 pieces blocking i10 to i1. The opponent's piece
+# on i10 is not a real blocked, that is a valid move because we can capture that unit. However, if there is a piece in
+# between the captured piece and attacking piece, then we can not make that move. Alright, so let's take this one step
+# at a time. We first check the i9, and its not blocked, so we add it to the valid moves. Then we check i8, and its also
+# not blocked and gets added. Then we go to i7, and i7 is definitely blocked, because it is an ally piece (not that if
+# it was an opponent piece) it is still allowed. Now, if we move to i6, the current code says that is an ok move,
+# because there is no piece there, but we need to tell it that since the previous move is blocked, the rest of the moves
+# in this direction aren't valid either, so how do we do that? Alright, so in our current code, we have the boundaries
+# calculated, so let's also calculate all the possible directional movements. Then, we'll iterate though each movement
+# which starts at the smaller value and goes up. If the piece at the target coordinate is an ally piece, we can return
+# the function and say that coordiante is blocked. If the piece at the target coordinate is an enemy piece, that target
+# is valid, but we need a boolean that says enemy_captured or something, then anywhere past that where there is another
+# enemy piece, then those coordinates are blocked. Alright, let's try this code. I don't like how it calculates the
+# movement lists everytime. Can we use the movement lists are a parameter? Where would we calculate the movement
+# lists? We can calculate it in the piece itself and put getters for it, or we can calculate it in the coordinate not
+# blocked function (which seems worse right?), then, we can use those movement lists as parameters in the chariot is
+# blocked function. Ok, first of all, we need to put private properties of these lists into the chariot class. Alright
+# so we've added private data members for the movement lists in teh blucha1 class, now let's check it with the getters
+# and make sure all the lists are correct. Ok, it looks like those showed up fine. We need to copy these into the red
+# chariot, then update the chariot is blocked and coordinate not blocked functions to reflect the new functions with
+# new list parameters.
+
+# Wait, so what is the code logic in checking the lists again? We will put in code for all the directions, but only
+# perform the code for the direction that is calculated from the current coordinate and target coordinate. For each
+# direction, we want to go through each move in the move list, starting with the closest (it has to be this order every
+# time) and going to the farthest. If we hit a piece, we need to check if it's an ally piece or enemy piece. If it's an
+# ally piece, then we can return the function that the move is blocked, and we don't want to keep going with the adding
+# valid moves in that direction (I'm not sure how we relate this to get valid moves function). If the move is an enemy
+# piece, it is valid, but we change a boolean called "encountered_enemy" to true, so on the next space where we find
+# another piece, then that move and further moves are not valid. Let's look over our chariot is blocked, coordinate not
+# blocked, and get valid moves function to see how we want to relate this to those functions. Ok, we need to relate the
+# coordinate is blocked function with the target coordinate. Let's use a concrete example, actually, we use the one
+# we used before, with blucha2 at i10. If we're moving in the up direction, the first move is i9, and we move towards
+# i1. Let's say the target coordinate is i1. So we start with i9, and there's no piece there, so it's not blocked, same
+# with i8. Then we get to i7, and there's an ally there, which means i7 is not a valid target. Since there is an ally
+# at i7, the rest of the coordinates don't need to be checked, because they are blocked. What if the piece was an enemy
+# piece? Then, it's not blocked, and we can keep going. So there are no restrictions on i6 and i5, then we get to i4
+# and there is another enemy piece. So, for the first piece, if it's an enemy we need to change the "enemy_encountered"
+# bool to True, then when we get to this second piece, it doesn't matter what piece it is, if we already encountered an
+# enemy along the way, then the rest of the moves are blocked. So basically, we want to have a while statement to keep
+# checking each coordinate in the move list, but we will return out False that it is blocked, whenever we encounter the
+# first unit. Actually, it doesn't really matter that much whether it's an ally or enemy, if we hit a piece, we can't
+# go past that piece. If it's an ally, then we have to stop one space before the ally. If it's an enemy, we have to stop
+# at the enemy's coordinate. How do we relate this to the get valid moves function? I think we can't do the same code
+# for the chariots as the other pieces, so we want to check them first, by type, and have special code for them, where
+# we check the 4 directions, and not every coordinate in the possible moves list. The issue is, if we don't use the
+# possible moves list, then we are losing all the possible moves. Wait, just add the moves in the move list as they
+# are valid, into the valid moves list. Ok, but don't we need the target coordinate? No, later we check to see if the
+# target coordinate is in the valid move list, that's how we check if we can move to the target coordinate, but the
+# valid moves list just takes the possible moves and removes all moves not inside the board and all moves that are
+# blocked by the piece's movement characteristics. Wait a minute, we don't need a boolean for enemy encountered bc
+# we never go past the first piece encountered. We just check to see if there's a piece on the possible moves coordinate
+# and if there is, we check if it's an ally or not. If it's an ally, we don't add the current coordinate and return
+# the list, if it's an enemy, we add the current coordinate, then return the list. Alright, let's try to test out this
+# code and see if we can get valid moves.
+
+# Lol, so we get coordinates that shouldn't be in the valid moves list, only to find out that, we've only coded the
+# move up coordinates, and we needed to code the rest. Let's move our redcha1 to a spot where we can test if the move
+# up coordiante works or not. We can do bluecha1. It looks like our function for up is working fine. Now let's add down.
+# Before we add, let's change this line of code to its own function, with parameters for the piece and direction list.
+# Alright, so we did that, and it feels like the list should be a parameter, since that's the only thing different in
+# the 4 directions is the list, the rest of the code stays the same. I think this issue is also related to the issue of
+# how to determine the direction of the move. We're gonna need the final target coordinate, not the coordinates in the
+# move lists, but the target we are trying to go to in make move. So what does make move call? Ok, so we need to carry
+# the to coordinate from make move to the get valid moves function, to the get valid chariot moves function, so let's
+# add these parameters.
+
+# Alright, so how do we know what direction the chariot is moving? Well, if it's moving up and down, then the x value
+# of the coordinate stays the same, while the y changes. Conversely, if it's moving right and left, then the y value
+# of the coordinate stays the same, and the x value changes. So I can we can compare the x and y values of the current
+# coordinate and the to coordinate. If x is the same, then we know it's vertical movement, and if y is the same, then
+# we know it's horizontal movement. If the y change is positive, then it's a movement up, and if the y change is
+# negative, then it's a movement down. If the x change is negative, then it's to the right, and if the x change is
+# positive, then it's to the left. Alright, let's code this. Is there a case where both the x and y values are the
+# same? Yes, when there is no movement. So what do we want to do then? We want to just return the current coordinate
+# for the valid moves list. Let's put this situation on top?
+
+# Wow, we're done with our code, but it says current lines unreachable, very annoying. Wow, it had something to do with
+# calling "ord" when we didn't need to apparently. Very weird. Alright, we need to test this code. Jesus, we finally
+# were able to test all 4 directions for the chariot movements. Now, let's get it to the end and test the make move
+# function? We tested the top left corner for the chariot, and it seemed to work. Whew, this part took so much time.
+# We still have to add the palace movements to all the chariot related functions, then do the last piece, the cannons.
+# Alright, so currently we have the chariots with their orthogonal movements, but we still need to add all the palace
+# movements as well right? Let's see the current valid moves and what moves are valid at a palace spot. Ok, so we
+# assumed there were only movements along the x or y axis, so the chariots would have either x or y the same, but
+# inside the palace, it can move diagonally, so we need to account the move list for that.
+
+# So, inside the palace, the chariots have their coordinates, which can all be checked by a simple coordinate not
+# not blocked function, right? It's actually not simple, because there can be a blocker in the middle of all the
+# diagonal movements, but no piece at the target coordinate 2 diagonals away, which means the game will think that
+# the move is ok when it's not. We still need special block movement for the chariot, should be code it in a chariot
+# is blocked and put inside coordinate is blocked or do it in the get valid chariot moves function? I think it needs
+# to go in the get valid chariot moves function. Let's copy the possible palace movements first, or should we do what
+# we did with the up and down directions and save the palace movements in there own lists? How complicated is this
+# palace code? Alright, we've added the additional palace move lists, now let's test to make sure they are correct.
+
+# Alright, so we added the private properties for those lists, and the getters for them in both chariot classes, so
+# now what? We need to check the movements. The only movement that is important, is actually the corner movements, so
+# e2 and e9 are not necessary. So, we need to differentiate a "palace movement" from a regular movement, and I think
+# the difference is if the both x and y values are not the same, so if they are both not the same, we check for their
+# current coordinate, and run the same blocking code as for the othogonal movement, but just using the diagonal move
+# lists. Alright, I think we added the additional palace movements. Now, let's test it to make sure it works. So, how
+# are we going to test this? We want to put the chariot at a palace spot, then see all the possible and valid moves
+# to make sure they are correct, then test some make moves to make sure the outputs are all correct. Lol, we're
+# catching a lot of errors now. The final error that we see is that, d3 and d10 actually have different coordinates to
+# use, so we actually need to separate each palace current coordinate into its own palace move list, then set that
+# move list equal to move list. This means we have to change all the diagonal move lists in the red and blue chariot
+# , update the getter functions to get those new lists, then update the get valid chariot moves function to use those
+# new lists.
