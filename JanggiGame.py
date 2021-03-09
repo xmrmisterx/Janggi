@@ -1200,16 +1200,16 @@ class BlueChariot(Piece):
 
         # calculate number of spaces from boundaries
 
-        up_spaces = int(current_coordinate[1:])-top_boundary
-        down_spaces = abs(int(current_coordinate[1:])-bottom_boundary)
-        right_spaces = abs(ord(current_coordinate[0])-right_boundary)
+        up_spaces = int(current_coordinate[1:]) - top_boundary
+        down_spaces = abs(int(current_coordinate[1:]) - bottom_boundary)
+        right_spaces = abs(ord(current_coordinate[0]) - right_boundary)
         left_spaces = ord(current_coordinate[0]) - left_boundary
         # print("up_spaces:", up_spaces, "down_spaces:", down_spaces, "right_spaces:", right_spaces, "left_spaces:",
         #       left_spaces)
 
         # get move up coordinates
 
-        for move_value in range(1, up_spaces+1):
+        for move_value in range(1, up_spaces + 1):
             up_coordinates = self.move_up_coordinates(move_value)
             # print("up_coordinates:", up_coordinates)
             up_list.append(up_coordinates)
@@ -1217,7 +1217,7 @@ class BlueChariot(Piece):
 
         # get move left coordinates
 
-        for move_value in range(1, left_spaces+1):
+        for move_value in range(1, left_spaces + 1):
             left_coordinates = self.move_left_coordinates(move_value)
             # print("left_coordinates:", left_coordinates)
             left_list.append(left_coordinates)
@@ -1225,7 +1225,7 @@ class BlueChariot(Piece):
 
         # get move right coordinates
 
-        for move_value in range(1, right_spaces+1):
+        for move_value in range(1, right_spaces + 1):
             right_coordinates = self.move_right_coordinates(move_value)
             # print("right_coordinates:", right_coordinates)
             right_list.append(right_coordinates)
@@ -1233,11 +1233,67 @@ class BlueChariot(Piece):
 
         # get move down coordinates
 
-        for move_value in range(1, down_spaces+1):
+        for move_value in range(1, down_spaces + 1):
             down_coordinates = self.move_down_coordinates(move_value)
             # print("down_coordinates:", down_coordinates)
             down_list.append(down_coordinates)
         move_dictionary["down_list"] = down_list
+
+        # get palace coordinates
+        # if at d3, can move northeast one or two spaces
+
+        if current_coordinate == "d3" or current_coordinate == "d10":
+            northeast_coordinates1 = self.move_north_east_coordinates(1)
+            northeast_coordinates2 = self.move_north_east_coordinates(2)
+            northeast_list = [northeast_coordinates1, northeast_coordinates2]
+            move_dictionary["northeast_list"] = northeast_list
+
+        # if at f3, can move northwest one or two spaces
+
+        elif current_coordinate == "f3" or current_coordinate == "f10":
+            northwest_coordinates1 = self.move_north_west_coordinates(1)
+            northwest_coordinates2 = self.move_north_west_coordinates(2)
+            northwest_list = [northwest_coordinates1, northwest_coordinates2]
+            move_dictionary["northwest_list"] = northwest_list
+
+        # if at e2, can move northeast, northwest, southeast, or southwest
+
+        elif current_coordinate == "e2" or current_coordinate == "e9":
+
+            # get all coordinates
+
+            northeast_coordinates = self.move_north_east_coordinates(1)
+            northwest_coordinates = self.move_north_west_coordinates(1)
+            southeast_coordinates = self.move_south_east_coordinates(1)
+            southwest_coordinates = self.move_south_west_coordinates(1)
+
+            # add all coordinates
+
+            northeast_list = [northeast_coordinates]
+            move_dictionary["northeast_list"] = northeast_list
+            northwest_list = [northwest_coordinates]
+            move_dictionary["northwest_list"] = northwest_list
+            southeast_list = [southeast_coordinates]
+            move_dictionary["southeast_list"] = southeast_list
+            southwest_list = [southwest_coordinates]
+            move_dictionary["southwest_list"] = southwest_list
+
+        # if at d1, can move southeast one or two spaces
+
+        elif current_coordinate == "d1" or current_coordinate == "d8":
+            southeast_coordinates1 = self.move_south_east_coordinates(1)
+            southeast_coordinates2 = self.move_south_east_coordinates(2)
+            southeast_list = [southeast_coordinates1, southeast_coordinates2]
+            move_dictionary["southeast_list"] = southeast_list
+
+        # if at f1, can move southwest one or two spaces
+
+        elif current_coordinate == "f1" or current_coordinate == "f8":
+
+            southwest_coordinates1 = self.move_south_west_coordinates(1)
+            southwest_coordinates2 = self.move_south_west_coordinates(2)
+            southwest_list = [southwest_coordinates1, southwest_coordinates2]
+            move_dictionary["southwest_list"] = southwest_list
 
         possible_moves_list.append(move_dictionary)
         # print("possible moves list:", possible_moves_list)
@@ -1323,6 +1379,62 @@ class RedChariot(Piece):
             # print("down_coordinates:", down_coordinates)
             down_list.append(down_coordinates)
         move_dictionary["down_list"] = down_list
+
+        # get palace coordinates
+        # if at d3, can move northeast one or two spaces
+
+        if current_coordinate == "d3" or current_coordinate == "d10":
+            northeast_coordinates1 = self.move_north_east_coordinates(1)
+            northeast_coordinates2 = self.move_north_east_coordinates(2)
+            northeast_list = [northeast_coordinates1, northeast_coordinates2]
+            move_dictionary["northeast_list"] = northeast_list
+
+        # if at f3, can move northwest one or two spaces
+
+        elif current_coordinate == "f3" or current_coordinate == "f10":
+            northwest_coordinates1 = self.move_north_west_coordinates(1)
+            northwest_coordinates2 = self.move_north_west_coordinates(2)
+            northwest_list = [northwest_coordinates1, northwest_coordinates2]
+            move_dictionary["northwest_list"] = northwest_list
+
+        # if at e2, can move northeast, northwest, southeast, or southwest
+
+        elif current_coordinate == "e2" or current_coordinate == "e9":
+
+            # get all coordinates
+
+            northeast_coordinates = self.move_north_east_coordinates(1)
+            northwest_coordinates = self.move_north_west_coordinates(1)
+            southeast_coordinates = self.move_south_east_coordinates(1)
+            southwest_coordinates = self.move_south_west_coordinates(1)
+
+            # add all coordinates
+
+            northeast_list = [northeast_coordinates]
+            move_dictionary["northeast_list"] = northeast_list
+            northwest_list = [northwest_coordinates]
+            move_dictionary["northwest_list"] = northwest_list
+            southeast_list = [southeast_coordinates]
+            move_dictionary["southeast_list"] = southeast_list
+            southwest_list = [southwest_coordinates]
+            move_dictionary["southwest_list"] = southwest_list
+
+        # if at d1, can move southeast one or two spaces
+
+        elif current_coordinate == "d1" or current_coordinate == "d8":
+            southeast_coordinates1 = self.move_south_east_coordinates(1)
+            southeast_coordinates2 = self.move_south_east_coordinates(2)
+            southeast_list = [southeast_coordinates1, southeast_coordinates2]
+            move_dictionary["southeast_list"] = southeast_list
+
+        # if at f1, can move southwest one or two spaces
+
+        elif current_coordinate == "f1" or current_coordinate == "f8":
+
+            southwest_coordinates1 = self.move_south_west_coordinates(1)
+            southwest_coordinates2 = self.move_south_west_coordinates(2)
+            southwest_list = [southwest_coordinates1, southwest_coordinates2]
+            move_dictionary["southwest_list"] = southwest_list
 
         possible_moves_list.append(move_dictionary)
         # print("possible moves list:", possible_moves_list)
@@ -1410,6 +1522,62 @@ class BlueCannon(Piece):
             down_list.append(down_coordinates)
         move_dictionary["down_list"] = down_list
 
+        # get palace coordinates
+        # if at d3, can move northeast one or two spaces
+
+        if current_coordinate == "d3" or current_coordinate == "d10":
+            northeast_coordinates1 = self.move_north_east_coordinates(1)
+            northeast_coordinates2 = self.move_north_east_coordinates(2)
+            northeast_list = [northeast_coordinates1, northeast_coordinates2]
+            move_dictionary["northeast_list"] = northeast_list
+
+        # if at f3, can move northwest one or two spaces
+
+        elif current_coordinate == "f3" or current_coordinate == "f10":
+            northwest_coordinates1 = self.move_north_west_coordinates(1)
+            northwest_coordinates2 = self.move_north_west_coordinates(2)
+            northwest_list = [northwest_coordinates1, northwest_coordinates2]
+            move_dictionary["northwest_list"] = northwest_list
+
+        # if at e2, can move northeast, northwest, southeast, or southwest
+
+        elif current_coordinate == "e2" or current_coordinate == "e9":
+
+            # get all coordinates
+
+            northeast_coordinates = self.move_north_east_coordinates(1)
+            northwest_coordinates = self.move_north_west_coordinates(1)
+            southeast_coordinates = self.move_south_east_coordinates(1)
+            southwest_coordinates = self.move_south_west_coordinates(1)
+
+            # add all coordinates
+
+            northeast_list = [northeast_coordinates]
+            move_dictionary["northeast_list"] = northeast_list
+            northwest_list = [northwest_coordinates]
+            move_dictionary["northwest_list"] = northwest_list
+            southeast_list = [southeast_coordinates]
+            move_dictionary["southeast_list"] = southeast_list
+            southwest_list = [southwest_coordinates]
+            move_dictionary["southwest_list"] = southwest_list
+
+        # if at d1, can move southeast one or two spaces
+
+        elif current_coordinate == "d1" or current_coordinate == "d8":
+            southeast_coordinates1 = self.move_south_east_coordinates(1)
+            southeast_coordinates2 = self.move_south_east_coordinates(2)
+            southeast_list = [southeast_coordinates1, southeast_coordinates2]
+            move_dictionary["southeast_list"] = southeast_list
+
+        # if at f1, can move southwest one or two spaces
+
+        elif current_coordinate == "f1" or current_coordinate == "f8":
+
+            southwest_coordinates1 = self.move_south_west_coordinates(1)
+            southwest_coordinates2 = self.move_south_west_coordinates(2)
+            southwest_list = [southwest_coordinates1, southwest_coordinates2]
+            move_dictionary["southwest_list"] = southwest_list
+
         possible_moves_list.append(move_dictionary)
         # print("possible moves list:", possible_moves_list)
         return possible_moves_list
@@ -1475,9 +1643,14 @@ class RedCannon(Piece):
         current_coordinate = self.get_coordinates()
         # print("current coordinate:", current_coordinate)
 
-        # create possible moves list
+        # create moves lists and move dictionary
 
         possible_moves_list = [current_coordinate]
+        move_dictionary = {}
+        up_list = []
+        left_list = []
+        right_list = []
+        down_list = []
 
         # define boundaries
 
@@ -1488,49 +1661,102 @@ class RedCannon(Piece):
 
         # calculate number of spaces from boundaries
 
-        up_spaces = int(current_coordinate[1:])-top_boundary
-        down_spaces = abs(int(current_coordinate[1:])-bottom_boundary)
-        right_spaces = abs(ord(current_coordinate[0])-right_boundary)
+        up_spaces = int(current_coordinate[1:]) - top_boundary
+        down_spaces = abs(int(current_coordinate[1:]) - bottom_boundary)
+        right_spaces = abs(ord(current_coordinate[0]) - right_boundary)
         left_spaces = ord(current_coordinate[0]) - left_boundary
         # print("up_spaces:", up_spaces, "down_spaces:", down_spaces, "right_spaces:", right_spaces, "left_spaces:",
         #       left_spaces)
 
         # get move up coordinates
 
-        self._move_up_list.clear()
-        for move_value in range(1, up_spaces+1):
+        for move_value in range(1, up_spaces + 1):
             up_coordinates = self.move_up_coordinates(move_value)
             # print("up_coordinates:", up_coordinates)
-            self._move_up_list.append(up_coordinates)
-            possible_moves_list.append(up_coordinates)
+            up_list.append(up_coordinates)
+        move_dictionary["up_list"] = up_list
 
         # get move left coordinates
 
-        self._move_left_list.clear()
-        for move_value in range(1, left_spaces+1):
+        for move_value in range(1, left_spaces + 1):
             left_coordinates = self.move_left_coordinates(move_value)
             # print("left_coordinates:", left_coordinates)
-            self._move_left_list.append(left_coordinates)
-            possible_moves_list.append(left_coordinates)
+            left_list.append(left_coordinates)
+        move_dictionary["left_list"] = left_list
 
         # get move right coordinates
 
-        self._move_right_list.clear()
-        for move_value in range(1, right_spaces+1):
+        for move_value in range(1, right_spaces + 1):
             right_coordinates = self.move_right_coordinates(move_value)
             # print("right_coordinates:", right_coordinates)
-            self._move_right_list.append(right_coordinates)
-            possible_moves_list.append(right_coordinates)
+            right_list.append(right_coordinates)
+        move_dictionary["right_list"] = right_list
 
         # get move down coordinates
 
-        self._move_down_list.clear()
-        for move_value in range(1, down_spaces+1):
+        for move_value in range(1, down_spaces + 1):
             down_coordinates = self.move_down_coordinates(move_value)
             # print("down_coordinates:", down_coordinates)
-            self._move_down_list.append(down_coordinates)
-            possible_moves_list.append(down_coordinates)
+            down_list.append(down_coordinates)
+        move_dictionary["down_list"] = down_list
 
+        # get palace coordinates
+        # if at d3, can move northeast one or two spaces
+
+        if current_coordinate == "d3" or current_coordinate == "d10":
+            northeast_coordinates1 = self.move_north_east_coordinates(1)
+            northeast_coordinates2 = self.move_north_east_coordinates(2)
+            northeast_list = [northeast_coordinates1, northeast_coordinates2]
+            move_dictionary["northeast_list"] = northeast_list
+
+        # if at f3, can move northwest one or two spaces
+
+        elif current_coordinate == "f3" or current_coordinate == "f10":
+            northwest_coordinates1 = self.move_north_west_coordinates(1)
+            northwest_coordinates2 = self.move_north_west_coordinates(2)
+            northwest_list = [northwest_coordinates1, northwest_coordinates2]
+            move_dictionary["northwest_list"] = northwest_list
+
+        # if at e2, can move northeast, northwest, southeast, or southwest
+
+        elif current_coordinate == "e2" or current_coordinate == "e9":
+
+            # get all coordinates
+
+            northeast_coordinates = self.move_north_east_coordinates(1)
+            northwest_coordinates = self.move_north_west_coordinates(1)
+            southeast_coordinates = self.move_south_east_coordinates(1)
+            southwest_coordinates = self.move_south_west_coordinates(1)
+
+            # add all coordinates
+
+            northeast_list = [northeast_coordinates]
+            move_dictionary["northeast_list"] = northeast_list
+            northwest_list = [northwest_coordinates]
+            move_dictionary["northwest_list"] = northwest_list
+            southeast_list = [southeast_coordinates]
+            move_dictionary["southeast_list"] = southeast_list
+            southwest_list = [southwest_coordinates]
+            move_dictionary["southwest_list"] = southwest_list
+
+        # if at d1, can move southeast one or two spaces
+
+        elif current_coordinate == "d1" or current_coordinate == "d8":
+            southeast_coordinates1 = self.move_south_east_coordinates(1)
+            southeast_coordinates2 = self.move_south_east_coordinates(2)
+            southeast_list = [southeast_coordinates1, southeast_coordinates2]
+            move_dictionary["southeast_list"] = southeast_list
+
+        # if at f1, can move southwest one or two spaces
+
+        elif current_coordinate == "f1" or current_coordinate == "f8":
+
+            southwest_coordinates1 = self.move_south_west_coordinates(1)
+            southwest_coordinates2 = self.move_south_west_coordinates(2)
+            southwest_list = [southwest_coordinates1, southwest_coordinates2]
+            move_dictionary["southwest_list"] = southwest_list
+
+        possible_moves_list.append(move_dictionary)
         # print("possible moves list:", possible_moves_list)
         return possible_moves_list
 
@@ -1691,6 +1917,10 @@ class JanggiGame:
 
         self._alive_pieces_list = []
 
+        # # create testing moves boolean
+        #
+        # self._testing_moves = False
+
         # create and place game pieces, then add to alive pieces list
 
         self._blue_general = BlueGeneral(1, "e9")
@@ -1806,20 +2036,102 @@ class JanggiGame:
         self.place_piece(self._red_cannon2, "h3")
         self._alive_pieces_list.append(self._red_cannon2)
 
-        self.display_board()
+        # self.display_board()
 
         self._blue_player = Player("blue")
         self._red_player = Player("red")
-        # self._current_player = self._blue_player
-        self._current_player = self._red_player
+        self._current_player = self._blue_player
 
-        self.place_piece(self._red_soldier3, "c3")
-        self.place_piece(self._blue_soldier3, "e4")
+        self.place_piece(self._red_horse1, "a2")
+        self.place_piece(self._red_soldier3, "a3")
         self.place_piece(self._red_general, "e1")
-        self.make_move("e1", "e2")
-        self._current_player = self._red_player
-        self.place_piece(self._blue_soldier3, "e5")
-        self.make_move("e2", "e3")
+        self.place_piece(self._blue_soldier3, "d3")
+        self.place_piece(self._blue_soldier4, "f3")
+        self.place_piece(self._red_cannon1, "b2")
+        self.place_piece(self._blue_chariot1, "f6")
+        self.place_piece(self._red_guard1, "b3")
+        self.place_piece(self._red_guard2, "i3")
+        self.place_piece(self._red_cannon1, "d1")
+        self.place_piece(self._red_cannon2, "f1")
+        self.place_piece(self._red_elephant1, "b2")
+
+        self.display_board()
+
+        self.make_move("f6", "f5")
+        self._current_player = self._blue_player
+        self.make_move("f5", "e5")
+
+        # self.place_piece(self._red_guard1, "b2")
+        # self.place_piece(self._red_elephant1, "d1")
+        # self.place_piece(self._red_guard1, "b1")
+        # self.place_piece(self._blue_soldier3, "e8")
+        # self.place_piece(self._red_general, "e1")
+        # self.place_piece(self._red_soldier3, "a3")
+        # self.place_piece(self._red_soldier2, "b2")
+        # self.place_piece(self._blue_soldier2, "d3")
+        # self.place_piece(self._blue_soldier4, "f3")
+        # self.place_piece(self._blue_elephant1, "h5")
+
+        # self._alive_pieces_list.remove(self._red_chariot1)
+        # self._alive_pieces_list.remove(self._red_chariot2)
+        # self._alive_pieces_list.remove(self._blue_chariot1)
+        # self._alive_pieces_list.remove(self._blue_chariot2)
+        # self._alive_pieces_list.remove(self._red_cannon1)
+        # self._alive_pieces_list.remove(self._red_cannon2)
+        # self._alive_pieces_list.remove(self._blue_cannon1)
+        # self._alive_pieces_list.remove(self._blue_cannon2)
+        #
+        # self.display_board()
+        #
+        # self.make_move("h5", "e7")
+        # self._current_player = self._blue_player
+        # self.make_move("e7", "c4")
+        # self._current_player = self._blue_player
+
+        # self.display_board()
+        # print("redCan1 at:", self._red_cannon1.get_coordinates())
+        # print("alive pieces list:", self._alive_pieces_list)
+
+
+        # self.make_move("f5", "f4")
+        # self._current_player = self._blue_player
+        # self.make_move("f4", "e4")
+
+        # print(self._blue_chariot1.get_possible_moves())
+
+        # self.place_piece(self._red_guard1, "a3")
+        # self.place_piece(self._red_guard2, "i3")
+        # self.place_piece(self._red_general, "e3")
+        # self.place_piece(self._blue_soldier3, "e6")
+        # self._game_state = "RED_WON"
+        # self.place_piece(self._red_soldier3, "e6")
+
+        # possible_moves = self._blue_soldier3.get_possible_moves()
+        # print(self.get_valid_moves(self._blue_soldier3, possible_moves))
+
+        # self.make_move("e6", "e5")
+        # self._current_player = self._blue_player
+        # self.make_move("e5", "e4")
+        # opponent = self.get_opponent_of_current_player()
+        # print(self.move_results_in_check("e5", "e4", opponent.get_name()))
+        # print(self.move_results_in_check("e5", "e4", self._current_player.get_name()))
+        # print(self.move_results_in_check("e7", "f7", self._current_player.get_name()))
+        # print(self.move_results_in_check("e7", "e6", self._current_player.get_name()))
+        # print(self._current_player)
+        # self.make_move("e7", "e7")
+        # print(self._current_player)
+        # self.make_move("e7", "f7")
+        # self.make_move("f7", "f6")
+        # self.make_move("e7", "e6")
+        # self.make_move("e6", "e5")
+
+        # self.place_piece(self._red_soldier3, "c3")
+        # self.place_piece(self._blue_soldier3, "e4")
+        # self.place_piece(self._red_general, "e1")
+        # self.make_move("e1", "e2")
+        # self._current_player = self._red_player
+        # self.place_piece(self._blue_soldier3, "e5")
+        # self.make_move("e2", "e3")
 
     def get_game_state(self):
 
@@ -2058,8 +2370,8 @@ class JanggiGame:
             # if there isn't a piece at the up coordinate
 
             elif self.get_piece_from_coordinate(up_coordinate) is None:
-                print("There is no blocking piece at the initial up coordinate:", up_coordinate, "now checking first "
-                      "diagonal")
+                # print("There is no blocking piece at the initial up coordinate:", up_coordinate, "now checking first "
+                #       "diagonal")
 
                 # check up and northwest coordinate
 
@@ -2252,8 +2564,7 @@ class JanggiGame:
 
         return False
 
-    def get_valid_chariot_moves(self, chariot_piece, possible_moves_list, to_coordinate):
-    # def get_valid_chariot_moves(self, chariot_piece, to_coordinate):
+    def get_valid_chariot_moves(self, chariot_piece, possible_moves_list):
 
         """
         Returns a valid moves list for the chariot_piece in the parameter to the to_coordinate in the parameter.
@@ -2266,114 +2577,32 @@ class JanggiGame:
         # create valid chariot moves list with current coordinate and empty move_list
 
         valid_chariot_moves_list = [current_coordinate]
-        move_list = []
 
-        # if both the x and y values are the same, then there is no movement and just return the current valid chariot
-        # moves list
+        move_dictionary = possible_moves_list[1]
+        # print("move dictionary:", move_dictionary)
 
-        if (current_coordinate[0] == to_coordinate[0]) and (current_coordinate[1:] == to_coordinate[1:]):
-            # print("Both x and y coordinates are the same so there is no movement and returning valid chariots moves"
-            #       " list with just the current coordinate")
-            return valid_chariot_moves_list
+        # print("move dictionary:", move_dictionary)
+        for key in move_dictionary:
 
-        # if only the x coordinates are the same, then it's a vertical move
+            # print(key)
+            valid_moves = self.get_filtered_chariot_possible_moves(chariot_piece, move_dictionary[key])
+            # print(move_dictionary[key])
+            # print("valid moves:", valid_moves)
+            for coordinate in valid_moves:
+                valid_chariot_moves_list.append(coordinate)
 
-        if current_coordinate[0] == to_coordinate[0]:
-            # print("The current x coordinate:", current_coordinate[0], "is equal to the to x coordinate:",
-            #       to_coordinate[0])
+        return valid_chariot_moves_list
 
-            # if the y coordinates difference is positive, then it's move up
+    def get_filtered_chariot_possible_moves(self, chariot_piece, move_list):
 
-            if int(current_coordinate[1:]) - int(to_coordinate[1:]) > 0:
+        """
+        Returns a valid move list for the chariot piece in the parameter from the possible moves in the move list in
+        the parameter.
+        """
 
-                move_list = possible_moves_list[1]["up_list"]
-                # move_list = chariot_piece.get_move_up_list()
+        valid_move_list = []
+        # print("move list in chariot moves:", move_list)
 
-            # if the y coordinates difference is negative, then it's a move down
-
-            elif int(current_coordinate[1:]) - int(to_coordinate[1:]) < 0:
-
-                move_list = possible_moves_list[1]["down_list"]
-                # move_list = chariot_piece.get_move_down_list()
-
-        # if only the y coordinates are the same, then it's a horizontal move
-
-        if current_coordinate[1:] == to_coordinate[1:]:
-
-            # if the difference between the x coordinates is positive, then it's a move left
-
-            if ord(current_coordinate[0]) - ord(to_coordinate[0]) > 0:
-
-                move_list = possible_moves_list[1]["left_list"]
-                # move_list = chariot_piece.get_move_left_list()
-
-            # if the difference between the x coordinates is negative, then it's a move right
-
-            if ord(current_coordinate[0]) - ord(to_coordinate[0]) < 0:
-
-                move_list = possible_moves_list[1]["right_list"]
-                # move_list = chariot_piece.get_move_right_list()
-
-        # if neither x or y are the same, then it's a diagonal move, and we need to check to see if the unit is
-        # inside the palace, and set move list to the appropriate move list
-
-        # if (current_coordinate[0] != to_coordinate[0]) and (current_coordinate[1:] != to_coordinate[1:]):
-        elif (current_coordinate[0] != to_coordinate[0]) and (current_coordinate[1:] != to_coordinate[1:]):
-
-            # if at d3, can move northeast one or two spaces
-
-            if current_coordinate == "d3" or current_coordinate == "d10":
-                northeast_coordinates1 = chariot_piece.move_north_east_coordinates(1)
-                northeast_coordinates2 = chariot_piece.move_north_east_coordinates(2)
-                move_list = [northeast_coordinates1, northeast_coordinates2]
-
-            # if at f3, can move northwest one or two spaces
-
-            elif current_coordinate == "f3" or current_coordinate == "f10":
-                northwest_coordinates1 = chariot_piece.move_north_west_coordinates(1)
-                northwest_coordinates2 = chariot_piece.move_north_west_coordinates(2)
-                move_list = [northwest_coordinates1, northwest_coordinates2]
-
-            # if at e2, can move northeast, northwest, southeast, or southwest
-
-            elif current_coordinate == "e2" or current_coordinate == "e9":
-
-                # get all coordinates
-
-                northeast_coordinates = chariot_piece.move_north_east_coordinates(1)
-                northwest_coordinates = chariot_piece.move_north_west_coordinates(1)
-                southeast_coordinates = chariot_piece.move_south_east_coordinates(1)
-                southwest_coordinates = chariot_piece.move_south_west_coordinates(1)
-
-                # add all coordinates
-
-                move_list = [northeast_coordinates, northwest_coordinates, southeast_coordinates, southwest_coordinates]
-
-            # if at d1, can move southeast one or two spaces
-
-            elif current_coordinate == "d1" or current_coordinate == "d8":
-                southeast_coordinates1 = chariot_piece.move_south_east_coordinates(1)
-                southeast_coordinates2 = chariot_piece.move_south_east_coordinates(2)
-                move_list = [southeast_coordinates1, southeast_coordinates2]
-
-            # if at f1, can move southwest one or two spaces
-
-            elif current_coordinate == "f1" or current_coordinate == "f8":
-
-                southwest_coordinates1 = chariot_piece.move_south_west_coordinates(1)
-                southwest_coordinates2 = chariot_piece.move_south_west_coordinates(2)
-                move_list = [southwest_coordinates1, southwest_coordinates2]
-
-            else:
-                print("move_list:", move_list)
-                print("Chariot trying to move diagonally but current coordinate not in palace, returning initial valid "
-                      "chariot moves list...")
-                # valid_chariot_moves_list = []
-                return valid_chariot_moves_list
-
-        # check move list coordinates
-
-        print("move list:", move_list)
         for coordinate in move_list:
 
             # if there's a piece at the coordinate
@@ -2386,29 +2615,28 @@ class JanggiGame:
                 # coordinates are not valid, so return the valid chariot moves list
 
                 if piece_at_coordinate.get_color() != chariot_piece.get_color():
-                    valid_chariot_moves_list.append(coordinate)
+                    valid_move_list.append(coordinate)
                     # print("Piece:", piece_at_coordinate, "is an enemy piece so coordinate:", coordinate, "is valid "
                     #       "but rest of coordinates invalid")
-                    return valid_chariot_moves_list
+                    return valid_move_list
 
                 # if the piece is an ally piece, then the current coordinate and the rest of the coordinates are not
                 # valid, so return the valid chariot moves list
 
                 # print("Piece:", piece_at_coordinate, " is ally piece so coordinate:", coordinate, "and rest of "
-                #       "coordinates are not valid so returning valid_moves_list:", valid_chariot_moves_list)
-                return valid_chariot_moves_list
+                #       "coordinates are not valid so returning valid_moves_list:", valid_move_list)
+                return valid_move_list
 
             # if there's no piece at the coordinate, then it is a valid move
 
             if piece_at_coordinate is None:
-                valid_chariot_moves_list.append(coordinate)
+                valid_move_list.append(coordinate)
                 # print("There is no piece at coordinate:", coordinate, "so added coordinate to valid chariot moves list:"
-                #       , valid_chariot_moves_list, "and going to next coordinate")
+                #       , valid_move_list, "and going to next coordinate")
 
-        return valid_chariot_moves_list
+        return valid_move_list
 
-    def get_valid_cannon_moves(self, cannon_piece, possible_moves_list, to_coordinate):
-    # def get_valid_cannon_moves(self, cannon_piece, to_coordinate):
+    def get_valid_cannon_moves(self, cannon_piece, possible_moves_list):
 
         """
         Returns a valid moves list for the cannon_piece in the parameter to the to_coordinate in the parameter.
@@ -2418,122 +2646,37 @@ class JanggiGame:
 
         current_coordinate = cannon_piece.get_coordinates()
 
-        # # if the current player's first move made boolean is False, then there are no valid cannons moves
-        #
-        # if not self._current_player.get_first_move_has_been_made():
-        #     print("Current player hasn't made a first move, so returning an empty valid cannon moves list")
-        #     return []
-
-        # create valid cannon moves list with current coordinate and empty move list
+        # create valid chariot moves list with current coordinate and empty move_list
 
         valid_cannon_moves_list = [current_coordinate]
-        move_list = []
 
-        # if both the x and y values are the same, then there is no movement and just return the current valid cannon
-        # moves list
+        move_dictionary = possible_moves_list[1]
+        # print("move dictionary:", move_dictionary)
 
-        if (current_coordinate[0] == to_coordinate[0]) and (current_coordinate[1:] == to_coordinate[1:]):
-            # print("Both x and y coordinates are the same so there is no movement and returning valid cannon moves"
-            #       " list with just the current coordinate")
-            return valid_cannon_moves_list
+        # print("move dictionary:", move_dictionary)
+        for key in move_dictionary:
 
-        # if only the x coordinates are the same, then it's a vertical move
+            # print(key)
+            valid_moves = self.get_filtered_cannon_possible_moves(cannon_piece, move_dictionary[key])
+            # print(move_dictionary[key])
+            # print("valid moves:", valid_moves)
+            for coordinate in valid_moves:
+                valid_cannon_moves_list.append(coordinate)
 
-        if current_coordinate[0] == to_coordinate[0]:
-            # print("The current x coordinate:", current_coordinate[0], "is equal to the to x coordinate:",
-            #       to_coordinate[0])
+        return valid_cannon_moves_list
 
-            # if the y coordinates difference is positive, then it's move up
+    def get_filtered_cannon_possible_moves(self, cannon_piece, move_list):
 
-            if int(current_coordinate[1:]) - int(to_coordinate[1:]) > 0:
+        """
+        Returns a valid move list for the cannon piece in the parameter from the moves in the possible moves
+        list in the parameter.
+        """
 
-                move_list = possible_moves_list[1]["up_list"]
-                # move_list = cannon_piece.get_move_up_list()
-
-            # if the y coordinates difference is negative, then it's a move down
-
-            elif int(current_coordinate[1:]) - int(to_coordinate[1:]) < 0:
-
-                move_list = possible_moves_list[1]["down_list"]
-                # move_list = cannon_piece.get_move_down_list()
-
-        # if only the y coordinates are the same, then it's a horizontal move
-
-        if current_coordinate[1:] == to_coordinate[1:]:
-
-            # if the difference between the x coordinates is positive, then it's a move left
-
-            if ord(current_coordinate[0]) - ord(to_coordinate[0]) > 0:
-                move_list = possible_moves_list[1]["left_list"]
-                # move_list = cannon_piece.get_move_left_list()
-
-            # if the difference between the x coordinates is negative, then it's a move right
-
-            if ord(current_coordinate[0]) - ord(to_coordinate[0]) < 0:
-                move_list = possible_moves_list[1]["right_list"]
-                # move_list = cannon_piece.get_move_right_list()
-
-        # if neither x or y are the same, then it's a diagonal move, and we need to check to see if the unit is
-        # inside the palace, and set move list to the appropriate move list
-
-        elif (current_coordinate[0] != to_coordinate[0]) and (current_coordinate[1:] != to_coordinate[1:]):
-
-            # if at d3, can move northeast one or two spaces
-
-            if current_coordinate == "d3" or current_coordinate == "d10":
-                northeast_coordinates1 = cannon_piece.move_north_east_coordinates(1)
-                northeast_coordinates2 = cannon_piece.move_north_east_coordinates(2)
-                move_list = [northeast_coordinates1, northeast_coordinates2]
-
-            # if at f3, can move northwest one or two spaces
-
-            elif current_coordinate == "f3" or current_coordinate == "f10":
-                northwest_coordinates1 = cannon_piece.move_north_west_coordinates(1)
-                northwest_coordinates2 = cannon_piece.move_north_west_coordinates(2)
-                move_list = [northwest_coordinates1, northwest_coordinates2]
-
-            # if at e2, can move northeast, northwest, southeast, or southwest
-
-            elif current_coordinate == "e2" or current_coordinate == "e9":
-
-                # get all coordinates
-
-                northeast_coordinates = cannon_piece.move_north_east_coordinates(1)
-                northwest_coordinates = cannon_piece.move_north_west_coordinates(1)
-                southeast_coordinates = cannon_piece.move_south_east_coordinates(1)
-                southwest_coordinates = cannon_piece.move_south_west_coordinates(1)
-
-                # add all coordinates
-
-                move_list = [northeast_coordinates, northwest_coordinates, southeast_coordinates, southwest_coordinates]
-
-            # if at d1, can move southeast one or two spaces
-
-            elif current_coordinate == "d1" or current_coordinate == "d8":
-                southeast_coordinates1 = cannon_piece.move_south_east_coordinates(1)
-                southeast_coordinates2 = cannon_piece.move_south_east_coordinates(2)
-                move_list = [southeast_coordinates1, southeast_coordinates2]
-
-            # if at f1, can move southwest one or two spaces
-
-            elif current_coordinate == "f1" or current_coordinate == "f8":
-
-                southwest_coordinates1 = cannon_piece.move_south_west_coordinates(1)
-                southwest_coordinates2 = cannon_piece.move_south_west_coordinates(2)
-                move_list = [southwest_coordinates1, southwest_coordinates2]
-
-            else:
-                print("move_list:", move_list)
-                print("Cannon trying to move diagonally but current coordinate not in palace, returning initial valid "
-                      "cannon moves list...")
-
-                return valid_cannon_moves_list
-
-        # check move list coordinates
-
-        print("move list:", move_list)
+        valid_move_list = []
         piece_to_jump = False
+
         for coordinate in move_list:
+            # print("coordinate in possible moves list:", coordinate)
 
             # if there's a piece at the coordinate
 
@@ -2547,8 +2690,8 @@ class JanggiGame:
                 if piece_at_coordinate.get_type() == "Cannon":
                     # print("Piece at coordinate:", piece_at_coordinate, "is of cannon type:",
                     #       piece_at_coordinate.get_type(), "so returning current valid cannon moves list:",
-                    #       valid_cannon_moves_list)
-                    return valid_cannon_moves_list
+                    #       valid_move_list)
+                    return valid_move_list
 
                 if piece_to_jump:
 
@@ -2556,10 +2699,10 @@ class JanggiGame:
                     # and return the valid cannon moves list
 
                     if piece_at_coordinate.get_color() != cannon_piece.get_color():
-                        valid_cannon_moves_list.append(coordinate)
+                        valid_move_list.append(coordinate)
                         # print("Piece:", piece_at_coordinate, "is an enemy piece so coordinate:", coordinate, "is valid "
                         #       "but rest of coordinates invalid")
-                        return valid_cannon_moves_list
+                        return valid_move_list
 
                     # if the piece to jump boolean is True and the piece is an ally piece, don't add the current
                     # coordinate, then return the valid cannon moves list
@@ -2567,7 +2710,7 @@ class JanggiGame:
                     else:
                         # print("Piece:", piece_at_coordinate, "is an ally piece so coordinate:", coordinate, "and rest "
                         #       "of coordinates invalid")
-                        return valid_cannon_moves_list
+                        return valid_move_list
 
                 # if the piece to jump boolean is False, then don't add the current coordinate, update the piece to jump
                 # to True, and continue to the next coordinate
@@ -2583,9 +2726,9 @@ class JanggiGame:
                 # print("no piece at coordinate")
                 if piece_to_jump:
                     # print("no piece at coordinate and piece to jump is true so adding coordinate to valid moves list")
-                    valid_cannon_moves_list.append(coordinate)
+                    valid_move_list.append(coordinate)
 
-        return valid_cannon_moves_list
+        return valid_move_list
 
     def coordinate_not_blocked(self, piece, target_coordinate):
 
@@ -2633,7 +2776,8 @@ class JanggiGame:
         # print("There is no piece at the target coordinate, or the piece belongs to the enemy")
         return True
 
-    def get_valid_moves(self, piece, possible_moves_list, to_coordinate=None):
+    def get_valid_moves(self, piece, possible_moves_list):
+    # def get_valid_moves(self, piece, possible_moves_list, to_coordinate=None):
 
         """
         Returns a list of valid moves from the possible moves list in the parameter. Checks first to see if the
@@ -2648,21 +2792,21 @@ class JanggiGame:
         # validate moves for chariots differently
 
         if piece.get_type() == "Chariot":
-            return self.get_valid_chariot_moves(piece, possible_moves_list, to_coordinate)
-            # return self.get_valid_chariot_moves(piece, to_coordinate)
+            # return self.get_valid_chariot_moves(piece, possible_moves_list, to_coordinate)
+            return self.get_valid_chariot_moves(piece, possible_moves_list)
 
         if piece.get_type() == "Cannon":
-            return self.get_valid_cannon_moves(piece, possible_moves_list, to_coordinate)
-            # return self.get_valid_cannon_moves(piece, to_coordinate)
+            # return self.get_valid_cannon_moves(piece, possible_moves_list, to_coordinate)
+            return self.get_valid_cannon_moves(piece, possible_moves_list)
 
         for coordinate in possible_moves_list:
             if self.coordinate_is_on_board(coordinate):
                 if self.coordinate_not_blocked(piece, coordinate):
-                    # if not self.move_results_in_check(coordinate, to_coordinate):
+                    # if not self.move_results_in_check(piece.get_coordinates(), coordinate, piece.get_color()):
                     #     valid_moves_list.append(coordinate)
                     valid_moves_list.append(coordinate)
 
-        print("valid moves list:", valid_moves_list)
+        # print("valid moves list:", valid_moves_list)
         return valid_moves_list
 
     def target_coordinate_in_valid_moves_list(self, valid_moves_list, target_coordinate):
@@ -2681,8 +2825,7 @@ class JanggiGame:
 
         for coordinate in valid_moves_list:
             if coordinate == target_coordinate:
-                print("Target coordinate:", target_coordinate, "in valid moves list:", valid_moves_list, "so returning "
-                      "True that move is valid")
+                # print("Target coordinate:", target_coordinate, "in valid moves list:", valid_moves_list)
                 return True
 
         # print("Target coordinate:", target_coordinate, "not in valid moves list:", valid_moves_list, "so returning "
@@ -2725,55 +2868,66 @@ class JanggiGame:
         # get all alive pieces of opponent
 
         for piece in self._alive_pieces_list:
+
+            # if it's an opponent's piece
+
             if piece.get_color() == opponent.get_name():
-                from_coordinate = piece.get_coordinates()
-                if self.move_is_possible(from_coordinate, to_coordinate):
-                    print("PIECE:", piece, "AT COORDINATE:", from_coordinate, "CAN CHECK THE GENERAL OF:", player_name,
-                          "AT THE GENERAL'S COORDINATES:", to_coordinate, "AND RETURNING TRUE")
+
+                # get piece's valid moves
+
+                possible_moves = piece.get_possible_moves()
+                valid_moves = self.get_valid_moves(piece, possible_moves)
+                # valid_moves = self.get_valid_moves(piece, possible_moves, to_coordinate)
+
+                # if the general's coordinates are in the valid moves list, then the general is in check
+
+                if self.target_coordinate_in_valid_moves_list(valid_moves, to_coordinate):
+                    # print("PIECE:", piece, "AT COORDINATE:", piece.get_coordinates(), "CAN CHECK THE GENERAL OF:",
+                    #       player_name, "AT THE GENERAL'S COORDINATES:", to_coordinate)
                     return True
 
-        print("NONE OF THE PIECES OF:", opponent.get_name(), "CAN CHECK THE GENERAL OF:", player_name,
-              "AT THE GENERAL'S COORDINATES:", to_coordinate, "SO RETURNING FALSE")
+        # print("NONE OF THE PIECES OF:", opponent.get_name(), "CAN CHECK THE GENERAL OF:", player_name,
+        #       "AT THE GENERAL'S COORDINATES:", to_coordinate)
         return False
 
 
-    def move_is_possible(self, from_coordinate, to_coordinate):
-
-        """
-        Checks to see if a move from the from_coordinate to the to_coordinate is possible. If the piece is owned by the
-        current player, if the move is legal, and if the game is not over, then the move is possible and returns True,
-        otherwise returns False.
-        """
-
-        # get from_piece from the from coordinate and to_piece from the to_coordinate
-
-        from_piece = self.get_piece_from_coordinate(from_coordinate)
-        # to_piece = self.get_piece_from_coordinate(to_coordinate)
-        # print("from piece:", from_piece, "and to piece:", to_piece)
-
-        # # check if a piece at from coordinate
-        #
-        # if from_piece is not None:
-        #
-        #     # check to see if from piece is owned by current player
-        #
-        #     if from_piece.get_color() == self._current_player.get_name():
-        #         print("piece's color:", from_piece.get_color(), "matches the current player's color:",
-        #               self._current_player.get_name())
-
-        possible_moves = from_piece.get_possible_moves()
-        valid_moves = self.get_valid_moves(from_piece, possible_moves, to_coordinate)
-
-        if self.target_coordinate_in_valid_moves_list(valid_moves, to_coordinate):
-
-            # print(from_piece, "CAN CHECK GENERAL:", self.get_piece_from_coordinate(to_coordinate), "AT TO_COORDINATE:"
-            #       , to_coordinate, "SO RETURNING TRUE THAT MOVE IS POSSIBLE")
-            # print("move is possible and returning True")
-            return True
-
-        # print(from_piece, "can't check general:", self.get_piece_from_coordinate(to_coordinate), "at to_coordinate:",
-        #       to_coordinate, "so returning False that move is not possible")
-        return False
+    # def move_is_possible(self, from_coordinate, to_coordinate):
+    #
+    #     """
+    #     Checks to see if a move from the from_coordinate to the to_coordinate is possible. If the piece is owned by the
+    #     current player, if the move is legal, and if the game is not over, then the move is possible and returns True,
+    #     otherwise returns False.
+    #     """
+    #
+    #     # get from_piece from the from coordinate and to_piece from the to_coordinate
+    #
+    #     from_piece = self.get_piece_from_coordinate(from_coordinate)
+    #     # to_piece = self.get_piece_from_coordinate(to_coordinate)
+    #     # print("from piece:", from_piece, "and to piece:", to_piece)
+    #
+    #     # # check if a piece at from coordinate
+    #     #
+    #     # if from_piece is not None:
+    #     #
+    #     #     # check to see if from piece is owned by current player
+    #     #
+    #     #     if from_piece.get_color() == self._current_player.get_name():
+    #     #         print("piece's color:", from_piece.get_color(), "matches the current player's color:",
+    #     #               self._current_player.get_name())
+    #
+    #     possible_moves = from_piece.get_possible_moves()
+    #     valid_moves = self.get_valid_moves(from_piece, possible_moves, to_coordinate)
+    #
+    #     if self.target_coordinate_in_valid_moves_list(valid_moves, to_coordinate):
+    #
+    #         # print(from_piece, "CAN CHECK GENERAL:", self.get_piece_from_coordinate(to_coordinate), "AT TO_COORDINATE:"
+    #         #       , to_coordinate, "SO RETURNING TRUE THAT MOVE IS POSSIBLE")
+    #         # print("move is possible and returning True")
+    #         return True
+    #
+    #     # print(from_piece, "can't check general:", self.get_piece_from_coordinate(to_coordinate), "at to_coordinate:",
+    #     #       to_coordinate, "so returning False that move is not possible")
+    #     return False
 
     def player_is_checkmated(self, player_name):
 
@@ -2794,37 +2948,49 @@ class JanggiGame:
         # get the general's valid moves
 
         possible_moves = general.get_possible_moves()
-        valid_moves = self.get_valid_moves(general, possible_moves)
+        general_valid_moves = self.get_valid_moves(general, possible_moves)
 
         # for each coordinate in valid moves, set the general's coordinates equal to it and see if they all lead to
         # checks, and if so, then the player is checkmated
 
         current_coordinate = general.get_coordinates()
 
-        for coordinate in valid_moves:
+        for coordinate in general_valid_moves:
 
-            # if there's an enemy at the coordinate, then the general will capture that enemy, so remove him from the
-            # alive pieces list temporarily
+            if not self.move_results_in_check(current_coordinate, coordinate, player_name):
 
-            # piece_at_coordinate = self.get_piece_from_coordinate(coordinate)
-            # if piece_at_coordinate.get_color() != player_name:
-            #     print("The piece:", piece_at_coordinate, "at the general's valid coordinate:", coordinate, "is an enemy"
-            #           " piece because its color:", piece_at_coordinate.get_color(), "is not equal to player_name:",
-            #           player_name)
-                # self._alive_pieces_list.remove(piece_at_coordinate)
-
-            general.set_coordinates(coordinate)
-            if not self.is_in_check(player_name):
+            # general.set_coordinates(coordinate)
+            # if not self.is_in_check(player_name):
                 print("GENERAL:", general.get_name(), "IS NOT IN CHECK AT THIS COORDINATE:", coordinate, "SO RETURNING"
                       " FALSE AND THE GENERAL IS NOT CHECKMATED")
-                general.set_coordinates(current_coordinate)
+                # general.set_coordinates(current_coordinate)
                 # self._alive_pieces_list.append(piece_at_coordinate)
                 return False
 
-        general.set_coordinates(current_coordinate)
+        for piece in self._alive_pieces_list:
+
+            # get all ally pieces
+
+            if piece.get_color() == player_name:
+
+                piece_possible_moves = piece.get_possible_moves()
+                piece_valid_moves = self.get_valid_moves(piece, piece_possible_moves)
+
+                for coordinate in piece_valid_moves:
+
+                    # check each piece's valid coordinates to see if every move results in check, if one move doesn't,
+                    # then there is no checkmate
+
+                    if not self.move_results_in_check(piece.get_coordinates(), coordinate, player_name):
+                        print("PIECE:", piece.get_name(), "AT THIS COORDINATE:", piece.get_coordinates(), "moving to:",
+                              coordinate, "LEAVES THE GENERAL NOT IN CHECK, SO THERE IS NO CHECKMATE")
+                        return False
+
+
+        # general.set_coordinates(current_coordinate)
         # self._alive_pieces_list.append(piece_at_coordinate)
-        print("GENERAL:", general.get_name(), "IS IN CHECK AT EVERY COORDINATE IN VALID MOVES LIST:", valid_moves,
-              "SO RETURNING TRUE THAT THE GENERAL IS CHECKMATED")
+        print("GENERAL:", general.get_name(), "IS IN CHECK AT EVERY COORDINATE IN VALID MOVES LIST:",
+              general_valid_moves, "AND EVERY ALLY PIECE'S MOVE LEADS TO A CHECK, SO THE GENERAL IS CHECKMATED")
         return True
 
     # def simulate_move(self, from_coordinate, to_coordinate):
@@ -2836,53 +3002,113 @@ class JanggiGame:
     #
     #     pass
 
-    def move_results_in_check(self, from_coordinate, to_coordinate):
+    # def move_results_in_check(self, from_coordinate, to_coordinate, player_name, recursion_counter):
+    def move_results_in_check(self, from_coordinate, to_coordinate, player_name):
+    # def move_results_in_check(self, from_coordinate, to_coordinate):
 
         """
         Returns True if a move from the from coordinate in the parameter to the to coordinate in the parameter results
-        in that player's general being in check, otherwise returns False.
+        in the player with the player name in the parameter having their general in check, otherwise returns False.
         """
+
+        # # base case for recursive function
+        #
+        # if recursion_counter == 0:
+        #     print("recursion counter:", recursion_counter, "at 0 and leaving move results in check function")
+        #     return
+        #
+        # # start by decrementing the recursion counter
+        #
+        # recursion_counter -= 1
 
         # get the pieces at the to and from coordinates
 
         to_piece = self.get_piece_from_coordinate(to_coordinate)
         from_piece = self.get_piece_from_coordinate(from_coordinate)
 
+        # get other player's name
+
+        if player_name == "red":
+            other_player_name = self._blue_player.get_name()
+        elif player_name == "blue":
+            other_player_name = self._red_player.get_name()
+
         # if there is a piece at the to coordinate, then capture it, then place the from piece at the to coordinate
 
         if to_piece is not None:
-            print("There is a piece:", to_piece, "at the to coordinate:", to_coordinate, "so capturing it.")
-            self.capture_piece(to_coordinate)
+
+            # if to piece isn't from piece, so it's not a pass turn
+
+            if to_piece.get_name() != from_piece.get_name():
+
+                print("There is a piece:", to_piece.get_name(), "at the to coordinate:", to_coordinate, "and they "
+                      "aren't the same piece as other piece:", from_piece.get_name(), "so capturing it.")
+
+                self.capture_piece(to_coordinate)
         self.place_piece(from_piece, to_coordinate)
 
-        # get the player's name
-
-        player_name = from_piece.get_color()
+        # # get the player's name
+        #
+        # player_name = from_piece.get_color()
 
         # call is in check to see if the player's general is in check; if in check, return True, otherwise return False
 
         if self.is_in_check(player_name):
-            print("Move from:", from_coordinate, "to:", to_coordinate, "leaves", player_name, "general in check, "
-                                                                                              "returning True")
+            print("Move from:", from_coordinate, "with from piece:", from_piece, "to:", to_coordinate, "with to piece:",
+                  to_piece, "leaves", player_name, "general in check")
+
+            # # if move results in player's general being in check, then make sure move doesn't leave mover's general in
+            # # check
+            #
+            # if not self.is_in_check(other_player_name):
+            #     print("Move from:", from_coordinate, "with from piece:", from_piece, "to:", to_coordinate,
+            #           "with to piece:", to_piece, "leaves", player_name, "general in check but does not leave the",
+            #           other_player_name, "general in check.")
+
+                # # undo the move and capture before leaving function
+                #
+                # self.place_piece(from_piece, from_coordinate)
+                # if to_piece is not None:
+                #     if to_piece.get_name() != from_piece.get_name():
+                #         print("Reversing simulated move by putting back the from piece:", from_piece, "and adding the to "
+                #                                                                                       "piece:", to_piece,
+                #               "back to the alive pieces list:", self._alive_pieces_list)
+                #
+                #         self._alive_pieces_list.append(to_piece)
+                #         self.place_piece(to_piece, to_coordinate)
+                #         self.display_board()
+                #
+                # return True
+
             # undo the move and capture before leaving function
 
             self.place_piece(from_piece, from_coordinate)
             if to_piece is not None:
-                self._alive_pieces_list.append(to_piece)
-                print("Reversing simulated move by putting back the from piece:", from_piece, "and adding the to piece:"
-                      , to_piece, "back to the alive pieces list:", self._alive_pieces_list)
+                if to_piece.get_name() != from_piece.get_name():
+
+                    print("Reversing simulated move by putting back the from piece:", from_piece, "and adding the to "
+                          "piece:", to_piece, "back to the alive pieces list:", self._alive_pieces_list)
+
+                    self._alive_pieces_list.append(to_piece)
+                    self.place_piece(to_piece, to_coordinate)
+                    self.display_board()
+
             return True
 
-        print("Move from:", from_coordinate, "to:", to_coordinate, "does not leave", player_name, "player in check, "
-              "returning False")
+        # print("Move from:", from_coordinate, "to:", to_coordinate, "does not leave", player_name, "player in check")
 
         # undo the move and capture before leaving function
 
         self.place_piece(from_piece, from_coordinate)
         if to_piece is not None:
-            self._alive_pieces_list.append(to_piece)
-            print("Reversing simulated move by putting back the from piece:", from_piece, "and adding the to piece:"
-                  , to_piece, "back to the alive pieces list:", self._alive_pieces_list)
+            if to_piece.get_name() != from_piece.get_name():
+
+                print("Reversing simulated move by putting back the from piece:", from_piece, "and adding the to piece:"
+                      , to_piece, "back to the alive pieces list:", self._alive_pieces_list)
+
+                self._alive_pieces_list.append(to_piece)
+                self.place_piece(to_piece, to_coordinate)
+
         return False
 
     def make_move(self, from_coordinate, to_coordinate):
@@ -2898,84 +3124,96 @@ class JanggiGame:
 
         from_piece = self.get_piece_from_coordinate(from_coordinate)
         to_piece = self.get_piece_from_coordinate(to_coordinate)
-        print("from piece:", from_piece, "and to piece:", to_piece)
+        print("Attempting move from:", from_coordinate, "to:", to_coordinate, "with from piece:", from_piece, "and to "
+              "piece:", to_piece)
 
-        # check if a piece at from coordinate
+        # check if there isn't a piece at the from coordinate
 
-        if from_piece is not None:
+        if from_piece is None:
+        # if from_piece is not None:
+
+            print("There is no piece:", from_piece, "at the from coordinate:", from_coordinate, "so move failed")
+            return False
+
             # print("There is a piece:", from_piece, "at the from coordinate:", from_coordinate)
-            # check to see if from piece is owned by current player
 
-            if from_piece.get_color() == self._current_player.get_name():
-                # print("piece's color:", from_piece.get_color(), "matches the current player's color:",
-                #       self._current_player.get_name())
+        # check to see if the from piece is not owned by current player
 
-                possible_moves = from_piece.get_possible_moves()
-                # print("possible moves:", possible_moves)
-                valid_moves = self.get_valid_moves(from_piece, possible_moves, to_coordinate)
-                # print("valid moves:", valid_moves)
+        if from_piece.get_color() != self._current_player.get_name():
+            print("piece's color:", from_piece.get_color(), "doesn't match the current player's color:",
+                  self._current_player.get_name(), "so move failed")
+            return False
 
-                if self.target_coordinate_in_valid_moves_list(valid_moves, to_coordinate):
-                    # print("to coordinate:", to_coordinate, "is a coordinate inside the valid moves list:", valid_moves)
+        possible_moves = from_piece.get_possible_moves()
+        # print("possible moves:", possible_moves)
+        valid_moves = self.get_valid_moves(from_piece, possible_moves)
+        # valid_moves = self.get_valid_moves(from_piece, possible_moves, to_coordinate)
+        # print("valid moves:", valid_moves)
 
-                    # check if the move leaves the current player's general in check
+        # check if target coordinate not in valid moves list
 
-                    print("checking if move results in current player's general being in check")
+        if not self.target_coordinate_in_valid_moves_list(valid_moves, to_coordinate):
+            print("to coordinate:", to_coordinate, "is not a coordinate inside the valid moves list:", valid_moves,
+                  "so move failed")
+            return False
 
-                    if not self.move_results_in_check(from_coordinate, to_coordinate):
-                        print("move does not result in current player's general being in check")
+        # check if the move leaves the current player's general in check
 
-                        # check if game is over
+        if self.move_results_in_check(from_coordinate, to_coordinate, self._current_player.get_name()):
+        # if self.move_results_in_check(from_coordinate, to_coordinate):
+            print("move from:", from_coordinate, "to:", to_coordinate, "leaves the current player's general in check,"
+                                                                       " so move failed")
+            return False
 
-                        if self.get_game_state() == "UNFINISHED":
-                            # print("game not over yet, game state:", self.get_game_state())
+        # check if the game is over
 
-                            # if from coordinate and to coordinate are the same, then the player is passing their turn, so
-                            # return True but don't do anything else besides switching the players
+        if self.get_game_state() != "UNFINISHED":
+            print("Game is already over, game state:", self.get_game_state(), "so move failed")
+            return False
 
-                            if to_coordinate == from_coordinate:
-                                #
-                                # print("To coordinate:", to_coordinate, "and from coordinate:", from_coordinate, "are the "
-                                #       "same, so current player passed their turn, switching players and returning a "
-                                #       "successful move")
-                                self.switch_players()
-                                return True
+        # if from coordinate and to coordinate are the same, then the player is passing their turn, so
+        # return True but don't do anything else besides switching the players
 
-                            # check if there is an opponent's piece at the to_coordinate
+        if to_coordinate == from_coordinate:
 
-                            if to_piece is not None:
-                                # print("to_piece:", to_piece, "is not None so enemy at to coordinate")
+            print("To coordinate:", to_coordinate, "and from coordinate:", from_coordinate, "are the "
+                  "same, so current player passed their turn, switching players and returning a "
+                  "successful move")
+            self.switch_players()
+            return True
 
-                                self.capture_piece(to_coordinate)
+        # check if there is an opponent's piece at the to_coordinate
 
-                            # move piece
+        if to_piece is not None:
+            # print("to_piece:", to_piece, "is enemy at to coordinate so capturing")
 
-                            self.place_piece(from_piece, to_coordinate)
-                            # print("piece:", from_piece, "placed at new coordinate:", from_piece.get_coordinates())
-                            self.display_board()
+            self.capture_piece(to_coordinate)
 
-                            # # if there is checkmate, end the game
-                            #
-                            # opponent_name = self.get_opponent_of_current_player().get_name()
-                            # if self.player_is_checkmated(opponent_name):
-                            #     print("game is over")
-                            #     return
-                            #     # end game code
-                            #
-                            # # check for check
-                            #
-                            # if self.is_in_check(opponent_name):
-                            #     print(opponent_name, "player is in check!")
+        # move piece
 
-                            # switch current player
+        self.place_piece(from_piece, to_coordinate)
+        # print("piece:", from_piece, "placed at new coordinate:", from_piece.get_coordinates())
+        self.display_board()
 
-                            self.switch_players()
+        # if there is checkmate, end the game
 
-                            print("move successful and returning True")
-                            return True
+        opponent_name = self.get_opponent_of_current_player().get_name()
+        if self.player_is_checkmated(opponent_name):
+            print("game is over")
+            return
+            # end game code
 
-        print("move failed and returning False")
-        return False
+        # check for check
+
+        if self.is_in_check(opponent_name):
+            print(opponent_name, "player is in check!")
+
+        # switch current player
+
+        self.switch_players()
+
+        print("move successful and returning True")
+        return True
 
 
 game = JanggiGame()
@@ -4069,3 +4307,287 @@ game = JanggiGame()
 # we simulate all the moves of the rest of the pieces for the player that owns the general, and if all those moves
 # result in a check for the general, then the general is checkmated. Hmmm... the last 2 steps, it seems we can combine
 # since we are already checking the moves of all the ally pieces.
+
+# Ok, so we were thinking of a couple of things last night. We were thinking about how we weren't really using the other
+# classes, before because it was awkward to make another board after creating a board in the board class, but, no it's
+# fine, just make a getter function for it and create a board object in the game class, we could give them slightly
+# different names to not be too confusing. Same with the Player class, it's ok to create the players if we create getter
+# functions for them. If we're talking about objects in this game, then the board, the pieces, and the player's are all
+# objects, so they should be in their own classes, so we should make this change. We also realized as we're testing the
+# make move function that it's kinda backwards right now. We are finding the one instance where the move is possible
+# and returning true, and returning all the other instances as false, but that isn't productive to debugging or putting
+# print statements saying what is going on. We should reverse the logic so that we are looking for ways to make the move
+# not successful, returning False out of the function, then writing a print statement before that saying why it was
+# false so we know what's going on with the moves. We can also use it to notify the user why they can't make a move,
+# probably the most important thing. Furthermore, we were considering using the make move function as the function to
+# to test moves, instead of the move results in check function, since they should be very close to each other in
+# functionality. Can we augment the make move function, or create a test boolean or something, to make a the make move
+# function test moves and perform moves? For example, is testing is True, don't switch the players or something like
+# that, or we can just put save the important states before the make move and restore them after make move.
+
+# Alright, so let's start by reversing the logic in our make move function so look for return False instead of return
+# True. Alright, I think we did that ok, now let's test all the elements of the make move function to make sure
+# everything works as we want it to (leave in all the print statements so we can test every situation). First we want to
+# test a regular move, then we want to test a move where there is no coordinate at the from coordinate. Actually, for
+# now, we do want to comment out the checkmate and check code, bc we aren't really testing those functions and they
+# print a lot of print statements. Alright, good, we were able to revamp the make move code in about an hour, so that's
+# good. Now what. Let's tackle the problem of using make move or move results in check function to test hypothetical
+# moves. The current problems we see with the make move function is that it prints too many things (which I guess we
+# can remove the print statements if we know we're testing it, but if those statements are part of actual moves, it
+# gets hard to know right) and switches the players around. The problem with the move results in check function is that
+# it hasn't implemented all the move restrictions, but does that matter? We are calling the move results in check
+# only after getting the valid moves right? So it'll just go through all the valid moves, so it doesn't need to move
+# restrictions? Alright, let's look over where move results in check gets called. So, in the make move function, it's
+# called after all the move restrictions, with the last one being the to coordinate has to be inside that piece's valid
+# moves list, so yeah, we don't need to implement movement restriction for move results in check if it's only called
+# inside the make move function. However, in the is in check function, which is used in the player is checkmated
+# function we are calling the "move is possible" function, which is basically a move results in check variation. I think
+# we are ok to use the make move function, but here's the thing, we have to reverse the things, and actually capture the
+# pieces. I think we can do a testing_moves boolean and change the logic in make move to accomodate what we want. Let's
+# try it out.
+
+# Ok, so let's think about this. We have a testing_moves boolean, which we will set at initialization to be False. Then,
+# when do we turn it True? We want to turn it to true before we start calling simulated make moves. Ok, then when do we
+# want to change it back to False. Well, obviously after we are done with the simulated moves, which I guess depends on
+# where we call the simulated moves. Ok, I think this part is easier than the next part, which is, how do we incorporate
+# the testing moves boolean into our make move code? First, let's go ahead anc create this boolean in the game class.
+# Alright, good, so in a test move, what do we want and what do we not want? We're already seeing a problem, that being
+# that we create a list of possible moves and valid moves everytime our make move is run, which seems unnecessary? Ok,
+# we have to go back and see where we are going to call the test moves first of all. Alright, so looking over the is in
+# check function, it basically looks for all the alive pieces of the opponent and tries to move them to the general's
+# current coordinates, and any can, then the opponent is in check. So, it does needs to create the possible and valid
+# moves for each of the opponent's pieces and run the checks if the move is inside the valid moves list and if it
+# doesn't leave that player's general in check. However, there are some things we don't want. It can't check to see if
+# its color matches the current color, because they will be making moves on the opponent's turn. It also doesn't need to
+# check if the from piece is None, because it is always not none, since we already checked for all the alive pieces. It
+# also doesn't need to check if the game is over (you can simulate moves with the game being over), or if the to and
+# from coordinate are the same (since they will never be, unless the to piece is on the other player's general lol).
+# Actually, this check is to capture the enemy, so it does want to run this check and capture the enemy. Alright, so we
+# capture the enemy piece if it's there and place the piece, but we don't switch the player's or check for checkmate or
+# check. So yeah, it should be a different function.
+
+# Ok, so we have a good outline of the simulate move function that we want, so how and when are we going to call this
+# simulate move function? For the is in check function, we simulate the move to the general, and if it's possible (so
+# returns True) then the other player is in check. Can we use our move results in check function here? Actually yeah,
+# the move results in check function is exactly what we want, it's just a variaton of the moves is possible function, so
+# it actually works in the exact same way. If the from piece can go there, then the general is in check. But whose
+# general is it checking? I think the move is possible doesn't really specify a player, but the move results in check
+# is talking about the player that owns the piece at the from coordinate, which is a thing that is getting us confused.
+# When we check if a move results in check, we check if the player moving that piece leaves their general in check, but
+# when we call the "move is possible" function, we are checking that the move is possible, and if so, is in check says
+# that the opposing general is in check. Can we use a parameter with the move results in check function that tells it
+# which player to check if in check? Alright, we added a player name parameter, now let's see if we can test this to
+# see if we can get both player's in check. Ok, yeah, the player parameter works. So what can we do with this? We select
+# the correct player in the make move function, and the correct player in the is in check function, to differentiate
+# between the player's we are looking to check. So it looks like the is in check function already works fine. We it
+# already finds the opponent of the player in the parameter.
+
+# Also, we need to incorporate the move restrictions that we brainstormed for the simulate move function into the move
+# results in check function. Ok, so currently we have 3 move functions that all get possible and valid moves, those
+# being the make move function, the move results in check function, and the move is possible function. Can we put some
+# of these move lists into parameters so we don't keep creating them? Let's see, so make move calls move results in
+# check, so we can add a parameter for the valid moves in move results in check. The move results in check function
+# calls is in check, but we can't pass any parameters into is in check, and is in check calls move is possible. Do we
+# need the move is possible check, why don't we check if the move is possible already in move results in check, then
+# just see if it results in check. Resulting in check just simulate movement to the general. Actually, we don't even
+# need the move results in check function in the make move function? We just call is in check (but we need to simulate
+# the move though), then is in check will simulate more moves to see if that move results in check. Alright, so how many
+# move simulations are we actually doing? For make move, we simulate movement when calling move results in check, then
+# is in check simulates the movement for all the opponent pieces to see if they can get the general in check, so there
+# are 2 rounds of movement simulation. The first movement simulation sees if the move leaves the current player's
+# general in check, and if not, then the second movement simulation checks if the first simulated move leaves the
+# opponent's general in check. Ok, so what about instead of calling move is possible we call move results in check again
+# does that work?
+
+# Lol, the code seemed to create an infinite loop. We are calling move results in check, which calls is in check, which
+# calls move results in check, so yeah lol. Ok, actually, we can use a different function, and it doesn't have to be
+# the moves is possible function, which basically is just calling the target coordiante inside valid moves list, so we
+# can just use that. But we'll need to create possible and valid moves for each valid coordinate.
+
+# Ok, so I think we finally got clarity with the move results in check and move is possible functions, which were very
+# similar, by removing the move is possible function. Now, we need to incorporate some of the movement restrictions
+# brainstormed in the simulate move function into either the move results in check function, or the is in check function
+# so that we don't make any ilegal moves for all the simulated moves. After we figure this out, we need to code the
+# checkmate code like the make move code, looking for any False checkmates. The false checkmates being, any of the valid
+# moves of the general resulting in not being checked, and also any valid moves of the rest of the pieces resulting in
+# not being in check. If every move the general can make results in check, and every move the ally pieces can make
+# results in check, then it is checkmate!
+
+# Ok, so let's first see where the simulated coordinates are to see where we need to put in the restrictions. Ok, so it
+# looks like all 3 functions (make move, move results in check, and is in check) all rely on is in check, so we can put
+# it in there. Since we are already checking the valid moves, just add the additional restriction that the move doesn't
+# result in a check? Or is this the infinite loop again lol, not sure. Yeah, we can't call the function A that calls
+# function B which calls function A, bc that's an infinite loop. So let's think about this restriction about not being
+# able to move to a spot that leaves your general in check. Obviously this requires calling the is in check method. Can
+# we change the move results in check method to not use is in check? Lol, I don't think so. Ok, so what is the problem
+# again? We need to add an if statement for the simulated moves that if the move leaves the general in check, then it's
+# not a valid move. Why don't we call this in the valid moves function? If we call this in the valid moves function,
+# then the valid moves don't have to be filtered. This means that every possible move, we check if it leaves the general
+# in check? That seems really bad, like really inefficient. Let's think about this just without the context of our
+# current code. When would we want to check to see if a move leaves the general in check? We'd have to check it for each
+# move right? Or only when the move is attempted? Ideally we only do it when it's attempted, because that's just more
+# efficient. Let's go over the moves again. Actually, let's try looking at it like before, filtering it before valid
+# moves. Wait, so why can't we put this in valid moves? It is part of the move validation code, let's put it in valid
+# moves. Note that chariot and cannons have their own valid moves, but yeah, let's put it inside of these other ones
+# and see what happens. Lol, so now we getting recursion error and seeing that our valid moves is calling valid moves
+# in the is in check function lol.
+
+# I guess that's where we are stuck now. We can't simulate these moves and put in the move results in check condition
+# because it calls the is in check function. What if we remove the move results in check function and just put
+# everything inside the is in check function, would that work? What does this mean? We'd have to create a simulate move
+# function to simulate the move, then call the is in check function lol. Lmao, this seems to be going around in circles
+# and getting pretty frustrating.
+
+# We need to talk out what we want the function to do logically and see if we can't figure it out that way. Alright, so
+# what is the make move function doing. We want to check if the a move actually leads to that player's general being in
+# check, so I think we can just call is in check here right? We'd have to simulate the move, then call is in check,
+# which is basically what move results in check does. Ok, so what's the problem then? The problem is that is in check
+# is actually not checking to see if the move leads to that player being in check, basically once we call is in check,
+# we also need to call it again to see if that results in the current player being in check, so the function will keep
+# calling itself. What if we have 2 different is in check functions? So, for the make move function, we call is in check
+# for the current player, so just regular is in check. So if not in check, then we want to check if the opponent is in
+# check, so opponent is in check function (here we can also check for checkmate while checking for if in check). They
+# are basically checking the same thing, but checkmate keeps going if they are all checks. Let's speak in terms of when
+# we need to check if the move leaves the current player in check. I think this is a lot simpler if we just remove the
+# moves that leave the current player in check out of the valid moves list. So let's talk this over. The valid moves
+# function gets all the possible moves of a unit and returns all the valid moves. Its parameters are the current piece
+# , a possible moves list, and the to coordinate, which is optional. So, for the valid moves, we want to iterate though
+# each possible move, weed them out for off the board and not blocked moves, then add them to the valid moves list. So
+# now we add a third restriction, the move can't leave that player's general in check, into there, and if all is fine
+# there, then we add the move. The problem is, our is in check function is actually calculating all the valid moves
+# again, so that is an infinite loop. I guess we can get around this if we save the valid moves into a data parameter.
+# Let's look at the is in check function again.
+
+# Yeah, I think we've pinpointed the problem, that being that the is in check function, needs to call is in check for
+# the valid moves that it creates, so it's a never ending loop. How do we separate checking if a move leaves that player
+# general in check, and if the move leaves the opponent's player in check? Let's think about this in terms of the
+# checkmate function. So what are we doing in our checkmate function? First we want to get all the valid moves of the
+# general, and if they all lead to a check, then we move onto all the moves of the allies, and if they all lead to
+# checks, then it is checkmate. This actually seems incredibly simple, the problem is, and still is, we can't seem to
+# incorporate this check if the ally is in check before making a move function, because it calls is in check.
+
+# Ok, the real problem seems to be that in order to check to see if a move leaves the general in check, you need to know
+# beforehand whether that move leaves the general in check, so it kinda defeats the purpose. Is in check is generating
+# moves that need to be checked if they are in check or not, and it should be generating moves that know if they are in
+# not going to cause the general to be in check. What does it mean to be in check again? If any of the opponent's moves
+# can lead to them capturing you in the next turn. I think if we can somehow get the valid moves to populate with the
+# moves leading to the player getting their general checked removed, it would be really good. I guess another way we can
+# do that is to call the make move function. If make move is possible, then we check if that leads to... No the problem
+# is that the is in check function is using the wrong valid moves list and needs to call itself to get the right list,
+# so it just doesn't work. Our best idea is to make the valid moves list a data parameter, but we still need to call
+# the is in check method on it, and what if the valid moves aren't populated?
+
+# Man this is getting frustrating. let's code the checkmate function with the is in check we have right now, and redo
+# the classes like the way we want, and hopefully tomorrow or later we can figure this out, because it's just not
+# happening right now and we feel like we are wasting time. Alright, so, the checkmate function, assuming on is in check
+# is working... We get all the valid moves of the general, go through each one, and if any are not in check, return
+# False that it is not checkmate. If they are all true, then we go through all the allies pieces, and see if each every
+# move from the ally still leads to the general being in check, and if any don't leave in check, then we return False
+# that there is no checkmate. We return through after all those if statements, since every move leads to check, then the
+# general is in check.
+
+# Hmm.. we're trying to get all the valid moves of each piece, but, we don't actually have a direction for the chariots
+# and cannons, so we have to figure that out. I guess we can put in, I mean, what are the directional requirements for
+# chariots and cannons? Is there a to coordinate that the chariots or cannons are trying to reach? No, I don't think so,
+# which is pretty annoying. We're gonna have to hardcode the chariots and cannons, but for now, let's forget about these
+# exceptions and see if the checkmate code even works. Alright, so let's test this iteration. We can't check for
+# chariots or cannons though, so I'm not sure if this code is going to run. Ok, we ran into a lot of issues, only to
+# that yes, this is not working because we do have to get the valid chariot and cannon moves.
+
+# Alright, so currently we get the valid chariot/cannon moves by first figuring out the direction they are going with
+# the to coordinate, then limiting the valid moves list to that, but we don't want to use the to coordinate, bc when we
+# are checking the moves of the ally pieces of the general, we want every possible valid move, so we need to calculate
+# every possible valid move, so how is this going to work? Currently, our possible moves consist of the current
+# coordinate and a dictionary of direction string keys and a value of the direction list. We can add the palace
+# coordinates as its own list (we have to check with an if statement, since sometimes they won't have palace coordinates
+# ). Then, we just go through each list, and we still use the same movement restrictions, and add all the valid moves
+# into a moves list. Alright, we need to try that. Once we do this, we have to do it for the cannons, actually we can
+# test it before by just removing all the cannons from the alive list so it doesn't search through those units. Actually
+# we can test our current code by getting a horse or elephant to block both spots where the general may be and get it
+# checkmate like that.
+
+# The code found so many exceptions to our attempt to checkmate, but I think the current board position is a checkmate
+# however, the code just keeps repeating, so we need to see why it's stuck in a loop. After that, we need to figure out
+# how to get the correct chariot and cannon movements without a to coordinate, using the same method from the other
+# classes and not relying on knowing the direction first. Lol, we get the checkmate to work, but our pieces were
+# disappearing. Turns out we put back the from piece, but we also need to put back the to piece that we put back into
+# the alive pieces list. We're not sure where the red cannon went, but, the checkmate code did work, so, now we need to
+# do it the cannon and chariot valid move lists, but why are we doing this? Bc we want to call is in check from the
+# valid move lists function, but the is in check function calls the valid move lists function, so this is actually
+# circular logic. The is in check calls valid moves, valid moves calls is in check, and they just keep doing that, so
+# that's not gonna work.
+
+# What do we really need to work on right now? Actually, we do need to get the valid moves without a direction, bc we
+# can't add the cannon and chariot valid moves right now, since there is no direction. We want them to go to all their
+# possible moves. Ok, so we got the lists in their fine, now how are we going to parse through each move list? Let's
+# look at how we did it in valid chariot moves. Hmm, we need a way to add all the relevant values in each list, but we
+# can't do it as it currently is, because once we call return, the function ends. We can put each key in a separate
+# variable, then we have to create a function for that return statement, which will return the list, which we will add
+# to the greater list. Wow that was some tricky dictionary manipulation, but I think we got it.
+
+# Let's test it the valid moves created by the new get chariot moves function on several coordinates and make sure they
+# that all the values are right, then copy that red chariot code into blue chariot and maybe the cannons as well,
+# bc they all have the same possible moves. We can rename the get chariot moves to something better, and we also need
+# to break the get valid cannon moves function into a smaller function. After we redo these functions, test the
+# checkmate function again with all the pieces alive now to make sure it still works, then see if we can't figure out
+# how to incorporate the preventing general from being in check on every move into the is in check function.
+
+# We had a thought in the shower, I think we've solved the is in check problem. So the move results in check funtion,
+# we usually always want to call an is in check call again, but... its the is in check from the move results in check
+# function, so we want to call move results in check first to see if their general is in check, then we want to call
+# it again for the current player to make sure that after the move their general isn't in check. Obviously we want to
+# call it anymore for this iteration, so maybe put a recursion_counter parameter that initializes to None that we can
+# change to a number, and the base case is when that number is 0. I think in the case of make move, we only check if the
+# move leaves the current player in check, and nothing about the general (at least to validate the move), so we need to
+# set the recursion loop at 1 so that it does it the first time then stops (need to decrement recursion loop in function
+# as well).
+
+# Lol, our first coordinates didn't show the diagonal coordinates, so we thought there was a bug and put in the print
+# statements, but no, there was no valid diagonal moves bc the coordinates were blocked. I like how the code now tells
+# us the correct moves, but the code was right and we just don't know the actual coordinates lol. Ok, we noticed that
+# our center coordinates for the diagonal are wrong, and that's because its all in one list, and when one is deactivated
+# then all is, but what we want for the diagonal is 4 different lists, for each direction, so the center list needs to
+# change. Lmao, we're testing the cannon moves now and we think we have the wrong valid moves list, to find that it was
+# correct again. We can jump another enemy piece as long as enemy in the way, but we thought the enemy past the first
+# enemy was blocked lol. Thank god our perception was wrong and not the code.
+
+# Alright, I think we've m anaged to successfully update all the chariot and cannon valid moves, which took about an hr.
+# Now what. Alright, we've updated the filtered move names to a little more clear. Now, let's test the checkmate
+# function again, but now we have valid chariot and cannon moves so we don't have to remove them from the alive list.
+# Ok, so this checkmate code currently works. Now, we want to implement the move results in check recursion. Let's see
+# if we can do it.
+
+# Alright, so now we're talking about the move results in check function. Let's think about what we want make move to
+# do when it calls it, and what we want it to do in other cases, if they are different. So, in move results in check
+# call in the make move function, we are checking to see if the move results in the current player being in check, so
+# we just call it normally, and it doesn't need to recur. Alright, how do we set that up, if we're gonna have a
+# recursion counter loop parameter? Well, set the parameter to None in the parameter, then we just change it to whatever
+# we want when we call make move, which should be 1 to do it just once. So the move results in check always calls itself
+# by default. Alright, let's code this. Hmmm.. as we were coding it, we realized that we just need to call is in check
+# again, is in check doesn't call itself, so this should be fine. Alright, so how do we test this move results in check
+# function? We need to put the generals in a spot where one move puts one general in check, then another spot where one
+# move puts the opponent's general in check but leaves the moving player's general in check, which shouldn't be valid.
+# I'm thinking that we just call the is in check in the make move function, and not the move results in check, and then
+# we don't have need any recursion.
+
+# Ok, let's first think about what we want our functions to do before we do more coding. So, for the make move function
+# we want to simulate the move, then check if the simulated move leaves the moving player in check, and we've already
+# gotten this code I think, I think it works fine as is. I think the issue is, the checkmate code right, and similarly
+# the looking for check code. So, in the make move function, at the end of the function, after we make the move for
+# real, we want to check if the opponent is checkmated. So, we first get all the valid moves for their general, then see
+# if each result in check. Ok, so this is where we're at right now. We see if each results in check, then if they don't
+# we return False out of the function. To clarify, we check if each move results in not a check, and if so, then we
+# return False because the general is not checkmated. So what we want to add, is an additional check here. So not only
+# does the general need to not be checked. I thinkwe ahve this logic backwards? We wnat to check if they are checkmated,
+# right but we do that by making sure all the moves lead to checks, so not only does it need to lead to not a check to
+# make it return that checkmate is False. Ok, let's go through this again. So, we're checking each valid move of the
+# unit to check whether it leaves the general in check or not. So we want to target the moves that don't leave the
+# general in check, and make sure that they don't leave the general in check? What? We are already checking to see if
+# the general is in check after each move, so we don't need to check if the move leaves the general in check right? Yeah
+# I don't think we need to validate these moves, because they are already validated. Let's test the code as is and see
+# what we find. We still need a spot where moving a piece puts the opponent's general in check, and one where moving it
+# puts the ohter general in check but the mover's general in check as well, which should be an illegal move. Lol, so we
+# thought we had a checkmate situation when the red general is backed up to e1, but not really, because the red guards
+# that guard him can go into that spot to block. Let's see if we can't replace guards with cannons.
+
+# Ok, yeah, that worked. I think we are done? Lol. Let's submit to gradescope and see they find any errors.
