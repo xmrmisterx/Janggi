@@ -2042,24 +2042,24 @@ class JanggiGame:
         self._red_player = Player("red")
         self._current_player = self._blue_player
 
-        self.place_piece(self._red_horse1, "a2")
-        self.place_piece(self._red_soldier3, "a3")
-        self.place_piece(self._red_general, "e1")
-        self.place_piece(self._blue_soldier3, "d3")
-        self.place_piece(self._blue_soldier4, "f3")
-        self.place_piece(self._red_cannon1, "b2")
-        self.place_piece(self._blue_chariot1, "f6")
-        self.place_piece(self._red_guard1, "b3")
-        self.place_piece(self._red_guard2, "i3")
-        self.place_piece(self._red_cannon1, "d1")
-        self.place_piece(self._red_cannon2, "f1")
-        self.place_piece(self._red_elephant1, "b2")
-
-        self.display_board()
-
-        self.make_move("f6", "f5")
-        self._current_player = self._blue_player
-        self.make_move("f5", "e5")
+        # self.place_piece(self._red_horse1, "a2")
+        # self.place_piece(self._red_soldier3, "a3")
+        # self.place_piece(self._red_general, "e1")
+        # self.place_piece(self._blue_soldier3, "d3")
+        # self.place_piece(self._blue_soldier4, "f3")
+        # self.place_piece(self._red_cannon1, "b2")
+        # self.place_piece(self._blue_chariot1, "f6")
+        # self.place_piece(self._red_guard1, "b3")
+        # self.place_piece(self._red_guard2, "i3")
+        # self.place_piece(self._red_cannon1, "d1")
+        # self.place_piece(self._red_cannon2, "f1")
+        # self.place_piece(self._red_elephant1, "b2")
+        #
+        # self.display_board()
+        #
+        # self.make_move("f6", "f5")
+        # self._current_player = self._blue_player
+        # self.make_move("f5", "e5")
 
         # self.place_piece(self._red_guard1, "b2")
         # self.place_piece(self._red_elephant1, "d1")
@@ -3216,7 +3216,7 @@ class JanggiGame:
         return True
 
 
-game = JanggiGame()
+# game = JanggiGame()
 
 
 
