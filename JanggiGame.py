@@ -2702,7 +2702,7 @@ class JanggiGame:
 
                 if to_piece is not None:
 
-                    # if to piece isn't from piece, meaning it's not a passed turn
+                    # if the to piece isn't the from piece, meaning it's not a passed turn
 
                     if to_piece.get_name() != from_piece.get_name():
 
