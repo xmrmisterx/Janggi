@@ -1,6 +1,5 @@
-# Author: Bobby Nguyen
-# Date: 2/26/21
-# Description: Create Janggi game
+import random
+import time
 
 
 class Piece:
@@ -10,7 +9,7 @@ class Piece:
     set the coordinates.
     """
 
-    def __init__(self, color, type, number, coordinates=None):
+    def __init__(self, color, type, number_of_underscores, number, coordinates=None):
 
         """
         Every piece starts off with private properties for the color, type, number, name and coordinates, which are
@@ -19,9 +18,9 @@ class Piece:
 
         self._color = color
         self._type = type
+        self._number_of_underscores = number_of_underscores
         self._number = number
-        self._name = list(color)[0] + list(color)[1] + list(color)[2] + list(type)[0] + list(type)[1] + list(type)[2] \
-            + str(number)
+        self._name = color + type + str(number) + number_of_underscores
         self._coordinates = coordinates
 
     def __repr__(self):
@@ -291,6 +290,7 @@ class Piece:
         south_east_coordinate = x + y
         return south_east_coordinate
 
+
 class BlueGeneral(Piece):
 
     """
@@ -304,7 +304,7 @@ class BlueGeneral(Piece):
         Initializes the general piece with private attributes for a blue color, general type, number and coordinates.
         """
 
-        super().__init__("blue", "General", number, coordinates)
+        super().__init__("blue", "General", "_", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -360,7 +360,7 @@ class RedGeneral(Piece):
         Initializes the general piece with private attributes for a red color, general type, number and coordinates.
         """
 
-        super().__init__("red", "General", number, coordinates)
+        super().__init__("red", "General", "__", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -416,7 +416,7 @@ class BlueGuard(Piece):
         Initializes a guard piece with a blue color, guard type, number and coordinates.
         """
 
-        super().__init__("blue", "Guard", number, coordinates)
+        super().__init__("blue", "Guard", "___", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -450,7 +450,6 @@ class BlueGuard(Piece):
                           current_coordinate, right_coordinates, southwest_coordinates, down_coordinates,
                           southeast_coordinates]
 
-
         # filter all moves list to possible moves list if current coordinate is inside palace
 
         for coordinate in all_moves_list:
@@ -464,7 +463,7 @@ class RedGuard(Piece):
 
     """
     Represents a red guard. Responsibilities and communications are exactly like that of the Piece superclass, except it
-     can calculate its possible moves with the get possible moves function.
+    can calculate its possible moves with the get possible moves function.
     """
 
     def __init__(self, number, coordinates):
@@ -473,7 +472,7 @@ class RedGuard(Piece):
         Initializes a guard piece with a red color, guard type, number and coordinates.
         """
 
-        super().__init__("red", "Guard", number, coordinates)
+        super().__init__("red", "Guard", "____", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -527,7 +526,7 @@ class BlueSoldier(Piece):
         Initializes a soldier piece with a blue color, soldier type, number and coordinates.
         """
 
-        super().__init__("blue", "Soldier", number, coordinates)
+        super().__init__("blue", "Soldier", "_", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -593,7 +592,7 @@ class RedSoldier(Piece):
         Initializes a soldier piece with a red color, soldier type, number and coordinates.
         """
 
-        super().__init__("red", "Soldier", number, coordinates)
+        super().__init__("red", "Soldier", "__", number, coordinates)
 
     def get_possible_moves(self):
         """
@@ -657,7 +656,7 @@ class BlueHorse(Piece):
         Initializes a horse piece with a blue color, horse type, number and coordinates.
         """
 
-        super().__init__("blue", "Horse", number, coordinates)
+        super().__init__("blue", "Horse", "___", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -705,7 +704,7 @@ class RedHorse(Piece):
         Initializes a horse piece with a red color, horse type, number and coordinates.
         """
 
-        super().__init__("red", "Horse", number, coordinates)
+        super().__init__("red", "Horse", "____", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -753,7 +752,7 @@ class BlueElephant(Piece):
         Initializes an elephant piece with a blue color, elephant type, number and coordinates.
         """
 
-        super().__init__("blue", "Elephant", number, coordinates)
+        super().__init__("blue", "Elephant", "", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -801,7 +800,7 @@ class RedElephant(Piece):
         Initializes an elephant piece with a red color, elephant type, number and coordinates.
         """
 
-        super().__init__("red", "Elephant", number, coordinates)
+        super().__init__("red", "Elephant", "_", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -849,7 +848,7 @@ class BlueChariot(Piece):
         Initializes a chariot piece with a blue color, chariot type, number and coordinates.
         """
 
-        super().__init__("blue", "Chariot", number, coordinates)
+        super().__init__("blue", "Chariot", "_", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -984,7 +983,7 @@ class RedChariot(Piece):
         Initializes a chariot piece with a red color, chariot type, number and coordinates.
         """
 
-        super().__init__("red", "Chariot", number, coordinates)
+        super().__init__("red", "Chariot", "__", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -1119,7 +1118,7 @@ class BlueCannon(Piece):
         Initializes a cannon piece with a blue color, cannon type, number and coordinates.
         """
 
-        super().__init__("blue", "Cannon", number, coordinates)
+        super().__init__("blue", "Cannon", "__", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -1254,7 +1253,7 @@ class RedCannon(Piece):
         Initializes a cannon piece with a red color, cannon type, number and coordinates.
         """
 
-        super().__init__("red", "Cannon", number, coordinates)
+        super().__init__("red", "Cannon", "___", number, coordinates)
 
     def get_possible_moves(self):
 
@@ -1395,7 +1394,7 @@ class Player:
     def get_name(self):
 
         """
-        Returns the player's name, which is also it's color.
+        Returns the player's name, which is also its color.
         """
 
         return self._name
@@ -1419,108 +1418,110 @@ class JanggiGame:
 
         self._game_state = "UNFINISHED"
 
-        self._board = [["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"],
-                      ["_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______", "_______"]]
+        self._board = \
+            [["    ", "     |a|     ", "     |b|     ", "     |c|     ", "     |d|     ", "     |e|     ", "     |f|     ", "     |g|     ", "     |h|     ", "     |i|     "],
+            ["|1| ", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"],
+            ["|2| ", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"],
+            ["|3| ", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"],
+            ["|4| ", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"],
+            ["|5| ", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"],
+            ["|6| ", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"],
+            ["|7| ", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"],
+            ["|8| ", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"],
+            ["|9| ", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"],
+            ["|10|", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________", "_____________"]]
 
         self._coordinate_conversion_dict = {
-            "a1": [0, 0],
-            "b1": [0, 1],
-            "c1": [0, 2],
-            "d1": [0, 3],
-            "e1": [0, 4],
-            "f1": [0, 5],
-            "g1": [0, 6],
-            "h1": [0, 7],
-            "i1": [0, 8],
-            "a2": [1, 0],
-            "b2": [1, 1],
-            "c2": [1, 2],
-            "d2": [1, 3],
-            "e2": [1, 4],
-            "f2": [1, 5],
-            "g2": [1, 6],
-            "h2": [1, 7],
-            "i2": [1, 8],
-            "a3": [2, 0],
-            "b3": [2, 1],
-            "c3": [2, 2],
-            "d3": [2, 3],
-            "e3": [2, 4],
-            "f3": [2, 5],
-            "g3": [2, 6],
-            "h3": [2, 7],
-            "i3": [2, 8],
-            "a4": [3, 0],
-            "b4": [3, 1],
-            "c4": [3, 2],
-            "d4": [3, 3],
-            "e4": [3, 4],
-            "f4": [3, 5],
-            "g4": [3, 6],
-            "h4": [3, 7],
-            "i4": [3, 8],
-            "a5": [4, 0],
-            "b5": [4, 1],
-            "c5": [4, 2],
-            "d5": [4, 3],
-            "e5": [4, 4],
-            "f5": [4, 5],
-            "g5": [4, 6],
-            "h5": [4, 7],
-            "i5": [4, 8],
-            "a6": [5, 0],
-            "b6": [5, 1],
-            "c6": [5, 2],
-            "d6": [5, 3],
-            "e6": [5, 4],
-            "f6": [5, 5],
-            "g6": [5, 6],
-            "h6": [5, 7],
-            "i6": [5, 8],
-            "a7": [6, 0],
-            "b7": [6, 1],
-            "c7": [6, 2],
-            "d7": [6, 3],
-            "e7": [6, 4],
-            "f7": [6, 5],
-            "g7": [6, 6],
-            "h7": [6, 7],
-            "i7": [6, 8],
-            "a8": [7, 0],
-            "b8": [7, 1],
-            "c8": [7, 2],
-            "d8": [7, 3],
-            "e8": [7, 4],
-            "f8": [7, 5],
-            "g8": [7, 6],
-            "h8": [7, 7],
-            "i8": [7, 8],
-            "a9": [8, 0],
-            "b9": [8, 1],
-            "c9": [8, 2],
-            "d9": [8, 3],
-            "e9": [8, 4],
-            "f9": [8, 5],
-            "g9": [8, 6],
-            "h9": [8, 7],
-            "i9": [8, 8],
-            "a10": [9, 0],
-            "b10": [9, 1],
-            "c10": [9, 2],
-            "d10": [9, 3],
-            "e10": [9, 4],
-            "f10": [9, 5],
-            "g10": [9, 6],
-            "h10": [9, 7],
-            "i10": [9, 8],
+            "a1": [1, 1],
+            "b1": [1, 2],
+            "c1": [1, 3],
+            "d1": [1, 4],
+            "e1": [1, 5],
+            "f1": [1, 6],
+            "g1": [1, 7],
+            "h1": [1, 8],
+            "i1": [1, 9],
+            "a2": [2, 1],
+            "b2": [2, 2],
+            "c2": [2, 3],
+            "d2": [2, 4],
+            "e2": [2, 5],
+            "f2": [2, 6],
+            "g2": [2, 7],
+            "h2": [2, 8],
+            "i2": [2, 9],
+            "a3": [3, 1],
+            "b3": [3, 2],
+            "c3": [3, 3],
+            "d3": [3, 4],
+            "e3": [3, 5],
+            "f3": [3, 6],
+            "g3": [3, 7],
+            "h3": [3, 8],
+            "i3": [3, 9],
+            "a4": [4, 1],
+            "b4": [4, 2],
+            "c4": [4, 3],
+            "d4": [4, 4],
+            "e4": [4, 5],
+            "f4": [4, 6],
+            "g4": [4, 7],
+            "h4": [4, 8],
+            "i4": [4, 9],
+            "a5": [5, 1],
+            "b5": [5, 2],
+            "c5": [5, 3],
+            "d5": [5, 4],
+            "e5": [5, 5],
+            "f5": [5, 6],
+            "g5": [5, 7],
+            "h5": [5, 8],
+            "i5": [5, 9],
+            "a6": [6, 1],
+            "b6": [6, 2],
+            "c6": [6, 3],
+            "d6": [6, 4],
+            "e6": [6, 5],
+            "f6": [6, 6],
+            "g6": [6, 7],
+            "h6": [6, 8],
+            "i6": [6, 9],
+            "a7": [7, 1],
+            "b7": [7, 2],
+            "c7": [7, 3],
+            "d7": [7, 4],
+            "e7": [7, 5],
+            "f7": [7, 6],
+            "g7": [7, 7],
+            "h7": [7, 8],
+            "i7": [7, 9],
+            "a8": [8, 1],
+            "b8": [8, 2],
+            "c8": [8, 3],
+            "d8": [8, 4],
+            "e8": [8, 5],
+            "f8": [8, 6],
+            "g8": [8, 7],
+            "h8": [8, 8],
+            "i8": [8, 9],
+            "a9": [9, 1],
+            "b9": [9, 2],
+            "c9": [9, 3],
+            "d9": [9, 4],
+            "e9": [9, 5],
+            "f9": [9, 6],
+            "g9": [9, 7],
+            "h9": [9, 8],
+            "i9": [9, 9],
+            "a10": [10, 1],
+            "b10": [10, 2],
+            "c10": [10, 3],
+            "d10": [10, 4],
+            "e10": [10, 5],
+            "f10": [10, 6],
+            "g10": [10, 7],
+            "h10": [10, 8],
+            "i10": [10, 9],
 
         }
 
@@ -1643,6 +1644,10 @@ class JanggiGame:
         self._red_player = Player("red")
         self._current_player = self._blue_player
 
+        # display board
+
+        self.display_board()
+
     def get_game_state(self):
 
         """
@@ -1650,6 +1655,14 @@ class JanggiGame:
         """
 
         return self._game_state
+
+    def set_game_state(self, game_state):
+
+        """
+        Sets the game state equal to the game state in the parameter.
+        """
+
+        self._game_state = game_state
 
     def get_opponent_of_current_player(self):
 
@@ -1674,10 +1687,13 @@ class JanggiGame:
             for row in column:
 
                 # 'end=""' changes the new line of print to an empty space
+
                 print(row, end=" ")
 
             # 'print()' creates a new line after each row
+
             print()
+        print()
 
     def convert_coordinates(self, coordinates):
 
@@ -1713,7 +1729,7 @@ class JanggiGame:
 
         # remove piece from board
 
-        self._board[actual_current_coordinate[0]][actual_current_coordinate[1]] = "_______"
+        self._board[actual_current_coordinate[0]][actual_current_coordinate[1]] = "_____________"
 
     def place_piece(self, piece, target_coordinate):
 
@@ -1735,7 +1751,7 @@ class JanggiGame:
 
         # remove piece from current coordinate
 
-        self._board[actual_current_coordinate[0]][actual_current_coordinate[1]] = "_______"
+        self._board[actual_current_coordinate[0]][actual_current_coordinate[1]] = "_____________"
 
         # place piece at target coordinate
 
@@ -1972,7 +1988,7 @@ class JanggiGame:
                     if self.get_piece_from_coordinate(right_and_northeast_coordinate) is not None:
                         return True
 
-        # none of the elephants's orthogonal movement is blocked, so return False
+        # none of the elephant's orthogonal movement is blocked, so return False
 
         return False
 
@@ -2271,27 +2287,6 @@ class JanggiGame:
         returns False.
         """
 
-        # get the player's general
-
-        for piece in self._alive_pieces_list:
-            if piece.get_type() == "General":
-                if piece.get_color() == player_name:
-                    general = piece
-
-        # get the general's valid moves
-
-        possible_moves = general.get_possible_moves()
-        general_valid_moves = self.get_valid_moves(general, possible_moves)
-
-        # for each coordinate in valid moves, set the general's coordinates equal to it and see if they all lead to
-        # checks, and if so, then the player is checkmated
-
-        current_coordinate = general.get_coordinates()
-
-        for coordinate in general_valid_moves:
-            if not self.move_results_in_check(current_coordinate, coordinate, player_name):
-                return False
-
         for piece in self._alive_pieces_list:
 
             # get all ally pieces
@@ -2309,8 +2304,7 @@ class JanggiGame:
                     if not self.move_results_in_check(piece.get_coordinates(), coordinate, player_name):
                         return False
 
-        # the general is in check at every valid move, and all ally valid moves lead to a general check, so return True
-        # that the general is checkmated
+        # all ally valid moves lead to a general check, so return True that the general is checkmated
 
         return True
 
@@ -2363,13 +2357,28 @@ class JanggiGame:
 
         return False
 
+    def declare_winner(self):
+
+        """
+        Declares that the current player is the winner and updates the game state to reflect that there is a winner.
+        """
+
+        current_player_name = self._current_player.get_name()
+        opponent_name = self.get_opponent_of_current_player().get_name()
+
+        if self._current_player.get_name() == "red":
+            self.set_game_state("RED_WON")
+        elif self._current_player.get_name() == "blue":
+            self.set_game_state("BLUE_WON")
+
+        print(opponent_name, "player is checkmated so", current_player_name, "player has won the game!")
+
     def make_move(self, from_coordinate, to_coordinate):
 
         """
         Checks to see if a move from the from_coordinate to the to_coordinate is viable. If the piece is owned by the
         current player, if the move is legal, and if the game is not over, then the move is carried out, which captures
-        any opponent piece on the to_coordinate, updates the game status, updates the current player, and returns True.
-        If the move is invalid, returns False.
+        any opponent piece on the to_coordinate and returns True. If the move is invalid, returns False.
         """
 
         # get from_piece from the from coordinate and to_piece from the to_coordinate
@@ -2380,11 +2389,17 @@ class JanggiGame:
         # check if there isn't a piece at the from coordinate
 
         if from_piece is None:
+            print("Move from", from_coordinate, "to", to_coordinate, "failed because there is no game piece at",
+                  from_coordinate + ".")
             return False
 
         # check to see if the from piece is not owned by current player
 
+        number = from_piece.get_number()
+        from_piece_name = from_piece.get_color() + from_piece.get_type() + str(number)
         if from_piece.get_color() != self._current_player.get_name():
+            print("Move from", from_coordinate, "to", to_coordinate, "failed because", self._current_player.get_name(),
+                  "player does not own", from_piece_name + ".")
             return False
 
         possible_moves = from_piece.get_possible_moves()
@@ -2393,50 +2408,344 @@ class JanggiGame:
         # check if target coordinate not in valid moves list
 
         if not self.target_coordinate_in_valid_moves_list(valid_moves, to_coordinate):
+            print("Move from", from_coordinate, "to", to_coordinate, "failed because", from_piece_name, "can't move to",
+                  to_coordinate + ".", "Its valid moves are:", ", ".join(valid_moves) + ".")
             return False
 
         # check if the move leaves the current player's general in check
 
         if self.move_results_in_check(from_coordinate, to_coordinate, self._current_player.get_name()):
+            print("Move from", from_coordinate, "to", to_coordinate, "failed because it leaves",
+                  self._current_player.get_name(), "player's general in check.")
             return False
 
         # check if the game is over
 
         if self.get_game_state() != "UNFINISHED":
+            if game.get_game_state() == "RED_WON":
+                print("Move from", from_coordinate, "to", to_coordinate, "failed because the game is already over and "
+                                                                         "red player won.")
+            elif game.get_game_state() == "BLUE_WON":
+                print("Move from", from_coordinate, "to", to_coordinate, "failed because the game is already over and "
+                                                                         "blue player won.")
             return False
 
-        # if from coordinate and to coordinate are the same, then the player is passing their turn, so
-        # return True but don't do anything else besides switching the players
-
-        if to_coordinate == from_coordinate:
-            self.switch_players()
-            return True
-
-        # check if there is an opponent's piece at the to_coordinate
+        # check if there is an opponent's piece at the to_coordinate, and if so, capture it
 
         if to_piece is not None:
             self.capture_piece(to_coordinate)
 
-        # move piece
-
-        self.place_piece(from_piece, to_coordinate)
-
-        # if there is checkmate, end the game
-
-        opponent_name = self.get_opponent_of_current_player().get_name()
-        if self.player_is_checkmated(opponent_name):
-            print("game is over")
-            return
-
-        # check for check
-
-        if self.is_in_check(opponent_name):
-            print(opponent_name, "player is in check!")
-
-        # switch current player
-
-        self.switch_players()
-
-        # return True that move is valid
+        # return True that move was successful
 
         return True
+
+    def play_game(self):
+
+        """
+        Plays the game by creating a game loop that alternates between the 2 players until there is a winner.
+        """
+
+        # introduction to game
+
+        print("Welcome to a game of Janggi. You are the blue player and will compete against the red player.")
+
+        # game loops until one player wins
+
+        while game.get_game_state() == "UNFINISHED":
+
+            print("The current player is", self._current_player.get_name() + ".")
+
+            # If player is blue player, then get blue player's move
+
+            if self._current_player.get_name() == "blue":
+
+                # Get coordinates
+
+                from_coordinate = self.ask_for_coordinates("from")
+                to_coordinate = self.ask_for_coordinates("to")
+
+                # If the player keeps the piece at the same coordinate, then they passed their turn
+
+                if to_coordinate == from_coordinate:
+                    print(self._current_player.get_name(), "player did not make a move and passed their turn.")
+                    self.switch_players()
+                    continue
+
+                # If the move is successful
+
+                if self.make_move(from_coordinate, to_coordinate):
+
+                    # display move
+
+                    from_piece = self.get_piece_from_coordinate(from_coordinate)
+                    number = from_piece.get_number()
+                    from_piece_name = from_piece.get_color() + from_piece.get_type() + str(number)
+                    print(self._current_player.get_name(), "player moved their", from_piece_name, "from",
+                          from_coordinate, "to", to_coordinate + ".")
+
+                    # move piece
+
+                    self.place_piece(from_piece, to_coordinate)
+                    self.display_board()
+
+                    # if there is checkmate, end the game
+
+                    opponent_name = self.get_opponent_of_current_player().get_name()
+                    if self.player_is_checkmated(opponent_name):
+                        self.declare_winner()
+                        return
+
+                    # check for check
+
+                    if self.is_in_check(opponent_name):
+                        print(opponent_name, "player is in check!")
+
+                    # switch current player
+
+                    self.switch_players()
+
+                # If the move is not successful, then go back to the beginning of the loop and try another move
+
+                else:
+                    continue
+
+            # If player is the computer
+
+            elif self._current_player.get_name() == "red":
+
+                # Create some suspense
+
+                print("The computer is thinking...")
+                time.sleep(5)
+
+                # Get move values dictionary
+
+                move_values_dictionary = self.get_move_values_dictionary()
+
+                # Initialize random move made boolean to false
+
+                random_move_made = False
+
+                for key in move_values_dictionary:
+
+                    # if a random move was already made, go to the next turn
+
+                    if random_move_made:
+                        break
+
+                    valid_moves_list = move_values_dictionary[key]
+
+                    # if the move values list is empty, go on to a lower value moves list
+
+                    if not move_values_dictionary[key]:
+                        continue
+
+                    else:
+
+                        # Make move loop
+
+                        while True:
+
+                            # Get a random coordinate from the valid moves list and create the from and to coordinates
+
+                            random_coordinate_list = random.choice(valid_moves_list)
+
+                            from_coordinate = random_coordinate_list[0]
+                            to_coordinate = random_coordinate_list[1]
+
+                            # If move is not successful
+
+                            if not self.make_move(from_coordinate, to_coordinate):
+
+                                # remove move from valid moves list
+
+                                valid_moves_list.remove(random_coordinate_list)
+
+                                # if valid moves list is empty, then break out of loop back to picking the next move
+                                # values list
+
+                                if not valid_moves_list:
+                                    break
+
+                                # if valid moves list not empty, then continue trying other moves
+
+                                else:
+                                    continue
+
+                            # If move is successful
+
+                            else:
+
+                                # display move
+
+                                from_piece = self.get_piece_from_coordinate(from_coordinate)
+                                number = from_piece.get_number()
+                                from_piece_name = from_piece.get_color() + from_piece.get_type() + str(number)
+                                print(self._current_player.get_name(), "player moved their", from_piece_name, "from",
+                                      from_coordinate, "to", to_coordinate + ".")
+
+                                # move piece
+
+                                self.place_piece(from_piece, to_coordinate)
+                                self.display_board()
+
+                                # if there is checkmate, end the game
+
+                                opponent_name = self.get_opponent_of_current_player().get_name()
+                                if self.player_is_checkmated(opponent_name):
+                                    self.declare_winner()
+                                    return
+
+                                # check for check
+
+                                if self.is_in_check(opponent_name):
+                                    print(opponent_name, "player is in check!")
+
+                                # switch current player
+
+                                self.switch_players()
+
+                                # update random move made boolean
+
+                                random_move_made = True
+                                break
+
+    def ask_for_coordinates(self, to_or_from_string):
+
+        """
+        Asks the player for a coordinate until there is a coordinate on the board, then returns that coordinate. The
+        "to or from string" parameter determines which question to ask the player.
+        """
+
+        # keep asking for coordinates until the break statement is hit
+
+        while True:
+
+            # If the coordinate is the from coordinate, use this string
+
+            if to_or_from_string == "from":
+                coordinate = input("Please select the coordinates of the piece you wish to move, with the x coordinate "
+                                   "being a letter from a to i and the y coordinate being a number from 1 to 10. \n")
+
+            # If the coordinate is the to coordinate, then use this string
+
+            elif to_or_from_string == "to":
+                coordinate = input("Please select the coordinates of where you want to move to, with the x coordinate "
+                                   "being a letter from a to i and the y coordinate being a number from 1 to 10. \n")
+
+            # If the coordinate isn't on the board, then go back to selecting a coordinate
+
+            if coordinate not in self._coordinate_conversion_dict:
+                print("That is not a valid coordinate.")
+                continue
+
+            # If input is valid, then break the while loop
+
+            else:
+                break
+
+        # return the valid coordinate
+
+        return coordinate
+
+    def get_move_values_dictionary(self):
+
+        """
+        Returns a dictionary of moves for every red piece that is sorted by move value, which ranges from a 1 to a 5. 5
+        value moves result in checkmate, 4 value moves result in check, 3 value moves result in capturing a piece, 2
+        value moves are moves that don't capture anything, and 1 value moves are moves that pass the turn.
+        """
+
+        # start with our move values dictionary
+
+        move_values_dictionary = {
+            5: [],
+            4: [],
+            3: [],
+            2: [],
+            1: [],
+        }
+
+        # get all the red pieces
+
+        alive_red_pieces_list = []
+        for piece in self._alive_pieces_list:
+            if piece.get_color() == "red":
+                alive_red_pieces_list.append(piece)
+
+        # get valid moves for the alive red pieces
+
+        for from_piece in alive_red_pieces_list:
+            possible_moves = from_piece.get_possible_moves()
+            valid_moves = self.get_valid_moves(from_piece, possible_moves)
+
+            # simulate each valid move
+
+            from_coordinate = from_piece.get_coordinates()
+            for to_coordinate in valid_moves:
+
+                to_piece = self.get_piece_from_coordinate(to_coordinate)
+                enemy_captured = False
+
+                # if from coordinate and to coordinate are the same, then it's a passed turn and the move value is 1
+
+                if from_coordinate == to_coordinate:
+
+                    # add the coordinates to move values dictionary with a move value of 1 and continue to next
+                    # coordinate
+
+                    move_values_dictionary[1].append([from_coordinate, to_coordinate])
+                    continue
+
+                # if there is a piece at the to coordinate, then capture it, then place the from piece at the to
+                # coordinate
+
+                if to_piece is not None:
+
+                    # if to piece isn't from piece, meaning it's not a passed turn
+
+                    if to_piece.get_name() != from_piece.get_name():
+
+                        # capture enemy and update enemy captured boolean
+
+                        self.capture_piece(to_coordinate)
+                        enemy_captured = True
+
+                self.place_piece(from_piece, to_coordinate)
+
+                # if the blue player's general is checkmated then add a move value of 5
+
+                if self.player_is_checkmated("blue"):
+                    move_values_dictionary[5].append([from_coordinate, to_coordinate])
+
+                # if the blue player's general is in check
+
+                elif self.is_in_check("blue"):
+                    move_values_dictionary[4].append([from_coordinate, to_coordinate])
+
+                # if an enemy was captured then add a move value of 3
+
+                elif enemy_captured:
+                    move_values_dictionary[3].append([from_coordinate, to_coordinate])
+
+                # all other moves have a move value of 2
+
+                else:
+                    move_values_dictionary[2].append([from_coordinate, to_coordinate])
+
+                # undo the move and capture
+
+                self.place_piece(from_piece, from_coordinate)
+
+                if to_piece is not None:
+                    if to_piece.get_name() != from_piece.get_name():
+                        self._alive_pieces_list.append(to_piece)
+                        self.place_piece(to_piece, to_coordinate)
+
+        return move_values_dictionary
+
+
+game = JanggiGame()
+game.play_game()
+
+
